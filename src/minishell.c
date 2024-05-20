@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:04:34 by abesneux          #+#    #+#             */
-/*   Updated: 2024/05/20 20:34:45 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/05/20 20:41:44 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int main(void)
             break;
         }
         free(command);
-        clear_history();
     }
     return (0);
 }
