@@ -1,34 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   all.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/05/27 19:26:36 by qrshh            ###   ########.fr       */
+/*   Created: 2024/05/23 21:07:54 by qrshh             #+#    #+#             */
+/*   Updated: 2024/05/23 21:12:04 by qrshh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-#define MINISHELL_H
+#include "../includes/minishell.h"
 
-#include "Libft/inc/libft.h"
-#include <stdio.h>
-#include <unistd.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-
-typedef struct s_all
+void init_all(t_all *all)
 {
-    char *input;
-}t_all;
+    all->input = NULL;
+}
 
-//INTIALISATION
-int init_sh(t_all *all);
-
-//ALL FUNCTIONS
-int reset_all(t_all *all);
-void init_all(t_all *all);
-
-#endif
+int reset_all(t_all *all)
+{
+    free(all->input);
+    init_all(all);
+    init_sh(all);
+    return(1);
+}

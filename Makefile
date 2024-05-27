@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+         #
+#    By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/27 09:05:48 by abesneux          #+#    #+#              #
-#    Updated: 2024/05/20 20:34:44 by abesneux         ###   ########.fr        #
+#    Updated: 2024/05/27 19:28:47 by qrshh            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ LIBFT        = $(LIBFT_DIR)libft.a
 LIBFT_CFLAGS = -fPIC
 
 
-SRC_FILES  += minishell
+SRC_FILES  += minishell all
 
 SRC         = $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ         = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))

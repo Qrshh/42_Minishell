@@ -6,39 +6,44 @@
 /*   By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:04:34 by abesneux          #+#    #+#             */
-/*   Updated: 2024/05/22 20:26:56 by qrshh            ###   ########.fr       */
+/*   Updated: 2024/05/27 19:30:48 by qrshh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+int init_sh(t_all *all)
+{
+    char *temp;
+
+    all->input = readline("MINISHELL $");
+    temp = ft_strtrim(all->input, " ");
+    free(all->input);
+    all->input = temp;
+    if(!all->input)
+    {
+        printf("exit");
+        //free;
+        exit(0);
+    }
+    if(all->input[0] == '\0')
+        return(reset_all(all));
+    add_history(all->input);
+    reset_all(all);
+    return(1);
+}
+
 int main(int ac, char **av, char **env)
 {
-    t_global *global;
+    t_all *all;
 
     (void)av;
     (void)env;
     if(ac != 1)
         return (ft_printf("Error"), 1);
-    global = malloc(sizeof(t_global));
-    if(!global)
+    all = malloc(sizeof(t_all));
+    if(!all)
         return (ft_printf("Error while malloc"), 1);
-    char *command;
-    while(1)
-    {
-        command = readline("Prompt> ");
-
-        if(command == NULL)
-            command = readline("Prompt> ");
-        if(ft_strlen(command) > 0)
-            add_history(command);
-        if(ft_strcmp(command, "exit") == 0)
-        {
-            free(command);
-            clear_history();
-            break;
-        }
-        free(command);
-    }
+    init_sh(all);
     return (0);
 }
