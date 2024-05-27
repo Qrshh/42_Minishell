@@ -6,11 +6,11 @@
 /*   By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 19:36:36 by qrshh             #+#    #+#             */
-/*   Updated: 2024/05/27 20:29:10 by qrshh            ###   ########.fr       */
+/*   Updated: 2024/05/27 21:53:36 by qrshh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 char	*path_join(char *path, char *bin)
 {

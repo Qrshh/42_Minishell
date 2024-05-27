@@ -1,25 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   all.c                                           :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/23 21:07:54 by qrshh             #+#    #+#             */
-/*   Updated: 2024/05/23 21:12:04 by qrshh            ###   ########.fr       */
+/*   Created: 2024/05/27 20:58:31 by qrshh             #+#    #+#             */
+/*   Updated: 2024/05/27 21:53:14 by qrshh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void init_all(t_all *all)
+int builtin_cd(t_all *all)
 {
-    all->input = NULL;
-}
-
-int reset_all(t_all *all)
-{
-    free(all->input);
-    init_all(all);
-    return(1);
+    int i;
 }

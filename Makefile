@@ -6,7 +6,7 @@
 #    By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/27 09:05:48 by abesneux          #+#    #+#              #
-#    Updated: 2024/05/27 19:40:02 by qrshh            ###   ########.fr        #
+#    Updated: 2024/05/27 21:09:08 by qrshh            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,11 @@ LIBFT        = $(LIBFT_DIR)libft.a
 LIBFT_CFLAGS = -fPIC
 
 
+BUILTINS_DIR = builtins/
+BUILTINS = pwd cd
+
 SRC_FILES  += minishell all execute
+SRC_FILES += $(addprefix $(BUILTINS_DIR), $(BUILTINS))
 
 SRC         = $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ         = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
@@ -54,8 +58,7 @@ $(OBJ_DIR)%.o:	$(SRC_DIR)%.c | $(OBJ_CACHE)
 
 $(OBJ_CACHE):
 					@mkdir -p $(OBJ_DIR)
-					@mkdir -p $(OBJ_DIR)$(MOVES_DIR)
-					@mkdir -p $(OBJ_DIR)$(SORT_DIR)
+					@mkdir -p $(OBJ_DIR)$(BUILTINS_DIR)
 
 clean:
 					@make clean -C $(LIBFT_DIR)

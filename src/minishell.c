@@ -9,7 +9,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 #include <sys/types.h>
 #include <sys/wait.h>
 
@@ -35,7 +35,7 @@ int init_sh(t_all *all, char **env)
     add_history(all->input);
     execute_command(all->input, env);
     reset_all(all);
-    return 1;
+    return (1);
 }
 
 
@@ -63,6 +63,6 @@ int main(int ac, char **av, char **env)
             continue;
     }
 
-    free(all); // Free all allocated resources before exiting
-    return 0;
+    free(all);
+    return (0);
 }

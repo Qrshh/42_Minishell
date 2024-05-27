@@ -6,7 +6,7 @@
 /*   By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/05/27 20:01:52 by qrshh            ###   ########.fr       */
+/*   Updated: 2024/05/27 21:00:20 by qrshh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 typedef struct s_all
 {
     char *input;
+    char *pwd;
 }t_all;
 
 //INTIALISATION
