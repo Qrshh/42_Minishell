@@ -6,7 +6,7 @@
 /*   By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 19:36:36 by qrshh             #+#    #+#             */
-/*   Updated: 2024/05/27 20:05:44 by qrshh            ###   ########.fr       */
+/*   Updated: 2024/05/27 20:29:10 by qrshh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ char	*getpath(char *cmd, char **env)
 	return (cmd);
 }
 
-
 void execute_command(char *cmd, char **env)
 {
     char **args;
@@ -101,14 +100,9 @@ void execute_command(char *cmd, char **env)
         }
     }
     else if (pid < 0) // Erreur de fork
-    {
         perror("Erreur de fork");
-    }
     else // Processus parent
-    {
         waitpid(pid, &status, 0); // Attendre que le processus enfant se termine
-    }
-
     // Libérer la mémoire allouée pour args
     while (args[++i])
         free(args[i]);
