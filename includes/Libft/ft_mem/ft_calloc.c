@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   all.c                                           :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/23 21:07:54 by qrshh             #+#    #+#             */
-/*   Updated: 2024/05/23 21:12:04 by qrshh            ###   ########.fr       */
+/*   Created: 2023/10/18 15:54:38 by abesneux          #+#    #+#             */
+/*   Updated: 2023/10/25 21:30:55 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../libft.h"
+#include <stdlib.h>
 
-void init_all(t_all *all)
+void	*ft_calloc(size_t nmemb, size_t size)
 {
-    all->input = NULL;
-}
+	size_t	resultat;
+	char	*ret;
 
-int reset_all(t_all *all)
-{
-    free(all->input);
-    init_all(all);
-    return(1);
+	resultat = nmemb * size;
+	ret = malloc(resultat);
+	if (!ret)
+		return (NULL);
+	ft_bzero(ret, resultat);
+	return (ret);
 }

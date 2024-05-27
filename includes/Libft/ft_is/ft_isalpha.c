@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   all.c                                           :+:      :+:    :+:   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/23 21:07:54 by qrshh             #+#    #+#             */
-/*   Updated: 2024/05/23 21:12:04 by qrshh            ###   ########.fr       */
+/*   Created: 2023/09/16 01:37:54 by marvin            #+#    #+#             */
+/*   Updated: 2023/10/17 09:12:20 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+/*DONE*/
+#include "../libft.h"
 
-void init_all(t_all *all)
+int	ft_isalpha(int c)
 {
-    all->input = NULL;
-}
-
-int reset_all(t_all *all)
-{
-    free(all->input);
-    init_all(all);
-    return(1);
+	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
+		return (1);
+	return (0);
 }

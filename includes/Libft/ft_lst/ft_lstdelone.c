@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   all.c                                           :+:      :+:    :+:   */
+/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/23 21:07:54 by qrshh             #+#    #+#             */
-/*   Updated: 2024/05/23 21:12:04 by qrshh            ###   ########.fr       */
+/*   Created: 2023/10/24 16:40:30 by abesneux          #+#    #+#             */
+/*   Updated: 2023/10/24 16:50:32 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../libft.h"
+#include <stdlib.h>
 
-void init_all(t_all *all)
+void	ft_lstdelone(t_list *lst, void (*del)(void *))
 {
-    all->input = NULL;
-}
-
-int reset_all(t_all *all)
-{
-    free(all->input);
-    init_all(all);
-    return(1);
+	if (lst == NULL)
+		return ;
+	if (del)
+		del(lst->content);
+	free(lst);
 }

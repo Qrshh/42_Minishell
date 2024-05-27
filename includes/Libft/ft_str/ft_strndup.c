@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   all.c                                           :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/23 21:07:54 by qrshh             #+#    #+#             */
-/*   Updated: 2024/05/23 21:12:04 by qrshh            ###   ########.fr       */
+/*   Created: 2024/01/09 17:20:12 by abesneux          #+#    #+#             */
+/*   Updated: 2024/01/09 17:22:53 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../libft.h"
 
-void init_all(t_all *all)
+char	*ft_strndup(char *str, unsigned int n)
 {
-    all->input = NULL;
-}
+	char			*dest;
+	unsigned int	i;
 
-int reset_all(t_all *all)
-{
-    free(all->input);
-    init_all(all);
-    return(1);
+	i = 0;
+	dest = malloc(sizeof(char) * (n + 1));
+	while (i < n)
+	{
+		dest[i] = *str;
+		i++;
+		str++;
+	}
+	dest[n] = 0;
+	return (dest);
 }

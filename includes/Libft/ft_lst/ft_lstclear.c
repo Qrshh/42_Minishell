@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   all.c                                           :+:      :+:    :+:   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/23 21:07:54 by qrshh             #+#    #+#             */
-/*   Updated: 2024/05/23 21:12:04 by qrshh            ###   ########.fr       */
+/*   Created: 2023/10/24 16:58:43 by abesneux          #+#    #+#             */
+/*   Updated: 2023/10/24 19:18:05 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../libft.h"
 
-void init_all(t_all *all)
+void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-    all->input = NULL;
-}
+	t_list	*tmp;
 
-int reset_all(t_all *all)
-{
-    free(all->input);
-    init_all(all);
-    return(1);
+	if (!*lst)
+		return ;
+	while (*lst)
+	{
+		tmp = (*lst)->next;
+		ft_lstdelone(*lst, del);
+		(*lst) = tmp;
+	}
 }

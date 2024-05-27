@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   all.c                                           :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/23 21:07:54 by qrshh             #+#    #+#             */
-/*   Updated: 2024/05/23 21:12:04 by qrshh            ###   ########.fr       */
+/*   Created: 2023/10/16 15:46:21 by abesneux          #+#    #+#             */
+/*   Updated: 2023/10/24 17:57:14 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../libft.h"
+#include <stddef.h>
 
-void init_all(t_all *all)
+size_t	ft_strlen(const char *s)
 {
-    all->input = NULL;
-}
+	size_t	i;
 
-int reset_all(t_all *all)
-{
-    free(all->input);
-    init_all(all);
-    return(1);
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
 }
+/*
+int	main(void)
+{
+		printf("%ld", ft_strlen("salut"));
+}*/

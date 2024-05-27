@@ -6,7 +6,7 @@
 #    By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/27 09:05:48 by abesneux          #+#    #+#              #
-#    Updated: 2024/05/27 19:28:47 by qrshh            ###   ########.fr        #
+#    Updated: 2024/05/27 19:40:02 by qrshh            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ LIBFT        = $(LIBFT_DIR)libft.a
 LIBFT_CFLAGS = -fPIC
 
 
-SRC_FILES  += minishell all
+SRC_FILES  += minishell all execute
 
 SRC         = $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ         = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))

@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   all.c                                           :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/23 21:07:54 by qrshh             #+#    #+#             */
-/*   Updated: 2024/05/23 21:12:04 by qrshh            ###   ########.fr       */
+/*   Created: 2023/09/16 01:53:20 by marvin            #+#    #+#             */
+/*   Updated: 2023/10/17 09:13:42 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+/*DONE*/
 
-void init_all(t_all *all)
-{
-    all->input = NULL;
-}
+#include "../libft.h"
 
-int reset_all(t_all *all)
+int	ft_isalnum(int c)
 {
-    free(all->input);
-    init_all(all);
-    return(1);
+	return (ft_isalpha(c) || ft_isdigit(c));
 }
