@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+         #
+#    By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/27 09:05:48 by abesneux          #+#    #+#              #
-#    Updated: 2024/05/27 21:09:08 by qrshh            ###   ########.fr        #
+#    Updated: 2024/05/29 16:30:11 by abesneux         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,9 +26,9 @@ LIBFT_CFLAGS = -fPIC
 
 
 BUILTINS_DIR = builtins/
-BUILTINS = pwd cd
+BUILTINS = pwd
 
-SRC_FILES  += minishell all execute
+SRC_FILES  += minishell utils_all execute
 SRC_FILES += $(addprefix $(BUILTINS_DIR), $(BUILTINS))
 
 SRC         = $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))

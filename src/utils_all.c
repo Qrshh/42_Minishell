@@ -12,14 +12,14 @@
 
 #include "minishell.h"
 
-void init_all(t_all *all)
+void	init_all(t_all *all)
 {
-    all->input = NULL;
+	all->input = NULL;
 }
 
-int reset_all(t_all *all)
+int	reset_all(t_all *all)
 {
-    free(all->input);
-    init_all(all);
-    return(1);
+	free(all->input);
+	init_all(all);
+	return (1);
 }

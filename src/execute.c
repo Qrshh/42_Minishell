@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 19:36:36 by qrshh             #+#    #+#             */
-/*   Updated: 2024/05/27 21:53:36 by qrshh            ###   ########.fr       */
+/*   Updated: 2024/05/29 14:11:18 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,44 +67,43 @@ char	*getpath(char *cmd, char **env)
 	return (cmd);
 }
 
-void execute_command(char *cmd, char **env)
+void	execute_command(char *cmd, char **env)
 {
-    char **args;
-    char *path;
-    int i;
-    pid_t pid;
-    int status;
+	char	**args;
+	char	*path;
+	int		i;
+	pid_t	pid;
+	int		status;
 
-    i = -1;
-    if (*cmd == '\0')
-    {
-        printf("Erreur: commande vide\n");
-        return;
-    }
-    args = ft_split(cmd, ' ');
-    if (ft_strchr(args[0], '/') > -1)
-        path = args[0];
-    else
-        path = getpath(args[0], env);
-    
-    pid = fork();
-    if (pid == 0)  // Processus enfant
-    {
-        if (execve(path, args, env) == -1)
-        {
-            perror("Erreur d'exécution");
-            while (args[++i])
-                free(args[i]);
-            free(args);
-            exit(EXIT_FAILURE);
-        }
-    }
-    else if (pid < 0) // Erreur de fork
-        perror("Erreur de fork");
-    else // Processus parent
-        waitpid(pid, &status, 0); // Attendre que le processus enfant se termine
-    // Libérer la mémoire allouée pour args
-    while (args[++i])
-        free(args[i]);
-    free(args);
+	i = -1;
+	if (*cmd == '\0')
+	{
+		printf("Erreur: commande vide\n");
+		return ;
+	}
+	args = ft_split(cmd, ' ');
+	if (ft_strchr(args[0], '/') > -1)
+		path = args[0];
+	else
+		path = getpath(args[0], env);
+	pid = fork();
+	if (pid == 0) /*Processus enfant */
+	{
+		if (execve(path, args, env) == -1)
+		{
+			perror("Erreur d'exécution");
+			while (args[++i])
+				free(args[i]);
+			free(args);
+			exit(EXIT_FAILURE);
+		}
+	}
+	else if (pid < 0) /*Erreur de fork */
+		perror("Erreur de fork");
+	else                          /*Processus parent */
+		waitpid(pid, &status, 0);
+			/*Attendre que le processus enfant se termine */
+	while (args[++i])
+		free(args[i]);
+	free(args);
 }
