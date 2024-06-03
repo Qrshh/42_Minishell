@@ -21,5 +21,6 @@ int	reset_all(t_all *all)
 {
 	free(all->input);
 	init_all(all);
+	init_sh(all);
 	return (1);
 }

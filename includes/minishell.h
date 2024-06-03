@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/05/29 14:09:55 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/05/31 07:13:37 by qrshh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct s_all
 }			t_all;
 
 // INTIALISATION
-int			init_sh(t_all *all, char **env);
+int			init_sh(t_all *all);
 
 // UTILS ALL FUNCTIONS
 int			reset_all(t_all *all);
