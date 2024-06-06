@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+         #
+#    By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/27 09:05:48 by abesneux          #+#    #+#              #
-#    Updated: 2024/05/29 16:30:11 by abesneux         ###   ########.fr        #
+#    Updated: 2024/06/03 20:32:27 by qrshh            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,12 @@ CC          = cc
 CFLAGS      = -Wall -Wextra -Werror -g
 LDFLAGS		= -lreadline
 RM          = rm -rf
+
+GREEN		=	\e[92;5;118m
+YELLOW		= 	\e[93;5;226m
+GRAY		=	\e[33;2;37m
+RESET 		=	\e[0m
+CURSIVE		=	\e[33;3m
 
 LIBFT_DIR    = $(INCLUDES)Libft/
 LIBFT        = $(LIBFT_DIR)libft.a
@@ -46,14 +52,10 @@ $(LIBFT):
 
 $(NAME): 		$(OBJ)
 					$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME) $(LDFLAGS)
-					@echo "\033[0;32m$(shell echo $(NAME) | tr '[:lower:]' '[:upper:]') : COMPILED\033[0m"
+					@printf "$(GREEN)	- Executable ready.\n$(RESET)"
 					
-$(BONUS_NAME):	$(OBJ)
-					$(CC) $(CFLAGS) $(SRC_DIR)$(BONUS_SRC) $(filter-out $(SRC_DIR)main.c, $(SRC)) $(LIBFT) -o $(BONUS_NAME)
-					@echo "\033[0;32m$(shell echo $(BONUS_NAME) | tr '[:lower:]' '[:upper:]') : COMPILED\033[0m"
-
 $(OBJ_DIR)%.o:	$(SRC_DIR)%.c | $(OBJ_CACHE)
-					@echo "Compiling $<"
+					@printf "$(GRAY)Compiling $<\n$(RESET)"
 					@$(CC) $(CFLAGS) -I$(INCLUDES) -c $< -o $@
 
 $(OBJ_CACHE):
@@ -64,15 +66,14 @@ clean:
 					@make clean -C $(LIBFT_DIR)
 					$(RM) $(OBJ_DIR)
 					$(RM) $(OBJ_CACHE)
-					@echo "minsihell and libs object files cleaned!"
+					@printf "$(YELLOW)minsihell and libs object files cleaned!\n$(RESET)"
 
 fclean: 		clean
 					@make fclean -C $(LIBFT_DIR)
 					$(RM) $(NAME) $(BONUS_NAME)
-					@echo "minishell and libs executable files cleaned!"
+					@printf "$(YELLOW)minishell and libs executable files cleaned!\n$(RESET)"
 
 re: 			fclean all
-					@echo "Cleaned and rebuilt everything for minishell!"
 
 
 .PHONY:			all clean fclean re bonus
