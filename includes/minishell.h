@@ -28,7 +28,7 @@ typedef struct s_all
 }			t_all;
 
 // INTIALISATION
-int			init_sh(t_all *all);
+void        shell_loop(t_all *all);
 
 // UTILS ALL FUNCTIONS
 int			reset_all(t_all *all);
@@ -36,5 +36,8 @@ void		init_all(t_all *all);
 
 // EXECUTION
 void		execute_command(char *cmd, char **env);
+
+int check_syntax(const char *input);
+int has_unclosed_quotes(const char *input);
 
 #endif

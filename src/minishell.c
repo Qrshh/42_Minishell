@@ -12,25 +12,19 @@
 
 #include "minishell.h"
 
-int	init_sh(t_all *all)
+void    shell_loop(t_all *all)
 {
-	char	*temp;
-
-	all->input = readline("minishell $ ");
-	if (!all->input)
-	{
-		printf("exit\n");
-		exit(0);
-	}
-	add_history(all->input);
-	temp = ft_strtrim(all->input, " ");
-	free(all->input);
-	all->input = temp;
-	if (all->input[0] == '\0')
-		return(reset_all(all));
-	// execute_command(all->input, env); en commentaire car pas comme ca qu'on imagine la vie
-	reset_all(all);
-	return (1);
+    while(1)
+    {
+        all->input = readline("> ");
+        if(!all->input)
+            break;
+        add_history(all->input);
+        if(check_syntax(all->input))
+            //TODO: Appeler la fonction pour tokeniser
+            reset_all(all);
+        reset_all(all);
+    }
 }
 
 int	main(int ac, char **av, char **env)
@@ -39,18 +33,14 @@ int	main(int ac, char **av, char **env)
 
 	(void)av;
 	(void)env;
-	if (ac != 1)
-	{
-		printf("Error: Too many arguments\n");
-		return (1);
-	}
 	all = malloc(sizeof(t_all));
 	if (!all)
 	{
 		printf("Error while malloc\n");
 		return (1);
 	}
-	init_sh(all);
+    if(ac == 1)
+	    shell_loop(all);
 	free(all);
 	return (0);
 }

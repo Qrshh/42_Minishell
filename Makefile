@@ -34,7 +34,7 @@ LIBFT_CFLAGS = -fPIC
 BUILTINS_DIR = builtins/
 BUILTINS = pwd
 
-SRC_FILES  += minishell utils_all execute
+SRC_FILES  += minishell utils execute syntax_checker
 SRC_FILES += $(addprefix $(BUILTINS_DIR), $(BUILTINS))
 
 SRC         = $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
