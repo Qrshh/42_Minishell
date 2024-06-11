@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:10:08 by abesneux          #+#    #+#             */
-/*   Updated: 2024/05/31 07:16:01 by qrshh            ###   ########.fr       */
+/*   Updated: 2024/06/10 14:49:06 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,18 @@ int	init_sh(t_all *all)
 {
 	char	*temp;
 
-	all->input = readline("MINISHELL $ ");
+	all->input = readline("minishell $ ");
 	if (!all->input)
 	{
 		printf("exit\n");
 		exit(0);
 	}
+	add_history(all->input);
 	temp = ft_strtrim(all->input, " ");
 	free(all->input);
 	all->input = temp;
 	if (all->input[0] == '\0')
 		return(reset_all(all));
-	add_history(all->input);
 	// execute_command(all->input, env); en commentaire car pas comme ca qu'on imagine la vie
 	reset_all(all);
 	return (1);

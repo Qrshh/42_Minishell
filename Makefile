@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+         #
+#    By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/27 09:05:48 by abesneux          #+#    #+#              #
-#    Updated: 2024/06/03 20:32:27 by qrshh            ###   ########.fr        #
+#    Updated: 2024/06/10 16:54:44 by abesneux         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,15 +66,14 @@ clean:
 					@make clean -C $(LIBFT_DIR)
 					$(RM) $(OBJ_DIR)
 					$(RM) $(OBJ_CACHE)
-					@printf "$(YELLOW)minsihell and libs object files cleaned!\n$(RESET)"
+					@printf "$(YELLOW)Object files cleaned\n$(RESET)"
 
 fclean: 		clean
 					@make fclean -C $(LIBFT_DIR)
 					$(RM) $(NAME) $(BONUS_NAME)
-					@printf "$(YELLOW)minishell and libs executable files cleaned!\n$(RESET)"
+					@printf "$(YELLOW)Object files and executabe removed\n$(RESET)"
 
 re: 			fclean all
-
 
 .PHONY:			all clean fclean re bonus
 
