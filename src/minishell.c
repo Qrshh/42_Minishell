@@ -21,7 +21,7 @@ void    shell_loop(t_all *all)
             break;
         add_history(all->input);
         if(check_syntax(all->input))
-            //TODO: Appeler la fonction pour tokeniser
+            //TODO: Appeler la fonction pour tokeniser et envoyer le check de syntax dans une autre fonction pour etre tranquille
             reset_all(all);
         reset_all(all);
     }
