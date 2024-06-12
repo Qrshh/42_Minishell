@@ -63,6 +63,24 @@ int pipe_checker(const char *input)
     return (0);
 }
 
+int redir_checker(const char *input)
+{
+    int length;
+    int start;
+    int end;
+
+    length = ft_strlen(input);
+    start = 0;
+    end = length - 1;
+    while (start < length && is_space(input[start]))
+        start++;
+    while (end >= 0 && is_space(input[end]))
+        end--;
+    if (input[start] == '<' || input[start] == '>' || input[end] == '<' || input[end] == '>')
+        return 1;
+    return (0);
+}
+
 int	has_logical_operator(const char *input)
 {
     int     i;
@@ -75,7 +93,9 @@ int	has_logical_operator(const char *input)
     while (input[i])
     {
         update_quotes_count(input[i], &s_quotes, &d_quotes);
-       if (!(s_quotes % 2) && !(d_quotes % 2) && (((input[i] == '&') && (input[i + 1] == '&')) || ((input[i] == '|') && (input[i + 1] == '|'))))
+        if (!(s_quotes % 2) && !(d_quotes % 2) && (((input[i] == '&') && (input[i + 1] == '&')) || ((input[i] == '|') && (input[i + 1] == '|'))))
+            return (1);   
+        if (((input[i] == '<') && (input[i + 1] == '<') && (input[i + 2] == '<')) || ((input[i] == '>') && (input[i + 1] == '>') && (input[i + 2] == '>')))
             return (1);
         i++;
     }
