@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 19:36:36 by qrshh             #+#    #+#             */
-/*   Updated: 2024/05/29 14:11:18 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/06/12 15:27:45 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	execute_command(char *cmd, char **env)
 	else
 		path = getpath(args[0], env);
 	pid = fork();
-	if (pid == 0) /*Processus enfant */
+	if (pid == 0)
 	{
 		if (execve(path, args, env) == -1)
 		{
@@ -98,11 +98,10 @@ void	execute_command(char *cmd, char **env)
 			exit(EXIT_FAILURE);
 		}
 	}
-	else if (pid < 0) /*Erreur de fork */
+	else if (pid < 0)
 		perror("Erreur de fork");
-	else                          /*Processus parent */
+	else
 		waitpid(pid, &status, 0);
-			/*Attendre que le processus enfant se termine */
 	while (args[++i])
 		free(args[i]);
 	free(args);

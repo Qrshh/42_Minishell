@@ -6,25 +6,24 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:10:08 by abesneux          #+#    #+#             */
-/*   Updated: 2024/06/10 14:49:06 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/06/12 15:27:22 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    shell_loop(t_all *all)
+void	shell_loop(t_all *all)
 {
-    while(1)
-    {
-        all->input = readline("> ");
-        if(!all->input)
-            break;
-        add_history(all->input);
-        if(check_syntax(all->input))
-            //TODO: Appeler la fonction pour tokeniser et envoyer le check de syntax dans une autre fonction pour etre tranquille
-            reset_all(all);
-        reset_all(all);
-    }
+	while (1)
+	{
+		all->input = readline("> ");
+		if (!all->input)
+			break ;
+		add_history(all->input);
+		if (check_syntax(all->input))
+			reset_all(all);
+		reset_all(all);
+	}
 }
 
 int	main(int ac, char **av, char **env)
@@ -39,8 +38,8 @@ int	main(int ac, char **av, char **env)
 		printf("Error while malloc\n");
 		return (1);
 	}
-    if(ac == 1)
-	    shell_loop(all);
+	if (ac == 1)
+		shell_loop(all);
 	free(all);
 	return (0);
 }
