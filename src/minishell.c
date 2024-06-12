@@ -41,5 +41,6 @@ int	main(int ac, char **av, char **env)
 	if (ac == 1)
 		shell_loop(all);
 	free(all);
+    clear_history();
 	return (0);
 }
