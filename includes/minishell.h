@@ -39,5 +39,9 @@ void		execute_command(char *cmd, char **env);
 
 int			check_syntax(const char *input);
 int			has_unclosed_quotes(const char *input);
+int         has_logical_operator(const char *input);
+int         pipe_checker(const char *input);
+void        update_quotes_count(char c, int *s_quotes, int *d_quotes);
+int         is_space(char c);
 
 #endif

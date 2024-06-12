@@ -8,12 +8,17 @@ int	check_syntax(const char *input)
 		ft_putstr_fd("Syntax error : unclosed quotes \n", STDERR_FILENO);
 		return (1);
 	}
-	else if (has_logical_operators(input))
+	else if (has_logical_operator(input))
 	{
 		ft_putstr_fd("Syntax error : logical operators are not supported \n",
 			STDERR_FILENO);
 		return (1);
 	}
+    else if (pipe_checker(input))
+    {
+        ft_putstr_fd("Syntax error : misplaced operator \n", STDERR_FILENO);
+        return (1);
+    }
 	return (0);
 }
 
@@ -40,6 +45,39 @@ int	has_unclosed_quotes(const char *input)
 	return (0);
 }
 
+int pipe_checker(const char *input)
+{
+    int length;
+    int start;
+    int end;
+
+    length = ft_strlen(input);
+    start = 0;
+    end = length - 1;
+    while (start < length && is_space(input[start]))
+        start++;
+    while (end >= 0 && is_space(input[end]))
+        end--;
+    if (input[start] == '|' || input[end] == '|')
+        return 1;
+    return (0);
+}
+
 int	has_logical_operator(const char *input)
 {
+    int     i;
+    int     s_quotes;
+    int     d_quotes;
+
+    i = 0;
+    s_quotes = 0;
+    d_quotes = 0;
+    while (input[i])
+    {
+        update_quotes_count(input[i], &s_quotes, &d_quotes);
+       if (!(s_quotes % 2) && !(d_quotes % 2) && (((input[i] == '&') && (input[i + 1] == '&')) || ((input[i] == '|') && (input[i + 1] == '|'))))
+            return (1);
+        i++;
+    }
+    return (0);
 }
