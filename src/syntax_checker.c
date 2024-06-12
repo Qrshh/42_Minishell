@@ -11,7 +11,6 @@ int check_syntax(const char *input)
     return (0);
 }
 
-
 int     has_unclosed_quotes(const char *input)
 {
     int     i;
@@ -30,5 +29,7 @@ int     has_unclosed_quotes(const char *input)
         }
         i++;
     }
-    return(quote_type != 0);
+    if(quote_type)
+        return(1);
+    return(0);
 }
