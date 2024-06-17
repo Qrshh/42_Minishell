@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+         #
+#    By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/27 09:05:48 by abesneux          #+#    #+#              #
-#    Updated: 2024/06/10 16:54:44 by abesneux         ###   ########.fr        #
+#    Updated: 2024/06/17 14:53:47 by qrshh            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,12 +30,15 @@ LIBFT_DIR    = $(INCLUDES)Libft/
 LIBFT        = $(LIBFT_DIR)libft.a
 LIBFT_CFLAGS = -fPIC
 
+PARSING_DIR = parsing/
+PARSING 	= parsing syntax_checker syntax_checker_utils
 
 BUILTINS_DIR = builtins/
 BUILTINS = pwd
 
-SRC_FILES  += minishell utils execute syntax_checker syntax_checker_utils
+SRC_FILES  += minishell utils execute 
 SRC_FILES += $(addprefix $(BUILTINS_DIR), $(BUILTINS))
+SRC_FILES += $(addprefix $(PARSING_DIR), $(PARSING))
 
 SRC         = $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ         = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
@@ -61,6 +64,7 @@ $(OBJ_DIR)%.o:	$(SRC_DIR)%.c | $(OBJ_CACHE)
 $(OBJ_CACHE):
 					@mkdir -p $(OBJ_DIR)
 					@mkdir -p $(OBJ_DIR)$(BUILTINS_DIR)
+					@mkdir -p $(OBJ_DIR)$(PARSING_DIR)
 
 clean:
 					@make clean -C $(LIBFT_DIR)

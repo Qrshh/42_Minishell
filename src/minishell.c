@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:10:08 by abesneux          #+#    #+#             */
-/*   Updated: 2024/06/12 15:27:22 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:59:51 by qrshh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,19 @@
 
 void	shell_loop(t_all *all)
 {
+	char *trimmed_input;
+
 	while (1)
 	{
 		all->input = readline("> ");
 		if (!all->input)
 			break ;
 		add_history(all->input);
-		if (check_syntax(all->input))
-			reset_all(all);
+		trimmed_input = ft_strtrim(all->input, " \t");
+		if (!check_syntax(trimmed_input))
+		{
+			cut_input(trimmed_input);
+		}
 		reset_all(all);
 	}
 }

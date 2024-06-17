@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/06/12 15:26:30 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:43:09 by qrshh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,6 @@ int         has_logical_operator(const char *input);
 int         pipe_checker(const char *input);
 void        update_quotes_count(char c, int *s_quotes, int *d_quotes);
 int         is_space(char c);
+void 		cut_input(const char *input);
 
 #endif
