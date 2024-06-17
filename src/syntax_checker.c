@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   syntax_checker.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/15 00:53:43 by qrshh             #+#    #+#             */
+/*   Updated: 2024/06/15 01:01:59 by qrshh            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 #include "minishell.h"
 
 int	check_syntax(const char *input)
 {
-	if (has_unclosed_quotes(input))
+	if  (has_unclosed_quotes(input))
 	{
 		ft_putstr_fd("Syntax error : unclosed quotes \n", STDERR_FILENO);
 		return (1);
