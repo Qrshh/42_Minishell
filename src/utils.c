@@ -20,6 +20,6 @@ void	init_all(t_all *all)
 int	reset_all(t_all *all)
 {
 	free(all->input);
-	init_all(all);
+	all->input = NULL;
 	return (1);
 }
