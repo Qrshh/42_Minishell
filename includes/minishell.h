@@ -23,7 +23,7 @@
 
 typedef struct s_all
 {
-	char	*input;
+    char    *input;
 	char	*pwd;
 }			t_all;
 

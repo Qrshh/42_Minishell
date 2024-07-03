@@ -6,7 +6,7 @@
 /*   By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 17:23:58 by qrshh             #+#    #+#             */
-/*   Updated: 2024/07/03 17:27:23 by qrshh            ###   ########.fr       */
+/*   Updated: 2024/07/03 18:57:57 by qrshh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,23 @@ TokenType identify_token(const char *input, int *length)
         *length = 1;
         return TOKEN_PIPE;
     }
-    if (ft_isalnum(*input))
+    else if (ft_isalnum(*input))
     {
         *length = 0;
         while(input[*length] && input[*length] != ' ' && input[*length] != '|' && input[*length] != '"')
             (*length)++;
         return TOKEN_COMMAND;
     }
+    else if (*input == '-')
+    {
+        *length = 0;
+        while(input[*length] && input[*length] != ' ' && input[*length] != '|' && input[*length] != '"')
+            (*length)++;
+        return TOKEN_OPTION;
+    }
     *length = 1;
     return TOKEN_UNKNOWN;
 }
-
 
 void tokenize(t_all *all, t_token **tokens) 
 {
@@ -69,3 +75,4 @@ void tokenize(t_all *all, t_token **tokens)
     }
     free(*tokens);
 }
+
