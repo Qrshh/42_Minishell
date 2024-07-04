@@ -22,9 +22,7 @@ void	shell_loop(t_all *all, t_token *tokens)
 		add_history(all->input);
 		all->input = ft_strtrim(all->input, " \t");
 		if (!check_syntax(all->input))
-		{
 			tokenize(all, &tokens);
-        }
 		reset_all(all);
 	}
 }

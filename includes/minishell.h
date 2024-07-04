@@ -29,10 +29,8 @@ typedef struct s_all
 
 typedef enum {
     TOKEN_COMMAND,
-    TOKEN_OPTION,
     TOKEN_PIPE,
-    TOKEN_AND,
-    TOKEN_OR,
+    TOKEN_OPTION,
     TOKEN_INPUT_REDIRECT,
     TOKEN_OUTPUT_REDIRECT,
     TOKEN_APPEND_REDIRECT,

@@ -63,12 +63,13 @@ void tokenize(t_all *all, t_token **tokens)
 
         if (all->input[i] == '\0') 
             break;
+        if (all->input[i] == ' ')
+            i++;
         type = identify_token(&all->input[i], &length);
 
         add_token(tokens, &token_count, ft_strndup(&all->input[i], length), type);
         i += length;
     }
-
     for (int i = 0; i < token_count; i++) {
         printf("Token %d: %s, Type: %d\n", i, (*tokens)[i].value, (*tokens)[i].type);
         free((*tokens)[i].value);
