@@ -3,19 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_checker.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 00:53:43 by qrshh             #+#    #+#             */
-/*   Updated: 2024/06/15 01:01:59 by qrshh            ###   ########.fr       */
+/*   Updated: 2024/07/08 20:14:08 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
 int	check_syntax(const char *input)
 {
-	if  (has_unclosed_quotes(input))
+	if (has_unclosed_quotes(input))
 	{
 		ft_putstr_fd("Syntax error : unclosed quotes \n", STDERR_FILENO);
 		return (1);
@@ -26,11 +25,11 @@ int	check_syntax(const char *input)
 			STDERR_FILENO);
 		return (1);
 	}
-    else if (pipe_checker(input))
-    {
-        ft_putstr_fd("Syntax error : misplaced operator \n", STDERR_FILENO);
-        return (1);
-    }
+	else if (pipe_checker(input))
+	{
+		ft_putstr_fd("Syntax error : misplaced operator \n", STDERR_FILENO);
+		return (1);
+	}
 	return (0);
 }
 
@@ -57,59 +56,63 @@ int	has_unclosed_quotes(const char *input)
 	return (0);
 }
 
-int pipe_checker(const char *input)
+int	pipe_checker(const char *input)
 {
-    int length;
-    int start;
-    int end;
+	int	length;
+	int	start;
+	int	end;
 
-    length = ft_strlen(input);
-    start = 0;
-    end = length - 1;
-    while (start < length && is_space(input[start]))
-        start++;
-    while (end >= 0 && is_space(input[end]))
-        end--;
-    if (input[start] == '|' || input[end] == '|')
-        return 1;
-    return (0);
+	length = ft_strlen(input);
+	start = 0;
+	end = length - 1;
+	while (start < length && is_space(input[start]))
+		start++;
+	while (end >= 0 && is_space(input[end]))
+		end--;
+	if (input[start] == '|' || input[end] == '|')
+		return (1);
+	return (0);
 }
 
-int redir_checker(const char *input)
+int	redir_checker(const char *input)
 {
-    int length;
-    int start;
-    int end;
+	int	length;
+	int	start;
+	int	end;
 
-    length = ft_strlen(input);
-    start = 0;
-    end = length - 1;
-    while (start < length && is_space(input[start]))
-        start++;
-    while (end >= 0 && is_space(input[end]))
-        end--;
-    if (input[start] == '<' || input[start] == '>' || input[end] == '<' || input[end] == '>')
-        return 1;
-    return (0);
+	length = ft_strlen(input);
+	start = 0;
+	end = length - 1;
+	while (start < length && is_space(input[start]))
+		start++;
+	while (end >= 0 && is_space(input[end]))
+		end--;
+	if (input[start] == '<' || input[start] == '>' || input[end] == '<'
+		|| input[end] == '>')
+		return (1);
+	return (0);
 }
 
-int	has_logical_operator(const char *input)
+int	has_logical_operator(const char *in)
 {
-    int     i;
-    int     s_quotes;
-    int     d_quotes;
+	int	i;
+	int	s_quotes;
+	int	d_quotes;
 
-    i = 0;
-    s_quotes = 0;
-    d_quotes = 0;
-    while (input[i])
-    {
-        update_quotes_count(input[i], &s_quotes, &d_quotes);
-        if (!(s_quotes % 2) && !(d_quotes % 2) && (((input[i] == '&') && (input[i + 1] == '&')) || ((input[i] == '|') && (input[i + 1] == '|'))))
-            return (1);   
-        if (((input[i] == '<') && (input[i + 1] == '<') && (input[i + 2] == '<')) || ((input[i] == '>') && (input[i + 1] == '>') && (input[i + 2] == '>')))
-            return (1);
-        i++;
-    }
-    return (0);
+	i = 0;
+	s_quotes = 0;
+	d_quotes = 0;
+	while (in[i])
+	{
+		update_quotes_count(in[i], &s_quotes, &d_quotes);
+		if (!(s_quotes % 2) && !(d_quotes % 2) && (((in[i] == '&') && (in[i
+							+ 1] == '&')) || ((in[i] == '|') && (in[i
+							+ 1] == '|'))))
+			return (1);
+		if (((in[i] == '<') && (in[i + 1] == '<') && (in[i + 2] == '<'))
+			|| ((in[i] == '>') && (in[i + 1] == '>') && (in[i + 2] == '>')))
+			return (1);
+		i++;
+	}
+	return (0);
 }
