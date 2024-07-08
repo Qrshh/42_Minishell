@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+        */
+/*   By: qrshh <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/03 17:23:58 by qrshh             #+#    #+#             */
-/*   Updated: 2024/07/03 18:57:57 by qrshh            ###   ########.fr       */
+/*   Created: 2024/07/05 19:54:39 by qrshh             #+#    #+#             */
+/*   Updated: 2024/07/05 19:54:46 by qrshh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void tokenize(t_all *all, t_token **tokens)
 
         if (all->input[i] == '\0') 
             break;
-        if (all->input[i] == ' ')
+        if (all->input[i] == ' ' || all->input[i] == '"')
             i++;
         type = identify_token(&all->input[i], &length);
 

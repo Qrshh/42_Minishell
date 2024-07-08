@@ -6,7 +6,7 @@
 /*   By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:10:08 by abesneux          #+#    #+#             */
-/*   Updated: 2024/07/02 19:25:55 by qrshh            ###   ########.fr       */
+/*   Updated: 2024/07/05 19:58:57 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ void	shell_loop(t_all *all, t_token *tokens)
 
 int	main(int ac, char **av, char **env)
 {
-	t_all	*all;
+	t_token		*tokens;
+	t_all		*all;
 
+	tokens = NULL;
 	(void)av;
 	(void)env;
-
-	t_token *tokens = NULL;
 	all = malloc(sizeof(t_all));
 	init_all(all);
 	if (!all)
@@ -45,6 +45,6 @@ int	main(int ac, char **av, char **env)
 	if (ac == 1)
 		shell_loop(all, tokens);
 	free(all);
-    clear_history();
+	clear_history();
 	return (0);
 }
