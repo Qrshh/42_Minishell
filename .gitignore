@@ -1,0 +1,5 @@
+*.o
+.vscode 
+a.exe
+a.out
+*.swp

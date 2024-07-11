@@ -6,7 +6,7 @@
 /*   By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 19:54:39 by qrshh             #+#    #+#             */
-/*   Updated: 2024/07/11 17:32:03 by qrshh            ###   ########.fr       */
+/*   Updated: 2024/07/11 19:39:53 by qrshh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	add_token(t_token **tokens, int *token_count, const char *value,
 		TokenType type)
 {
+	printf("\n%d, %s\n", *token_count, value);
 	*tokens = realloc(*tokens, (*token_count + 1) * sizeof(t_token));
 	if (!*tokens)
 	{
@@ -40,6 +41,11 @@ TokenType	identify_token(const char *input, int *length)
 			&& input[*length] != '"')
 			(*length)++;
 		return (TOKEN_COMMAND);
+	}
+	else if (*input == '"')
+	{
+		printf("%s", "oui");
+		return (TOKEN_DOUBLE_QUOTES);
 	}
 	else if (*input == '-')
 	{
