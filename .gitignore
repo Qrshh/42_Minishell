@@ -3,3 +3,4 @@
 a.exe
 a.out
 *.swp
+.DS_Store
