@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 19:54:39 by qrshh             #+#    #+#             */
-/*   Updated: 2024/07/08 20:16:55 by mpoussie         ###   ########.fr       */
+/*   Updated: 2024/07/11 17:32:03 by qrshh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,11 @@ void	tokenize(t_all *all, t_token **tokens)
 			type);
 		i += length;
 	}
-	/*
-		for (int i = 0; i < token_count; i++)
-		{
-			printf("Token %d: %s, Type: %d\n", i, (*tokens)[i].value,
-				(*tokens)[i].type);
-			free((*tokens)[i].value);
-		}
-		free(*tokens);
-	*/
+	for (int i = 0; i < token_count; i++)
+	{
+		printf("Token %d: %s Type: %d\n", i, (*tokens)[i].value,
+			(*tokens)[i].type);
+		free((*tokens)[i].value);
+	}
+	free(*tokens);
 }
