@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:10:08 by abesneux          #+#    #+#             */
-/*   Updated: 2024/07/08 22:04:29 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/07/22 19:15:39 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,11 @@ void	shell_loop(t_all *all, t_token *tokens)
 			break ;
 		add_history(all->input);
 		all->input = ft_strtrim(all->input, " \t");
-		if (!check_syntax(all->input))
-			tokenize(all, &tokens);
+		all->splited_input = ft_split(all->input, ';');
+		if (all->splited_input == NULL)
+			all->splited_input[0] = all->input;
+		if (!check_syntax(all->splited_input))
+			//faire une fonction qui va faire les tokens pour chaque partie de la commande rentree COMMENT FAIRE ?
 		reset_all(all);
 	}
 }

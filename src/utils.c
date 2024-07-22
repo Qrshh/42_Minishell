@@ -15,6 +15,7 @@
 void	init_all(t_all *all)
 {
 	all->input = NULL;
+	all->splited_input = NULL;
 }
 
 int	reset_all(t_all *all)

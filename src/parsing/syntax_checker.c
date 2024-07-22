@@ -3,32 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_checker.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 00:53:43 by qrshh             #+#    #+#             */
-/*   Updated: 2024/07/09 14:52:31 by qrshh            ###   ########.fr       */
+/*   Updated: 2024/07/22 16:42:58 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_syntax(const char *input)
+int	check_syntax(char **splited_input)
 {
-	if (has_unclosed_quotes(input))
+	int i;
+
+	i = 0;
+	while(splited_input[i])
 	{
-		ft_putstr_fd("Syntax error : unclosed quotes \n", STDERR_FILENO);
-		return (1);
-	}
-	else if (has_logical_operator(input))
-	{
-		ft_putstr_fd("Syntax error : logical operators are not supported \n",
-			STDERR_FILENO);
-		return (1);
-	}
-	else if (pipe_checker(input))
-	{
-		ft_putstr_fd("Syntax error : misplaced operator \n", STDERR_FILENO);
-		return (1);
+		if (has_unclosed_quotes(splited_input[i]))
+		{
+			ft_putstr_fd("Syntax error : unclosed quotes \n", STDERR_FILENO);
+			return (1);
+		}
+		else if (has_logical_operator(splited_input[i]))
+		{
+			ft_putstr_fd("Syntax error : logical operators are not supported \n",
+				STDERR_FILENO);
+			return (1);
+		}
+		else if (pipe_checker(splited_input[i]))
+		{
+			ft_putstr_fd("Syntax error : misplaced operator \n", STDERR_FILENO);
+			return (1);
+		}
+		ft_strtrim(splited_input[i], " \t");
+		i++;
 	}
 	return (0);
 }
