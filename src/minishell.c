@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:10:08 by abesneux          #+#    #+#             */
-/*   Updated: 2024/07/22 19:49:41 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/07/24 19:53:04 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 void	shell_loop(t_all *all, t_token *tokens)
 {
+	int		i;
+
+	i = 0;
 	while (1)
 	{
 		all->input = readline("> ");
@@ -25,7 +28,14 @@ void	shell_loop(t_all *all, t_token *tokens)
 		if (all->splited_input == NULL)
 			all->splited_input[0] = all->input;
 		if (!check_syntax(all->splited_input))
-			//faire une fonction qui va faire les tokens pour chaque partie de la commande rentree COMMENT FAIRE ?
+		{
+			while(all->splited_input[i])
+			{
+				all->input = all->splited_input[i];
+				tokenize(all, &tokens);
+				i++;
+			}
+		}
 		reset_all(all);
 	}
 }
@@ -42,7 +52,7 @@ int	main(int ac, char **av, char **env)
 	init_all(all);
 	if (!all)
 	{
-		printf("Error while malloc\n");
+		ft_printf("Error while malloc\n");
 		return (1);
 	}
 	if (ac == 1)

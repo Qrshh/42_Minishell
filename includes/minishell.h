@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/07/22 18:36:58 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/07/24 19:44:58 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,11 @@ int				has_logical_operator(const char *input);
 int				pipe_checker(const char *input);
 void			update_quotes_count(char c, int *s_quotes, int *d_quotes);
 int				is_space(char c);
+
+//TOKENISATION
+void			tokenize(t_all *all, t_token **tokens);
+TokenType		identify_token(const char *input, int *length);
+void		add_token(t_token **tokens, int *token_count, const char *value, TokenType type);
+
 
 #endif

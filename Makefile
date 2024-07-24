@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+         #
+#    By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/27 09:05:48 by abesneux          #+#    #+#              #
-#    Updated: 2024/07/03 17:35:33 by qrshh            ###   ########.fr        #
+#    Updated: 2024/07/24 19:44:36 by abesneux         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ LIBFT        = $(LIBFT_DIR)libft.a
 LIBFT_CFLAGS = -fPIC
 
 PARSING_DIR = parsing/
-PARSING 	= parsing syntax_checker syntax_checker_utils
+PARSING 	= token_input syntax_checker syntax_checker_utils
 
 BUILTINS_DIR = builtins/
 BUILTINS = pwd
