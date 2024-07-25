@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/07/24 19:44:58 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/07/25 11:36:41 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,12 @@ void			shell_loop(t_all *all, t_token *tokens);
 // UTILS ALL FUNCTIONS
 int				reset_all(t_all *all);
 void			init_all(t_all *all);
+void			free_tab(char **tab);
+
+//UTILS INPUT
+char 			*read_and_trim_input(void);
+char 			**split_input(char *input);
+void 			process_command(char *command, t_token *tokens, t_all *all);
 
 // EXECUTION
 void			execute_command(char *cmd, char **env);

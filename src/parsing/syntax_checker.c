@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 00:53:43 by qrshh             #+#    #+#             */
-/*   Updated: 2024/07/24 19:55:00 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/07/25 10:27:31 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	check_syntax(char **splited_input)
 			return (1);
 		}
 		ft_strtrim(splited_input[i], " \t");
-		printf("%s\n", splited_input[i]);
 		i++;
 	}
 	return (0);

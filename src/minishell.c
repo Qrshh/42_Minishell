@@ -6,38 +6,38 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:10:08 by abesneux          #+#    #+#             */
-/*   Updated: 2024/07/24 19:53:04 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/07/25 11:36:46 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	shell_loop(t_all *all, t_token *tokens)
+void	init_all(t_all *all)
+{
+	all->input = NULL;
+	all->splited_input = NULL;
+}
+
+void shell_loop(t_all *all, t_token *tokens)
 {
 	int		i;
-
-	i = 0;
-	while (1)
-	{
-		all->input = readline("> ");
-		if (!all->input)
-			break ;
-		add_history(all->input);
-		all->input = ft_strtrim(all->input, " \t");
-		all->splited_input = ft_split(all->input, ';');
-		if (all->splited_input == NULL)
-			all->splited_input[0] = all->input;
-		if (!check_syntax(all->splited_input))
-		{
-			while(all->splited_input[i])
-			{
-				all->input = all->splited_input[i];
-				tokenize(all, &tokens);
-				i++;
-			}
-		}
-		reset_all(all);
-	}
+    while (1)
+    {
+        all->input = read_and_trim_input();
+        if (!all->input)
+            break;
+        all->splited_input = split_input(all->input);
+        if (!check_syntax(all->splited_input))
+        {
+            i = 0;
+            while (all->splited_input[i])
+            {
+                process_command(all->splited_input[i], tokens, all);
+                i++;
+            }
+        }
+        reset_all(all);
+    }
 }
 
 int	main(int ac, char **av, char **env)
