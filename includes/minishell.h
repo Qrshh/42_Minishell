@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/07/25 17:37:43 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/07/25 18:33:52 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void		add_token(t_token **tokens, int *token_count, const char *value, TokenType
 //SIGNALS
 void    		init_signals(void);
 void		    handle_sigint(int signal);
+void		    handle_sigquit(int signal);
 
 
 #endif
