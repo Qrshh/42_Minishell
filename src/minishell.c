@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:10:08 by abesneux          #+#    #+#             */
-/*   Updated: 2024/07/25 11:53:25 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/07/25 17:31:15 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	init_all(t_all *all)
 {
 	all->input = NULL;
 	all->splited_input = NULL;
+	init_signals();
 }
 
 void shell_loop(t_all *all, t_token *tokens)
@@ -39,6 +40,7 @@ void shell_loop(t_all *all, t_token *tokens)
         reset_all(all);
     }
 }
+
 
 int	main(int ac, char **av, char **env)
 {

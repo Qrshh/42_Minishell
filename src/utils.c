@@ -46,9 +46,7 @@ void process_command(char *command, t_token *tokens, t_all *all)
         tokenize(all, &tokens);
     }
     else
-    {
         free(trimmed_command);
-    }
 }
 
 void	free_tab(char **tab)

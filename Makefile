@@ -6,7 +6,7 @@
 #    By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/27 09:05:48 by abesneux          #+#    #+#              #
-#    Updated: 2024/07/24 19:44:36 by abesneux         ###   ########.fr        #
+#    Updated: 2024/07/25 17:37:31 by abesneux         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ PARSING 	= token_input syntax_checker syntax_checker_utils
 BUILTINS_DIR = builtins/
 BUILTINS = pwd
 
-SRC_FILES  += minishell utils execute 
+SRC_FILES  += minishell utils execute signal
 SRC_FILES += $(addprefix $(BUILTINS_DIR), $(BUILTINS))
 SRC_FILES += $(addprefix $(PARSING_DIR), $(PARSING))
 

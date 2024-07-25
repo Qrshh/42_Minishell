@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 19:13:13 by abesneux          #+#    #+#             */
-/*   Updated: 2024/07/25 10:31:04 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/07/25 15:40:38 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	add_token(t_token **tokens, int *token_count, const char *value,
 		TokenType type)
 {
-	// printf("\n%d, %s\n", *token_count, value);
 	*tokens = realloc(*tokens, (*token_count + 1) * sizeof(t_token));
 	if (!*tokens)
 	{

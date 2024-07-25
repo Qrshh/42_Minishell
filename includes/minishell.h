@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/07/25 11:36:41 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/07/25 17:37:43 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <signal.h>
 
 typedef struct s_all
 {
@@ -75,6 +76,10 @@ int				is_space(char c);
 void			tokenize(t_all *all, t_token **tokens);
 TokenType		identify_token(const char *input, int *length);
 void		add_token(t_token **tokens, int *token_count, const char *value, TokenType type);
+
+//SIGNALS
+void    		init_signals(void);
+void		    handle_sigint(int signal);
 
 
 #endif
