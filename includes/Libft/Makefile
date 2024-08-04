@@ -75,3 +75,5 @@ bonus:			$(OBJS) $(BONUS_OBJS)
 re: fclean ${NAME}
 
 .PHONY: all, clean, fclean, re	
+
+.SILENT:
