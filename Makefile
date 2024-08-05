@@ -6,7 +6,7 @@
 #    By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/27 09:05:48 by abesneux          #+#    #+#              #
-#    Updated: 2024/07/25 18:40:26 by abesneux         ###   ########.fr        #
+#    Updated: 2024/08/05 20:47:53 by abesneux         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,8 @@ SRC_DIR     = src/
 OBJ_DIR     = obj/
 
 CC          = cc
-CFLAGS      = -Wall -Wextra -Werror -g
-LDFLAGS		= -lreadline
+CFLAGS      = -Wall -Wextra -Werror -g -I/opt/homebrew/opt/readline/include
+LDFLAGS		= -L/opt/homebrew/opt/readline/lib -lreadline
 RM          = rm -rf
 
 GREEN		=	\e[92;5;118m
@@ -45,13 +45,10 @@ OBJ         = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
 
 OBJ_CACHE   = .cache_exists
 
-
-
 all: 			 $(LIBFT) $(NAME)
 
 $(LIBFT):
 	@make -C $(LIBFT_DIR) CFLAGS+=$(LIBFT_CFLAGS)
-
 
 $(NAME): 		$(OBJ)
 					$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME) $(LDFLAGS)

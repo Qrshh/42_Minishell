@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:12 by abesneux          #+#    #+#             */
-/*   Updated: 2024/07/08 22:06:14 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/08/05 21:01:16 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,14 @@ char	*path_join(char *path, char *bin)
 
 	joined = malloc(sizeof(char) * (ft_strchr(path, 0) + ft_strchr(bin, 0)
 				+ 2));
-	i = 0;
-	j = 0;
-	while (path[j])
-	{
-		joined[i] = path[j];
-		i++;
-		j++;
-	}
+	i = -1;
+	j = -1;
+	while (path[++j])
+		joined[++i] = path[j];
 	joined[i] = '/';
-	i++;
-	j = 0;
-	while (bin[j])
-	{
-		joined[i] = bin[j];
-		i++;
-		j++;
-	}
+	j = -1;
+	while (bin[++j])
+		joined[++i] = bin[j];
 	joined[i] = 0;
 	return (joined);
 }
