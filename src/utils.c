@@ -23,32 +23,6 @@ char *read_and_trim_input(void)
     return trimmed_input;
 }
 
-char **split_input(char *input)
-{
-    char **splited_input = ft_split(input, ';');
-    if (!splited_input)
-    {
-        splited_input = malloc(2 * sizeof(char *));
-        splited_input[0] = ft_strdup(input);
-        splited_input[1] = NULL;
-    }
-    return splited_input;
-}
-
-void process_command(char *command, t_token *tokens, t_all *all)
-{
-    char *trimmed_command = ft_strtrim(command, " \t");
-    if (trimmed_command && *trimmed_command)
-    {
-        free(command);
-        command = trimmed_command;
-        all->input = command;
-        tokenize(all, &tokens);
-    }
-    else
-        free(trimmed_command);
-}
-
 void	free_tab(char **tab)
 {
 	int 	i;
@@ -62,6 +36,13 @@ void	free_tab(char **tab)
 	free(tab);
 }
 
+int     ft_isspace(char c)
+{
+    if((c >= 9 && c <= 13) || c == 32)
+        return (1);
+    return(0);
+}
+
 int	reset_all(t_all *all)
 {
 	if (all->input)
@@ -69,10 +50,27 @@ int	reset_all(t_all *all)
 		free(all->input);
 		all->input = NULL;
 	}
-	if (all->splited_input)
-	{
-		free_tab(all->splited_input);
-		all->splited_input = NULL;
-	}
+    t_word *current = all->list;
+    t_word *next;
+    while (current) {
+        next = current->next;
+        free(current->str);
+        free(current);
+        current = next;
+    }
+    all->list = NULL;
 	return 1;
+}
+
+void    print_list(t_word *list)
+{
+    if(!list)
+        ft_printf("Oui\n");
+    t_word *current;
+    current = list;
+    while(current)
+    {
+        ft_printf("Word: %s, Quote: %c, Has Space: %d\n", current->str, current->quote, current->has_space);
+        current = current->next;
+    }
 }

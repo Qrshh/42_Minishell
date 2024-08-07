@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/08/05 20:47:36 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/08/07 21:15:08 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,19 @@
 # include <unistd.h>
 # include <signal.h>
 
+typedef struct s_word 
+{
+	char 			*str;
+	char	 		quote;
+	int				has_space;
+	struct s_word 	*next;
+	struct s_word 	*previous;
+}				t_word;
+
 typedef struct s_all
 {
 	char		*input;
-	char		**splited_input;
-	char		*pwd;
+	t_word		*list;
 }				t_all;
 
 typedef enum
@@ -42,29 +50,22 @@ typedef enum
 	TOKEN_UNKNOWN
 }				TokenType;
 
-typedef struct s_token
-{
-	char		*value;
-	TokenType	type;
-}				t_token;
-
 // INTIALISATION
-void			shell_loop(t_all *all, t_token *tokens);
+void			shell_loop(t_all *all);
 
 // UTILS ALL FUNCTIONS
 int				reset_all(t_all *all);
 void			init_all(t_all *all);
 void			free_tab(char **tab);
+int			    ft_isspace(char c);
 
 //UTILS INPUT
 char 			*read_and_trim_input(void);
-char 			**split_input(char *input);
-void 			process_command(char *command, t_token *tokens, t_all *all);
 
 // EXECUTION
 void			execute_command(char *cmd, char **env);
 
-int				check_syntax(char **splited_input);
+int				check_syntax(char *input);
 int 			check_semicolon(char *input);
 int				has_unclosed_quotes(const char *input);
 int				has_logical_operator(const char *input);
@@ -73,14 +74,15 @@ void			update_quotes_count(char c, int *s_quotes, int *d_quotes);
 int				is_space(char c);
 
 //TOKENISATION
-void			tokenize(t_all *all, t_token **tokens);
-TokenType		identify_token(const char *input, int *length);
-void		add_token(t_token **tokens, int *token_count, const char *value, TokenType type);
+t_word *tokenize(char *input);
 
 //SIGNALS
 void    		init_signals(void);
 void		    handle_sigint(int signal);
 void		    handle_sigquit(int signal);
+
+//TESTS
+void    print_list(t_word *list);
 
 
 #endif

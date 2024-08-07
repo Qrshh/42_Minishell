@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:10:08 by abesneux          #+#    #+#             */
-/*   Updated: 2024/08/05 21:02:51 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/08/07 20:21:21 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,39 +15,31 @@
 void	init_all(t_all *all)
 {
 	all->input = NULL;
-	all->splited_input = NULL;
+	all->list = NULL;
 	init_signals();
 }
 
-void shell_loop(t_all *all, t_token *tokens)
+void shell_loop(t_all *all)
 {
-	int		i;
     while (1)
     {
         all->input = read_and_trim_input();
         if (!all->input)
             break;
-        all->splited_input = split_input(all->input);
-        if (!check_syntax(all->splited_input))
-        {
-            i = 0;
-            while (all->splited_input[i])
-            {
-                process_command(all->splited_input[i], tokens, all);
-                i++;
-            }
-        }
+        if (!check_syntax(all->input))
+		{
+			all->list = tokenize(all->input);
+			ft_printf("Test\n");
+			print_list(all->list);
+		}
         reset_all(all);
     }
 }
 
-
 int	main(int ac, char **av, char **env)
 {
-	t_token		*tokens;
 	t_all		*all;
 
-	tokens = NULL;
 	(void)av;
 	(void)env;
 	all = malloc(sizeof(t_all));
@@ -58,7 +50,7 @@ int	main(int ac, char **av, char **env)
 		return (1);
 	}
 	if (ac == 1)
-		shell_loop(all, tokens);
+		shell_loop(all);
 	free(all);
 	clear_history();
 	return (0);

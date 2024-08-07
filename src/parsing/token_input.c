@@ -6,81 +6,117 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 19:13:13 by abesneux          #+#    #+#             */
-/*   Updated: 2024/07/25 15:40:38 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/08/07 21:17:57 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	add_token(t_token **tokens, int *token_count, const char *value,
-		TokenType type)
+void	initialize_list(t_word **list)
 {
-	*tokens = realloc(*tokens, (*token_count + 1) * sizeof(t_token));
-	if (!*tokens)
+	*list = (t_word *)malloc(sizeof(t_word));
+	if(*list)
 	{
-		perror("Error while reallocating tokens");
-		exit(EXIT_FAILURE);
+		(*list)->str = NULL;
+		(*list)->quote = 0;
+		(*list)->has_space = 0;
+		(*list)->next = NULL;
+		(*list)->previous = NULL;
 	}
-	(*tokens)[*token_count].value = ft_strdup(value);
-	(*tokens)[*token_count].type = type;
-	(*token_count)++;
 }
 
-TokenType	identify_token(const char *input, int *length)
+void	add_token_to_list(t_word **list, char *input, char quote, int has_space)
 {
-	if (*input == '|')
+	if(!*list)
 	{
-		*length = 1;
-		return (TOKEN_PIPE);
+		initialize_list(list);
+		if(!*list)
+			return ;
 	}
-	else if (ft_isalnum(*input))
+	else 
 	{
-		*length = 0;
-		while (input[*length] && input[*length] != ' ' && input[*length] != '|'
-			&& input[*length] != '"')
-			(*length)++;
-		return (TOKEN_COMMAND);
+		t_word *new_node = (t_word *)malloc(sizeof(t_word));
+		if(!new_node)
+			return ;
+		new_node->str = ft_strdup(input);
+		if(!new_node->str)
+		{
+			free(new_node);
+			return ;
+		}
+		new_node->quote = quote;
+		new_node->has_space = has_space;
+		new_node->next = NULL;
+
+		t_word *current = *list;
+		while(current->next)
+			current = current->next;
+		current->next = new_node;
+		new_node->previous = current;
 	}
-	else if (*input == '"')
-		return (TOKEN_DOUBLE_QUOTES);
-	else if (*input == '-')
-	{
-		*length = 0;
-		while (input[*length] && input[*length] != ' ' && input[*length] != '|'
-			&& input[*length] != '"')
-			(*length)++;
-		return (TOKEN_OPTION);
-	}
-	*length = 1;
-	return (TOKEN_UNKNOWN);
 }
 
-void	tokenize(t_all *all, t_token **tokens)
+char	*get_word(char *input, int *i)
 {
-	int			i;
-	int			length;
-	int			token_count;
-	TokenType	type;
+	char *word;
+	char quote;
+	int j;
 
+	//je malloc de la taille de l'input au cas ou il y a que 1 seul mot et comme ca ya pas de depassement et c pas fixe
+	word = (char *)malloc(ft_strlen(input) * sizeof(char));
+	if(!word)
+		return NULL;
+	j = 0;
+	if(input[*i] == '"' || input[*i] == '\'')
+	{
+		quote = input[*i];
+		(*i)++;
+	}
+	else 
+		quote = 0;
+	while(input[*i])
+	{
+		if(quote == 0 && (ft_isspace(input[*i]) || input[*i] == '>'))
+			break;
+		else if (input[*i] == quote)
+		{
+			(*i)++;
+			break;
+		}
+		word[j] = input[*i];
+		j++;
+		(*i)++;
+	}
+	word[j] = '\0';
+	return(word);
+}
+
+/*
+Vérification des guillemets : Si le caractère actuel est un guillemet simple ou double, on le stocke et on avance l'indice.
+Extraction du mot : On copie les caractères de la chaîne d'entrée jusqu'à rencontrer un espace, un caractère spécial (ici '>'), ou le guillemet de fin.
+Terminaison du mot : On ajoute le caractère nul ('\0') à la fin du mot pour le terminer correctement en tant que chaîne de caractères en C.
+Retour du mot : La fonction retourne le mot extrait.
+*/
+
+t_word *tokenize(char *input)
+{
+	int i;
+	char *add;
+	t_word *list;
+
+	list = NULL;
 	i = 0;
-	token_count = 0;
-	*tokens = NULL;
-	while (all->input[i])
+	while(input[i])
 	{
-		if (all->input[i] == '\0')
-			break ;
-		if (all->input[i] == ' ' || all->input[i] == '"')
+		while(ft_isspace(input[i]))
 			i++;
-		type = identify_token(&all->input[i], &length);
-		add_token(tokens, &token_count, ft_strndup(&all->input[i], length),
-			type);
-		i += length;
+		add = get_word(input, &i);
+		if(add)
+		{
+			add_token_to_list(&list, add, 0, 0);
+			free(add);
+		}
+		i++;
 	}
-    for (int i = 0; i < token_count; i++)
-	{
-		printf("Token %d: %s Type: %d\n", i, (*tokens)[i].value,
-			(*tokens)[i].type);
-		free((*tokens)[i].value);
-	}
-	free(*tokens);
+	return list;
 }
