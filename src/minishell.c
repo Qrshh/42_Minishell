@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:10:08 by abesneux          #+#    #+#             */
-/*   Updated: 2024/08/07 20:21:21 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/08/08 21:47:04 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,30 @@ void	init_all(t_all *all)
 {
 	all->input = NULL;
 	all->list = NULL;
+	all->splited_input = NULL;
 	init_signals();
 }
 
 void shell_loop(t_all *all)
 {
+	int i;
+
     while (1)
     {
+		i = 0;
         all->input = read_and_trim_input();
         if (!all->input)
             break;
         if (!check_syntax(all->input))
 		{
-			all->list = tokenize(all->input);
-			ft_printf("Test\n");
-			print_list(all->list);
+			all->splited_input = split_on_semicolon(all->input);
+			while(all->splited_input[i])
+			{
+				ft_printf("%d\n", i);
+				all->list = tokenize(all->splited_input[i++]);
+				print_list(all->list);
+				//send la liste apres comme ca je peux la free tranquille pour la suivante
+			}
 		}
         reset_all(all);
     }

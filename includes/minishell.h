@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/08/07 21:15:08 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/08/08 21:28:50 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,17 @@ typedef struct s_word
 	struct s_word 	*previous;
 }				t_word;
 
+typedef struct s_cmd
+{
+	t_word		*list;
+	struct s_cmd	*pipe;
+	struct s_cmd	*previous;
+}				t_cmd;
+
 typedef struct s_all
 {
 	char		*input;
+	char		**splited_input;
 	t_word		*list;
 }				t_all;
 
@@ -58,6 +66,7 @@ int				reset_all(t_all *all);
 void			init_all(t_all *all);
 void			free_tab(char **tab);
 int			    ft_isspace(char c);
+char **split_on_semicolon(char *input);
 
 //UTILS INPUT
 char 			*read_and_trim_input(void);
