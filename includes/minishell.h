@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/08/08 21:28:50 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/08/09 21:46:42 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 typedef struct s_word 
 {
 	char 			*str;
-	char	 		quote;
-	int				has_space;
+	t_token			token;
+	int				index;
 	struct s_word 	*next;
 	struct s_word 	*previous;
 }				t_word;
@@ -45,18 +45,15 @@ typedef struct s_all
 	t_word		*list;
 }				t_all;
 
-typedef enum
+typedef enum e_token
 {
-	TOKEN_COMMAND,
-	TOKEN_PIPE,
-	TOKEN_OPTION,
-	TOKEN_INPUT_REDIRECT,
-	TOKEN_OUTPUT_REDIRECT,
-	TOKEN_APPEND_REDIRECT,
-	TOKEN_DOUBLE_QUOTES,
-	TOKEN_SINGLE_QUOTES,
-	TOKEN_UNKNOWN
-}				TokenType;
+	WORD,
+	PIPE,
+	RIGHT,
+	DOUBLE_RIGHT,
+	LEFT,
+	DOUBLE_LEFT,
+}t_token;
 
 // INTIALISATION
 void			shell_loop(t_all *all);
@@ -66,7 +63,7 @@ int				reset_all(t_all *all);
 void			init_all(t_all *all);
 void			free_tab(char **tab);
 int			    ft_isspace(char c);
-char **split_on_semicolon(char *input);
+t_word			*check_space(t_word *list);
 
 //UTILS INPUT
 char 			*read_and_trim_input(void);
@@ -83,7 +80,10 @@ void			update_quotes_count(char c, int *s_quotes, int *d_quotes);
 int				is_space(char c);
 
 //TOKENISATION
-t_word *tokenize(char *input);
+
+//LEXING
+t_word  		*init_lex(char *str, t_token token);
+int 			is_operator(char c);
 
 //SIGNALS
 void    		init_signals(void);

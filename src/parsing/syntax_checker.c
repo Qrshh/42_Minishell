@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 00:53:43 by qrshh             #+#    #+#             */
-/*   Updated: 2024/08/07 20:07:06 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/08/09 18:36:11 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ int	has_unclosed_quotes(const char *input)
 				else if (!quote_type)
 					quote_type = input[i];
 			}
-
 		}
 		i++;
 	}
