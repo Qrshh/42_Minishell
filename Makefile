@@ -6,7 +6,7 @@
 #    By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/27 09:05:48 by abesneux          #+#    #+#              #
-#    Updated: 2024/08/07 20:19:08 by abesneux         ###   ########.fr        #
+#    Updated: 2024/08/14 19:04:31 by abesneux         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,13 +31,17 @@ LIBFT        = $(LIBFT_DIR)libft.a
 LIBFT_CFLAGS = -fPIC
 
 PARSING_DIR = parsing/
-PARSING 	= token_input syntax_checker syntax_checker_utils
+PARSING 	= syntax_checker syntax_checker_utils
+
+LEXING_DIR = lexing/
+LEXING     = handle_token lexer tokenize
 
 BUILTINS_DIR = builtins/
 BUILTINS = 
 
 SRC_FILES  += minishell utils execute signal
 SRC_FILES += $(addprefix $(BUILTINS_DIR), $(BUILTINS))
+SRC_FILES += $(addprefix $(LEXING_DIR), $(LEXING))
 SRC_FILES += $(addprefix $(PARSING_DIR), $(PARSING))
 
 SRC         = $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
@@ -62,6 +66,7 @@ $(OBJ_CACHE):
 					@mkdir -p $(OBJ_DIR)
 					@mkdir -p $(OBJ_DIR)$(BUILTINS_DIR)
 					@mkdir -p $(OBJ_DIR)$(PARSING_DIR)
+					@mkdir -p $(OBJ_DIR)$(LEXING_DIR)
 
 clean:
 					@make clean -C $(LIBFT_DIR)

@@ -36,16 +36,9 @@ void	free_tab(char **tab)
 	free(tab);
 }
 
-int     ft_isspace(char c)
-{
-    if((c >= 9 && c <= 13) || c == 32)
-        return (1);
-    return(0);
-}
-
 void    skip_whitespaces(char *input, int *i)
 {
-    while(ft_isspace(input[*i]))
+    while(is_space(input[*i]))
         (*i)++;
 }
 
@@ -67,17 +60,19 @@ int	reset_all(t_all *all)
     all->list = NULL;
 	return 1;
 }
-
-void print_list(t_word *list)
+void print_list(t_all *all)
 {
-    t_word *current = list;
+    t_word *current = all->list; // Commencez par le premier élément de la liste
 
-    while (current)
+    while (current != NULL)
     {
-        printf("Word: %s, Quote: %c, Has Space: %d\n", 
-                current->str, 
-                current->quote, 
-                current->has_space);
+        // Affichez les informations que vous souhaitez pour chaque élément
+        printf("Index: %d\n", current->index);
+        printf("String: %s\n", current->str);
+        printf("Token: %d\n", current->token); // Supposez que t_token est un type numérique, sinon adaptez
+        printf("----------\n");
+
+        // Passez à l'élément suivant dans la liste chaînée
         current = current->next;
     }
 }

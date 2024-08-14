@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:12 by abesneux          #+#    #+#             */
-/*   Updated: 2024/08/05 21:01:16 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/08/14 19:28:07 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ char	*path_join(char *path, char *bin)
 	j = -1;
 	while (path[++j])
 		joined[++i] = path[j];
-	joined[i] = '/';
+	joined[++i] = '/';
 	j = -1;
 	while (bin[++j])
 		joined[++i] = bin[j];
-	joined[i] = 0;
+	joined[++i] = 0;
 	return (joined);
 }
 
