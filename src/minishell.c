@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:10:08 by abesneux          #+#    #+#             */
-/*   Updated: 2024/08/14 19:03:57 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/08/14 22:25:24 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	init_all(t_all *all)
 
 t_word	*token(t_all *all)
 {
-	t_word 	*head;
+	t_word	*head;
 	t_word	*current;
 	int		len;
 	int		i;
@@ -55,7 +55,7 @@ void shell_loop(t_all *all, char **env)
 		{
 			all->list = token(all);
 			print_list(all);
-			execute_command(all->list->str, env);
+			pre_execute(all->list, env);
 		}
         reset_all(all);
     }

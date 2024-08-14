@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/08/14 19:04:20 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/08/14 22:22:28 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 typedef enum e_token
 {
 	WORD,
+	SINGLE_QUOTE,
+	DOUBLE_QUOTE,
 	PIPE,
 	RIGHT,
 	DOUBLE_RIGHT,
@@ -72,6 +74,8 @@ char 			*read_and_trim_input(void);
 
 // EXECUTION
 void			execute_command(char *cmd, char **env);
+void		    pre_execute(t_word *list, char **env);
+char			*getpath(char *cmd, char **env);
 
 int				check_syntax(char *input);
 int 			check_semicolon(char *input);
