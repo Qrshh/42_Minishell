@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/08/14 22:22:28 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/08/22 19:26:00 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_word
 typedef struct s_cmd
 {
 	t_word		*list;
+	char		**args;
 	struct s_cmd	*pipe;
 	struct s_cmd	*previous;
 }				t_cmd;
@@ -73,17 +74,17 @@ void    		skip_whitespaces(char *input, int *i);
 char 			*read_and_trim_input(void);
 
 // EXECUTION
-void			execute_command(char *cmd, char **env);
+void 			execute_command(t_cmd *cmd, char **env);
 void		    pre_execute(t_word *list, char **env);
 char			*getpath(char *cmd, char **env);
 
 int				check_syntax(char *input);
-int 			check_semicolon(char *input);
 int				has_unclosed_quotes(const char *input);
 int				has_logical_operator(const char *input);
 int				pipe_checker(const char *input);
 void			update_quotes_count(char c, int *s_quotes, int *d_quotes);
 int				is_space(char c);
+char 			**list_to_array(t_word *list);
 
 //TOKENISATION
 

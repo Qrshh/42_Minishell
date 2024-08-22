@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 21:04:49 by abesneux          #+#    #+#             */
-/*   Updated: 2024/08/14 22:39:37 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/08/22 19:30:32 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,33 +17,85 @@ int     check_cmd(char *word, char **env)
 	char *path;
 	
     path = getpath(word, env);
-    if (path && access(path, X_OK) == 0) // Vérifie si c'est exécutable
+    if (path && access(path, X_OK) == 0)
     {
-    	printf("La commande '%s' est exécutable.\n", word);
+    	ft_printf("La commande '%s' est exécutable.\n", word);
 		return (1);
-        execute_command(word, env);
-    }
-    else
+    } 
+    else 
     {
-        printf("Commande non trouvée ou non exécutable: '%s'\n", word);
+        ft_printf("Commande non trouvée ou non exécutable: '%s'\n", word);
 		return(0);
     }
-    if (path != word) // Libère la mémoire allouée dynamiquement
+    if (path != word)
 		free(path);
 	return(0);
 }
 
 void pre_execute(t_word *list, char **env)
 {
-    t_word *current;  current = list;
-    while (current)
-    {
-        if (current->token == 0) // Vérifie si le token correspond à une commande
-		{
-			if(check_cmd(current->str, env))
-				execute_command(current->str, env);
-        }
-        current = current->next;
+    t_cmd *cmd;
+
+    cmd = malloc(sizeof(t_cmd));
+    if (!cmd) {
+        perror("Erreur d'allocation mémoire pour cmd");
+        return;
     }
+
+    cmd->list = list;
+    cmd->args = list_to_array(list);
+    cmd->pipe = NULL;
+    cmd->previous = NULL;
+
+    if(list->token == 0) {
+        execute_command(cmd, env);
+    }
+
+    if (cmd->args) {
+        for (int i = 0; cmd->args[i] != NULL; i++) {
+            free(cmd->args[i]);
+        }
+        free(cmd->args);
+    }
+    free(cmd);
 }
 
+
+char **list_to_array(t_word *list) 
+{
+    int count = 0;
+    t_word *temp = list;
+
+    // Compter le nombre d'éléments avant le "|"
+    while (temp && ft_strcmp(temp->str, "|") != 0) {
+        count++;
+        temp = temp->next;
+    }
+
+    // Allouer de la mémoire pour le tableau de chaînes + 1 pour le NULL final
+    char **array = malloc((count + 1) * sizeof(char *));
+    if (!array) {
+        perror("Erreur d'allocation mémoire");
+        return NULL;
+    }
+
+    // Remplir le tableau avec les chaînes de caractères de la liste chaînée
+    int i = 0;
+    while (list && ft_strcmp(list->str, "|") != 0) {
+        array[i] = ft_strdup(list->str);  // Copier la chaîne pour éviter les conflits
+        if (!array[i]) {
+            perror("Erreur d'allocation mémoire");
+            // Libérer la mémoire déjà allouée en cas d'échec
+            while (i > 0) {
+                free(array[--i]);
+            }
+            free(array);
+            return NULL;
+        }
+        i++;
+        list = list->next;
+    }
+    array[i] = NULL;
+
+    return array;
+}

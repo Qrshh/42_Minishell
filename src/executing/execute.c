@@ -6,11 +6,14 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:12 by abesneux          #+#    #+#             */
-/*   Updated: 2024/08/14 22:22:10 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/08/22 19:26:09 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//JE DOIS REWORK LA PARTIE EXECUTE CAR ELLE EST TROP BROUILLON
+//POUR POUVOIR UTILISER LES BUILTINS JE DOIS FAIRE UNE STRUCTURE I GUESS
 
 char	*path_join(char *path, char *bin)
 {
@@ -58,42 +61,24 @@ char	*getpath(char *cmd, char **env)
 	return (cmd);
 }
 
-void	execute_command(char *cmd, char **env)
+void execute_command(t_cmd *cmd, char **env)
 {
-	char	**args;
-	char	*path;
-	int		i;
-	pid_t	pid;
-	int		status;
-
-	i = -1;
-	if (*cmd == '\0')
-	{
-		printf("Erreur: commande vide\n");
+	char *path;
+	pid_t pid;
+	int status;
+	
+	if(cmd->args[0] == NULL)
 		return ;
-	}
-	args = ft_split(cmd, ' ');
-	if (ft_strchr(args[0], '/') > -1)
-		path = args[0];
-	else
-		path = getpath(args[0], env);
+	path = getpath(cmd->args[0], env);
 	pid = fork();
-	if (pid == 0)
+	if(pid == 0)
 	{
-		if (execve(path, args, env) == -1)
-		{
-			perror("Erreur d'exécution");
-			while (args[++i])
-				free(args[i]);
-			free(args);
-			exit(EXIT_FAILURE);
-		}
+		execve(path, cmd->args, env);
+		perror("Erreur d'exécution");
+		exit(EXIT_FAILURE);
 	}
 	else if (pid < 0)
 		perror("Erreur de fork");
 	else
 		waitpid(pid, &status, 0);
-	while (args[++i])
-		free(args[i]);
-	free(args);
 }
