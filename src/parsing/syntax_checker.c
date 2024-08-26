@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_checker.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 00:53:43 by qrshh             #+#    #+#             */
-/*   Updated: 2024/08/09 18:36:11 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/08/26 12:47:10 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	has_unclosed_quotes(const char *input)
 	{
 		if (input[i] == '\'' || input[i] == '\"')
 		{
-			if(input[i-1] != '\\')
+			if (input[i - 1] != '\\')
 			{
 				if (quote_type == input[i])
 					quote_type = 0;
@@ -109,9 +109,9 @@ int	has_logical_operator(const char *in)
 	while (in[i])
 	{
 		update_quotes_count(in[i], &s_quotes, &d_quotes);
-		if (!(s_quotes % 2) && !(d_quotes % 2) && (((in[i] == '&') && (in[i
-							+ 1] == '&')) || ((in[i] == '|') && (in[i
-							+ 1] == '|'))))
+		if (!(s_quotes % 2) && !(d_quotes % 2) && (((in[i] == '&')
+					&& (in[i + 1] == '&')) || ((in[i] == '|')
+					&& (in[i + 1] == '|'))))
 			return (1);
 		if (((in[i] == '<') && (in[i + 1] == '<') && (in[i + 2] == '<'))
 			|| ((in[i] == '>') && (in[i + 1] == '>') && (in[i + 2] == '>')))

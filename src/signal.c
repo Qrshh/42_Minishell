@@ -3,33 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:31:37 by abesneux          #+#    #+#             */
-/*   Updated: 2024/07/29 18:07:38 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/08/26 12:44:32 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    handle_sigint(int signal)
+void	handle_sigint(int signal)
 {
-    (void)signal;
-    ft_putstr_fd("\n", STDERR_FILENO);
-    rl_on_new_line();
-    rl_replace_line("", 0);
-    rl_redisplay();
+	(void)signal;
+	ft_putstr_fd("\n", STDERR_FILENO);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
-void    handle_sigquit(int signal)
+void	handle_sigquit(int signal)
 {
-    ft_putstr_fd("Quit :", STDERR_FILENO);
-    ft_putnbr_fd(signal, STDERR_FILENO);
-    ft_putstr_fd("\n", STDERR_FILENO);
+	ft_putstr_fd("Quit :", STDERR_FILENO);
+	ft_putnbr_fd(signal, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
 }
 
-void    init_signals(void)
+void	init_signals(void)
 {
-    signal(SIGINT, handle_sigint);
-    signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
 }
