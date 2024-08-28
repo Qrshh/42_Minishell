@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:12 by abesneux          #+#    #+#             */
-/*   Updated: 2024/08/26 12:43:36 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/08/27 17:20:06 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// JE DOIS REWORK LA PARTIE EXECUTE CAR ELLE EST TROP BROUILLON
-// POUR POUVOIR UTILISER LES BUILTINS JE DOIS FAIRE UNE STRUCTURE I GUESS
 
 char	*path_join(char *path, char *bin)
 {
@@ -61,17 +58,17 @@ char	*getpath(char *cmd, char **env)
 	return (cmd);
 }
 
-void	execute_command(t_cmd *cmd, char **env)
+void execute_command(t_cmd *cmd, char **env)
 {
-	char	*path;
-	pid_t	pid;
-	int		status;
-
-	if (cmd->args[0] == NULL)
+	char *path;
+	pid_t pid;
+	int status;
+	
+	if(cmd->args[0] == NULL)
 		return ;
 	path = getpath(cmd->args[0], env);
 	pid = fork();
-	if (pid == 0)
+	if(pid == 0)
 	{
 		execve(path, cmd->args, env);
 		perror("Erreur d'exécution");
