@@ -42,6 +42,7 @@ SRCS    		=		ft_is/ft_isalnum.c \
 					ft_str/ft_strcmp.c \
 					ft_str/ft_strcat.c \
 					ft_str/ft_strcpy.c \
+					ft_str/ft_strncpy.c \
 					ft_gnl/get_next_line.c \
 					ft_gnl/get_next_line_utils.c \
 					ft_printf/ft_printf_utils.c \

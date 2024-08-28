@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 09:11:41 by abesneux          #+#    #+#             */
-/*   Updated: 2024/08/14 19:02:13 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/08/28 20:37:24 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ char				*ft_strndup(char *str, unsigned int n);
 int					ft_strcmp(const char *s1, const char *s2);
 char 				*ft_strcat(char *dest, char *src);
 char				*ft_strcpy(char *dest, char *src);
+char				*ft_strncpy(char *dest, char *src, size_t len);
 
 // BONUS
 t_list				*ft_lstnew(void *content);

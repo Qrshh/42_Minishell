@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 21:04:49 by abesneux          #+#    #+#             */
-/*   Updated: 2024/08/27 17:23:26 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/08/28 20:13:53 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,7 @@ void pre_execute(t_word *list, char **env)
     cmd->pipe = NULL;
     cmd->previous = NULL;
 
-    //ca pourrait marcher ?
-    // if(is_a_builtin(list))
-    //     execute_builtin();
+    
     if(list->token == 0) {
         execute_command(cmd, env);
     }
