@@ -1,27 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/27 20:58:31 by qrshh             #+#    #+#             */
-/*   Updated: 2024/09/02 17:05:48 by ozdemir          ###   ########.fr       */
+/*   Created: 2024/09/02 15:40:07 by ozdemir           #+#    #+#             */
+/*   Updated: 2024/09/02 17:05:47 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void my_cd(char **args) 
+void    my_echo(char **args)
 {
-    if (!args[1]) 
-    {
-        write(STDERR_FILENO, "Usage: cd <path>\n", 16);
-        return;
-    }
+        int     i;
+        int     flag;
 
-    if (chdir(args[1]) != 0) 
-    {
-        perror("cd");
-    }
+        i = 0;
+        flag = 0;
+        while (args[i])
+        {
+                if (ft_strcmp(args[i], "-n") == 0)
+                        flag = 1;
+                else
+                        ft_printf("%s ", args[i]);
+                i++;
+        }
+        if (!flag)
+                ft_printf("\n");
 }
