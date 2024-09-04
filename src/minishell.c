@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:10:08 by abesneux          #+#    #+#             */
-/*   Updated: 2024/09/04 15:23:38 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/09/04 15:35:22 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_word	*token(t_all *all)
 		if (is_operator(all->input[i]))
 			handle_operator(all->input, &i, &head, &current, all->input[i]);
 		else if (all->input[i] == '\'')
-			handle_single_quote(all->input, &i, &head, &current, all->input[i]);
+			handle_single_quote(all->input, &i, &head, &current);
 		else
 			handle_word(all->input, &i, &head, &current);
 		i++;
