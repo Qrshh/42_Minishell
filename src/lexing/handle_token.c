@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 21:25:33 by abesneux          #+#    #+#             */
-/*   Updated: 2024/09/09 18:23:24 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/09/09 18:39:57 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ void	add_to_list(t_word **head, t_word **current, t_word *new_node)
 	*current = new_node; // Déplacer le pointeur `current` sur le nouvel élément
 }
 
-void	handle_operator(char *input, int *i, t_word **head, t_word **current,
-		char operator)
+void	handle_operator(char *input, int *i, t_word **head, t_word **current)
 {
 	t_token	token;
 	char	*temp;
@@ -37,24 +36,24 @@ void	handle_operator(char *input, int *i, t_word **head, t_word **current,
 	t_word	*new_node;
 
 	len = 1;
-	if (operator == '|')
-		token = PIPE;
-	else if ((operator == '>' || operator == '<') && input[*i + 1] == operator)
+	token = PIPE;
+	if ((input[*i] == '>' || input[*i] == '<')
+		&& input[*i + 1] == input[*i])
 	{
 		len = 2;
-		if (operator == '<')
+		if (input[*i] == '<')
 			token = DOUBLE_LEFT;
 		else
 			token = DOUBLE_RIGHT;
 	}
-	else if (operator == '<')
+	else if (input[*i] == '<')
 		token = LEFT;
 	else
 		token = RIGHT;
 	temp = ft_strndup(&input[*i], len);
 	new_node = init_lex(temp, token);
 	add_to_list(head, current, new_node);
-	*i += len - 1; // Avancez de 2 si double opérateur, sinon 1
+	*i += len - 1;// Avancez de 2 si double opérateur, sinon 1
 	free(temp);
 }
 
@@ -74,7 +73,7 @@ void	handle_single_quote(char *input, int *i, t_word **head,
 		// Capture le contenu entre guillemets
 		new_node = init_lex(word, WORD);
 		add_to_list(head, current, new_node);
-		*i = j; // Positionner l'index à la fin du guillemet fermant
+		*i = j;// Positionner l'index à la fin du guillemet fermant
 		free(word);
 	}
 }
@@ -97,6 +96,6 @@ void	handle_word(char *input, int *i, t_word **head, t_word **current)
 	word = ft_strndup(&input[*i], len);
 	new_node = init_lex(word, WORD);
 	add_to_list(head, current, new_node);
-	*i += len - 1; // Déplacez l'index à la fin du mot traité
+	*i += len - 1;// Déplacez l'index à la fin du mot traité
 	free(word);
 }

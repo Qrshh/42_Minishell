@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/09/09 17:08:44 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/09/09 18:33:34 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ t_word				*init_lex(char *str, t_token token);
 void				handle_single_quote(char *input, int *i, t_word **head,
 						t_word **current);
 void				handle_operator(char *input, int *i, t_word **head,
-						t_word **current, char operator);
+						t_word **current);
 void				handle_word(char *input, int *i, t_word **head,
 						t_word **current);
 int					word_len(char *input, int i);
