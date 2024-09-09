@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_token.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 21:25:33 by abesneux          #+#    #+#             */
-/*   Updated: 2024/09/09 18:39:57 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/09/09 20:01:09 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	handle_operator(char *input, int *i, t_word **head, t_word **current)
 	}
 	else if (input[*i] == '<')
 		token = LEFT;
-	else
+	else if (input[*i] == '>')
 		token = RIGHT;
 	temp = ft_strndup(&input[*i], len);
 	new_node = init_lex(temp, token);
