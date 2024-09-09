@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 21:04:49 by abesneux          #+#    #+#             */
-/*   Updated: 2024/09/04 15:27:40 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/09/09 13:47:49 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,41 +32,48 @@ int	check_cmd(char *word, char **env)
 	return (0);
 }
 
+t_cmd	*init_cmd(t_cmd *cmd, t_word *list)
+{
+	cmd->list = list;
+	cmd->args = list_to_array(list);
+	cmd->pipe = NULL;
+	cmd->previous = NULL;
+	return (cmd);
+}
+
 void	pre_execute(t_word *list, char **env)
 {
 	t_cmd	*cmd;
+	int		i;
 
+	i = 0;
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 	{
 		perror("Erreur d'allocation mémoire pour cmd");
 		return ;
 	}
-	cmd->list = list;
-	cmd->args = list_to_array(list);
-	cmd->pipe = NULL;
-	cmd->previous = NULL;
+	init_cmd(cmd, list);
 	if (list->token == 0)
 	{
 		execute_command(cmd, env);
 	}
 	if (cmd->args)
 	{
-		for (int i = 0; cmd->args[i] != NULL; i++)
+		while (cmd->args[i] != NULL)
 		{
 			free(cmd->args[i]);
+			i++;
 		}
 		free(cmd->args);
 	}
 	free(cmd);
 }
 
-char	**list_to_array(t_word *list)
+int	count_list(t_word *list)
 {
 	int		count;
 	t_word	*temp;
-	char	**array;
-	int		i;
 
 	count = 0;
 	temp = list;
@@ -75,7 +82,15 @@ char	**list_to_array(t_word *list)
 		count++;
 		temp = temp->next;
 	}
-	array = malloc((count + 1) * sizeof(char *));
+	return (count);
+}
+
+char	**list_to_array(t_word *list)
+{
+	char	**array;
+	int		i;
+
+	array = malloc((count_list(list) + 1) * sizeof(char *));
 	if (!array)
 	{
 		perror("Erreur d'allocation mémoire");
@@ -85,17 +100,14 @@ char	**list_to_array(t_word *list)
 	while (list && ft_strcmp(list->str, "|") != 0)
 	{
 		array[i] = ft_strdup(list->str);
-		if (!array[i])
+		if (!array[i++])
 		{
 			perror("Erreur d'allocation mémoire");
 			while (i > 0)
-			{
 				free(array[--i]);
-			}
 			free(array);
 			return (NULL);
 		}
-		i++;
 		list = list->next;
 	}
 	array[i] = NULL;

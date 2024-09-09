@@ -1,13 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   handle_builtins.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/27 21:03:45 by qrshh             #+#    #+#             */
-/*   Updated: 2024/09/09 18:25:14 by ozdemir          ###   ########.fr       */
+/*   Created: 2024/09/09 15:59:00 by ozdemir           #+#    #+#             */
+/*   Updated: 2024/09/09 18:24:17 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+int	is_builtin(char *input)
+{
+	char **args;
+	int i;
+
+	i = 0;
+	args = ft_split(input, ' ');
+	if (ft_strcmp(args[0], "cd") == 0)
+		my_cd();
+	return (1);
+}

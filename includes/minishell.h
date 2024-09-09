@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/09/04 15:21:51 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/09/09 17:08:44 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ int					pipe_checker(const char *input);
 void				update_quotes_count(char c, int *s_quotes, int *d_quotes);
 int					is_space(char c);
 char				**list_to_array(t_word *list);
+t_cmd				*init_cmd(t_cmd *cmd, t_word *list);
+int					count_list(t_word *list);
 
 // TOKENISATION
 
@@ -105,5 +107,7 @@ void				handle_sigquit(int signal);
 
 // TESTS
 void				print_list(t_all *all);
+
+void				my_cd(char **args);
 
 #endif
