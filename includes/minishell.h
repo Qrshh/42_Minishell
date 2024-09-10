@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/09/09 19:59:30 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/09/10 22:49:48 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 # define MINISHELL_H
 
 # include "Libft/libft.h"
+# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
-# include <stdio.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
@@ -76,6 +76,8 @@ char				*read_and_trim_input(void);
 void				execute_command(t_cmd *cmd, char **env);
 void				pre_execute(t_word *list, char **env);
 char				*getpath(char *cmd, char **env);
+int					execute_builtin(t_cmd *cmd);
+int 				is_a_builtin(char *cmd);
 
 int					check_syntax(char *input);
 int					has_unclosed_quotes(const char *input);
@@ -104,6 +106,9 @@ int					is_operator(char c);
 void				init_signals(void);
 void				handle_sigint(int signal);
 void				handle_sigquit(int signal);
+
+//BUILTINS
+int					my_exit(t_cmd *cmd);
 
 // TESTS
 void				print_list(t_all *all);
