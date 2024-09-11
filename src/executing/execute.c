@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:12 by abesneux          #+#    #+#             */
-/*   Updated: 2024/09/10 22:34:49 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/09/11 14:45:46 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ void	execute_command(t_cmd *cmd, char **env)
 
 	if (cmd->args[0] == NULL)
 		return ;
-	//regarder si c'est un builtin :
-	if(is_a_builtin(cmd->args[0]))
+	// regarder si c'est un builtin :
+	if (is_a_builtin(cmd->args[0]))
 	{
 		execute_builtin(cmd);
 		return ;

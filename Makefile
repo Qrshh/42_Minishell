@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+         #
+#    By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/27 09:05:48 by abesneux          #+#    #+#              #
-#    Updated: 2024/09/10 22:51:16 by abesneux         ###   ########.fr        #
+#    Updated: 2024/09/11 13:08:21 by ozdemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ LEXING_DIR = lexing/
 LEXING     = handle_token lexer tokenize
 
 BUILTINS_DIR = builtins/
-BUILTINS = handle_builtins exit
+BUILTINS = handle_builtins echo exit pwd
 
 EXECUTING_DIR = executing/
 EXECUTING = execute execute_utils

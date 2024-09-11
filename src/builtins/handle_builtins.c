@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_builtins.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:59:00 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/09/10 22:49:14 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/09/11 14:46:04 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,42 @@
 
 int	execute_builtin(t_cmd *cmd)
 {
-	if (ft_strcmp(cmd->args[0], "exit") == 0)
-		return (my_exit(cmd));
-	return (0); // Si ce n'est pas un builtin
+	int	res;
+
+	res = 1;
+	if (ft_strcmp(cmd->args[0], "echo") == 0)
+		res = my_echo(cmd);
+	/*else if (ft_strcmp(cmd->args[0], "cd") == 0)
+		res = my_cd(cmd);*/
+	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
+		res = my_pwd(cmd);
+	/*else if (ft_strcmp(cmd->args[0], "export") == 0)
+		res = my_export();
+	else if (ft_strcmp(cmd->args[0], "unset") == 0)
+		res = my_unset();
+	else if (ft_strcmp(cmd->args[0], "env") == 0)
+		res = my_env();*/
+	else if (ft_strcmp(cmd->args[0], "exit") == 0)
+		res = my_exit(cmd);
+	return (res);
 }
-int is_a_builtin(char *cmd)
+
+int	is_a_builtin(char *cmd)
 {
-	if (ft_strcmp(cmd, "exit") == 0)
+	if (ft_strcmp(cmd, "echo") == 0)
 		return (1);
-	return (0);
+	else if (ft_strcmp(cmd, "cd") == 0)
+		return (1);
+	else if (ft_strcmp(cmd, "pwd") == 0)
+		return (1);
+	else if (ft_strcmp(cmd, "export") == 0)
+		return (1);
+	else if (ft_strcmp(cmd, "unset") == 0)
+		return (1);
+	else if (ft_strcmp(cmd, "env") == 0)
+		return (1);
+	else if (ft_strcmp(cmd, "exit") == 0)
+		return (1);
+	else
+		return (0);
 }

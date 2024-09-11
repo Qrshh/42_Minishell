@@ -6,8 +6,23 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 21:03:45 by qrshh             #+#    #+#             */
-/*   Updated: 2024/09/09 18:25:14 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/09/11 14:46:58 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	my_pwd(t_cmd *cmd)
+{
+	char	cwd[PATH_MAX];
+
+	if (cmd->args[1])
+		return (ft_putstr_fd("exit: too many arguments\n", STDERR_FILENO), 1);
+	if (getcwd(cwd, PATH_MAX))
+	{
+		ft_putendl_fd(cwd, 1);
+		return (0);
+	}
+	else
+		return (1);
+}
