@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:10:08 by abesneux          #+#    #+#             */
-/*   Updated: 2024/09/09 19:57:49 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/09/17 12:57:51 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int		g_exit_status = 0;
 
 void	init_all(t_all *all)
 {
@@ -44,8 +46,61 @@ t_word	*token(t_all *all)
 	return (head);
 }
 
-void	shell_loop(t_all *all, char **env)
+int	get_num_digits(int num)
 {
+	int	count;
+
+	count = 0;
+	while (num != 0)
+	{
+		count++;
+		num /= 10;
+	}
+	return (count);
+}
+
+char	*dollar_question(char *line)
+{
+	int		len;
+	int		new_len;
+	char	*result;
+
+	len = strlen(line);
+	new_len = len;
+	int i, j, num_digits;
+	// Compter le nombre de "$?" dans la ligne
+	for (i = 0; i < len - 1; i++)
+	{
+		if (line[i] == '$' && line[i + 1] == '?')
+		{
+			num_digits = get_num_digits(g_exit_status);
+			new_len += num_digits - 2;
+		}
+	}
+	// Allouer de la mémoire pour le nouveau string
+	result = malloc(new_len + 1);
+	// Remplacer les "$?" par la valeur de g_exit_status
+	for (i = 0, j = 0; i < len; i++)
+	{
+		if (line[i] == '$' && line[i + 1] == '?')
+		{
+			sprintf(result + j, "%d", g_exit_status);
+			j += get_num_digits(g_exit_status);
+			i++;
+		}
+		else
+		{
+			result[j++] = line[i];
+		}
+	}
+	result[j] = '\0';
+	return (result);
+}
+
+void	shell_loop(t_all *all, t_env *env)
+{
+	char	*sig;
+
 	while (1)
 	{
 		all->input = read_and_trim_input();
@@ -54,27 +109,31 @@ void	shell_loop(t_all *all, char **env)
 		if (!check_syntax(all->input))
 		{
 			all->list = token(all);
+			sig = dollar_question(all->input);
 			print_list(all);
 			pre_execute(all->list, env);
+			free(sig);
 		}
 		reset_all(all);
 	}
 }
 
-int	main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **envp)
 {
 	t_all	*all;
+	t_env env;
 
 	(void)av;
+	env.env_cpy = copy_env(envp);
 	all = malloc(sizeof(t_all));
 	init_all(all);
 	if (!all)
 	{
-		ft_printf("Error while malloc\n");
+		printf("Error while malloc\n");
 		return (1);
 	}
 	if (ac == 1)
-		shell_loop(all, env);
+		shell_loop(all, &env);
 	free(all);
 	clear_history();
 	return (0);

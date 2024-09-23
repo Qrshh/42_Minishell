@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 21:04:49 by abesneux          #+#    #+#             */
-/*   Updated: 2024/09/09 20:23:03 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/09/17 12:58:21 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_cmd	*init_cmd(t_cmd *cmd, t_word *list)
 	return (cmd);
 }
 
-void	pre_execute(t_word *list, char **env)
+void	pre_execute(t_word *list, t_env *env)
 {
 	t_cmd	*cmd;
 	int		i;

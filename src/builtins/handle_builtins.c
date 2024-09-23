@@ -6,13 +6,13 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:59:00 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/09/11 14:46:04 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/09/18 13:43:13 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	execute_builtin(t_cmd *cmd)
+int	execute_builtin(t_cmd *cmd, t_env *env)
 {
 	int	res;
 
@@ -23,12 +23,12 @@ int	execute_builtin(t_cmd *cmd)
 		res = my_cd(cmd);*/
 	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
 		res = my_pwd(cmd);
-	/*else if (ft_strcmp(cmd->args[0], "export") == 0)
-		res = my_export();
-	else if (ft_strcmp(cmd->args[0], "unset") == 0)
-		res = my_unset();
+	else if (ft_strcmp(cmd->args[0], "export") == 0)
+		res = my_export(cmd, env);
+	/*else if (ft_strcmp(cmd->args[0], "unset") == 0)
+		res = my_unset();*/
 	else if (ft_strcmp(cmd->args[0], "env") == 0)
-		res = my_env();*/
+		res = my_env(cmd, env);
 	else if (ft_strcmp(cmd->args[0], "exit") == 0)
 		res = my_exit(cmd);
 	return (res);

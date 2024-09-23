@@ -6,11 +6,39 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:12 by abesneux          #+#    #+#             */
-/*   Updated: 2024/09/11 14:45:46 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/09/17 13:22:41 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	**copy_env(char **main_env)
+{
+	int	i;
+	int len;
+	char **str;
+
+	i = -1;
+	len = 0;
+	while (main_env[len])
+		len++;
+	str = malloc(sizeof(char *) * (len + 1));
+	if (!str)
+		return (NULL);
+	while (++i < len)
+	{
+		str[i] = ft_strdup(main_env[i]);
+		if (!str[i])
+		{
+			while (i > 0)
+				free(str[--i]);
+			free(str);
+			return (NULL);
+		}
+	}
+	str[len] = NULL;
+	return (str);
+}
 
 char	*path_join(char *path, char *bin)
 {
@@ -58,7 +86,7 @@ char	*getpath(char *cmd, char **env)
 	return (cmd);
 }
 
-void	execute_command(t_cmd *cmd, char **env)
+void	execute_command(t_cmd *cmd, t_env *env)
 {
 	char	*path;
 	pid_t	pid;
@@ -69,19 +97,25 @@ void	execute_command(t_cmd *cmd, char **env)
 	// regarder si c'est un builtin :
 	if (is_a_builtin(cmd->args[0]))
 	{
-		execute_builtin(cmd);
+		g_exit_status = execute_builtin(cmd, env);
 		return ;
 	}
-	path = getpath(cmd->args[0], env);
+	path = getpath(cmd->args[0], env->env_cpy);
 	pid = fork();
 	if (pid == 0)
 	{
-		execve(path, cmd->args, env);
+		execve(path, cmd->args, env->env_cpy);
 		perror("Erreur d'exécution");
 		exit(EXIT_FAILURE);
 	}
 	else if (pid < 0)
+	{
 		perror("Erreur de fork");
+		g_exit_status = 1;
+	}
 	else
+	{
 		waitpid(pid, &status, 0);
+		g_exit_status = WEXITSTATUS(status);
+	}
 }
