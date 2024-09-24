@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:59:00 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/09/23 13:56:10 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/09/24 13:18:40 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int	execute_builtin(t_cmd *cmd, t_env *env)
 	res = 1;
 	if (ft_strcmp(cmd->args[0], "echo") == 0)
 		res = my_echo(cmd);
-	/*else if (ft_strcmp(cmd->args[0], "cd") == 0)
-		res = my_cd(cmd);*/
+	else if (ft_strcmp(cmd->args[0], "cd") == 0)
+		res = my_cd(cmd);
 	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
 		res = my_pwd(cmd);
 	else if (ft_strcmp(cmd->args[0], "export") == 0)

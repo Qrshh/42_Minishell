@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:10:08 by abesneux          #+#    #+#             */
-/*   Updated: 2024/09/23 16:12:24 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/09/24 13:31:30 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,44 +57,6 @@ int	get_num_digits(int num)
 		num /= 10;
 	}
 	return (count);
-}
-
-char	*dollar_question(char *line)
-{
-	int		len;
-	int		new_len;
-	char	*result;
-
-	len = strlen(line);
-	new_len = len;
-	int i, j, num_digits;
-	// Compter le nombre de "$?" dans la ligne
-	for (i = 0; i < len - 1; i++)
-	{
-		if (line[i] == '$' && line[i + 1] == '?')
-		{
-			num_digits = get_num_digits(g_exit_status);
-			new_len += num_digits - 2;
-		}
-	}
-	// Allouer de la mémoire pour le nouveau string
-	result = malloc(new_len + 1);
-	// Remplacer les "$?" par la valeur de g_exit_status
-	for (i = 0, j = 0; i < len; i++)
-	{
-		if (line[i] == '$' && line[i + 1] == '?')
-		{
-			sprintf(result + j, "%d", g_exit_status);
-			j += get_num_digits(g_exit_status);
-			i++;
-		}
-		else
-		{
-			result[j++] = line[i];
-		}
-	}
-	result[j] = '\0';
-	return (result);
 }
 
 void	shell_loop(t_all *all, t_env *env)
