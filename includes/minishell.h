@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/09/24 13:41:39 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/09/24 15:57:01 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void					handle_sigquit(int signal);
 // BUILTINS
 int						my_exit(t_cmd *cmd);
 int						my_export(t_cmd *cmd, t_env *env);
-int						my_cd(t_cmd *cmd);
+int						my_cd(t_cmd *cmd, t_env *env);
 int						my_echo(t_cmd *cmd);
 int						my_pwd(t_cmd *cmd);
 int						my_env(t_cmd *cmd, t_env *env);
