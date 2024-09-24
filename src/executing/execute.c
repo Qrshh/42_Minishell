@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:12 by abesneux          #+#    #+#             */
-/*   Updated: 2024/09/17 13:22:41 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/09/24 12:53:15 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ void	execute_command(t_cmd *cmd, t_env *env)
 
 	if (cmd->args[0] == NULL)
 		return ;
-	// regarder si c'est un builtin :
 	if (is_a_builtin(cmd->args[0]))
 	{
 		g_exit_status = execute_builtin(cmd, env);
@@ -109,13 +108,9 @@ void	execute_command(t_cmd *cmd, t_env *env)
 		exit(EXIT_FAILURE);
 	}
 	else if (pid < 0)
-	{
 		perror("Erreur de fork");
-		g_exit_status = 1;
-	}
 	else
 	{
 		waitpid(pid, &status, 0);
-		g_exit_status = WEXITSTATUS(status);
 	}
 }

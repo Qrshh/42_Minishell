@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/09/17 14:01:13 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/09/23 13:56:41 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,6 @@ typedef struct s_environement
 {
 	char				**env_cpy;
 }						t_env;
-
-typedef struct s_env_var
-{
-	char				*name;
-	char				*value;
-	int					exported;
-	struct s_env_var	*next;
-}						t_env_var;
 
 typedef struct s_word
 {
@@ -133,7 +125,9 @@ int						my_cd(t_cmd *cmd);
 int						my_echo(t_cmd *cmd);
 int						my_pwd(t_cmd *cmd);
 int						my_env(t_cmd *cmd, t_env *env);
+int						my_unset(t_cmd *cmd, t_env *env);
 void					sort_tab(char **env_cpy);
+int						count_tab(char **env_cpy);
 // TESTS
 void					print_list(t_all *all);
 

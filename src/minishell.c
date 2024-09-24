@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:10:08 by abesneux          #+#    #+#             */
-/*   Updated: 2024/09/17 12:57:51 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/09/23 16:12:24 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,11 @@ void	shell_loop(t_all *all, t_env *env)
 		all->input = read_and_trim_input();
 		if (!all->input)
 			break ;
+		if (all->input[0] == '\0')
+		{
+			free(all->input);
+			continue;
+		}
 		if (!check_syntax(all->input))
 		{
 			all->list = token(all);

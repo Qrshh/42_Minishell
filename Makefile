@@ -6,7 +6,7 @@
 #    By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/27 09:05:48 by abesneux          #+#    #+#              #
-#    Updated: 2024/09/17 14:01:18 by ozdemir          ###   ########.fr        #
+#    Updated: 2024/09/23 14:01:44 by ozdemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ LEXING_DIR = lexing/
 LEXING     = handle_token lexer tokenize
 
 BUILTINS_DIR = builtins/
-BUILTINS = handle_builtins echo exit pwd export export_utils env
+BUILTINS = handle_builtins echo exit pwd export export_utils env unset
 
 EXECUTING_DIR = executing/
 EXECUTING = execute execute_utils
