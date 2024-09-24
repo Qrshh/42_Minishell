@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/09/24 13:18:35 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/09/24 13:41:39 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,10 @@ int						is_space(char c);
 char					**list_to_array(t_word *list);
 t_cmd					*init_cmd(t_cmd *cmd, t_word *list);
 int						count_list(t_word *list);
+
+// PARSING
+
+char *handle_dollar(char *input, t_env *env);
 
 // TOKENISATION
 

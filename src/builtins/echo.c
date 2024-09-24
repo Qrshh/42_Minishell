@@ -6,24 +6,44 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 15:40:07 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/09/11 16:12:56 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/09/24 14:42:36 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	flag_check(t_cmd *cmd)
+{
+	int	i;
+	int	j;
+	int	flag;
+
+	i = 1;
+	flag = 0;
+	while (cmd->args[i] && cmd->args[i][0] == '-')
+	{
+		j = 1;
+		while (cmd->args[i][j] == 'n')
+			j++;
+		if (cmd->args[i][j] == '\0')
+		{
+			flag = 1;
+			i++;
+		}
+		else
+			break ;
+	}
+	return (flag);
+}
 int	my_echo(t_cmd *cmd)
 {
 	int	i;
 	int	flag;
 
 	i = 1;
-	flag = 0;
-	if (ft_strcmp(cmd->args[i], "-n") == 0)
-	{
-		flag = 1;
-		i++;
-	}
+	flag = flag_check(cmd);
+	if (flag == 1)
+		i = 2;
 	while (cmd->args[i])
 	{
 		ft_printf("%s", cmd->args[i]);

@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:10:08 by abesneux          #+#    #+#             */
-/*   Updated: 2024/09/24 13:31:30 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/09/24 13:52:02 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ int	get_num_digits(int num)
 
 void	shell_loop(t_all *all, t_env *env)
 {
-	char	*sig;
-
 	while (1)
 	{
 		all->input = read_and_trim_input();
@@ -75,11 +73,10 @@ void	shell_loop(t_all *all, t_env *env)
 		}
 		if (!check_syntax(all->input))
 		{
+			//all->input = handle_dollar(all->input, env);
 			all->list = token(all);
-			sig = dollar_question(all->input);
-			print_list(all);
+			//print_list(all);
 			pre_execute(all->list, env);
-			free(sig);
 		}
 		reset_all(all);
 	}
