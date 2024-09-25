@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:10:08 by abesneux          #+#    #+#             */
-/*   Updated: 2024/09/24 13:52:02 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/09/25 13:11:47 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	shell_loop(t_all *all, t_env *env)
 		}
 		if (!check_syntax(all->input))
 		{
-			//all->input = handle_dollar(all->input, env);
+			all->input = handle_dollar(all->input);
 			all->list = token(all);
 			//print_list(all);
 			pre_execute(all->list, env);

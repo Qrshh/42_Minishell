@@ -26,6 +26,7 @@ SRCS    		=		ft_is/ft_isalnum.c \
 					ft_mem/ft_memchr.c \
 					ft_str/ft_strlcat.c \
 					ft_mem/ft_memcmp.c \
+					ft_str/ft_strstr.c \
 					ft_str/ft_strnstr.c \
 					ft_to/ft_atoi.c \
 					ft_str/ft_strdup.c \

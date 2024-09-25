@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 20:58:31 by qrshh             #+#    #+#             */
-/*   Updated: 2024/09/24 16:15:55 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/09/25 12:23:26 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,26 +39,23 @@ int	my_cd(t_cmd *cmd, t_env *env)
 	char	*old_pwd;
 	char	*new_pwd;
 
+	old_pwd = getcwd(NULL, 0);
 	if (!cmd->args[1])
 	{
 		home = getenv("HOME");
 		if (!home)
 			return (printf("cd: HOME not set\n"), 1);
 		if (chdir(home) != 0)
-			return (printf("cd: no such file or directory: %s\n", home), 1);
+			return (printf("cd: no such file or dir: %s\n", home), 1);
 	}
-	else
+	else if (chdir(cmd->args[1]) != 0)
 	{
-		old_pwd = getenv("PWD");
-		if (chdir(cmd->args[1]) != 0)
-			return (printf("cd: no such file or directory: %s\n", cmd->args[1]),
-				1);
+		return (printf("cd: no such file or dir: %s\n", cmd->args[1]), 1);
 	}
 	new_pwd = getcwd(NULL, 0);
 	if (new_pwd)
 	{
-		if (old_pwd)
-			update_path(env, "OLDPWD", old_pwd);
+		update_path(env, "OLDPWD", old_pwd);
 		update_path(env, "PWD", new_pwd);
 		free(new_pwd);
 	}
