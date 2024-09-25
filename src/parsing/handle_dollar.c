@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 13:39:06 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/09/25 16:13:30 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/09/25 16:35:46 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*replace_var(char *input, char *var_name, char *var_value)
 
 	i = 0;
 	new_len = ft_strlen(input) - ft_strlen(var_name) + ft_strlen(var_value);
-	new_input = (char *)malloc(new_len + 1);
+	new_input = malloc(sizeof(char) * new_len + 1);
 	if (!new_input)
 		return (NULL);
 	pos = ft_strstr(input, var_name);

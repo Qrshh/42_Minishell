@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:06:00 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/09/18 16:46:14 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/09/25 16:37:09 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*create_env_var_string(char *name, char *value)
 
 	name_len = ft_strlen(name);
 	value_len = ft_strlen(value);
-	new_var = malloc(name_len + value_len + 2);
+	new_var = malloc(sizeof(int) * (name_len + value_len + 2));
 	if (!new_var)
 		return (NULL);
 	ft_strcpy(new_var, name);
