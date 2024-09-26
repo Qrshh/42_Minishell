@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:06:00 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/09/25 16:37:09 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/09/26 13:16:43 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,20 @@ int	update_var(char **env_cpy, char *name, char *value)
 int	add_new_var(t_env *env, char *name, char *value)
 {
 	int		count;
+	int		i;
 	char	**new_env_cpy;
 
+	i = 0;
 	count = 0;
 	while (env->env_cpy[count])
 		count++;
 	new_env_cpy = malloc(sizeof(char *) * (count + 2));
 	if (!new_env_cpy)
 		return (1);
-	for (int i = 0; i < count; i++)
+	while (i < count)
 	{
 		new_env_cpy[i] = env->env_cpy[i];
+		i++;
 	}
 	new_env_cpy[count] = create_env_var_string(name, value);
 	if (!new_env_cpy[count])
