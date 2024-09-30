@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/09/25 13:10:24 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/09/30 14:35:02 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int						count_list(t_word *list);
 
 // PARSING
 
-char *handle_dollar(char *input);
+char *handle_dollar(char *input, t_env *env);
 
 // TOKENISATION
 

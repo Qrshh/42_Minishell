@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:06:00 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/09/26 13:16:43 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/09/26 13:50:59 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,7 @@ int	add_new_var(t_env *env, char *name, char *value)
 	}
 	new_env_cpy[count] = create_env_var_string(name, value);
 	if (!new_env_cpy[count])
-	{
-		free(new_env_cpy);
-		return (1);
-	}
+		return (free(new_env_cpy), 1);
 	new_env_cpy[count + 1] = NULL;
 	free(env->env_cpy);
 	env->env_cpy = new_env_cpy;
