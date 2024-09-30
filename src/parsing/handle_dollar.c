@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 13:39:06 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/09/30 16:43:49 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/09/30 17:18:20 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*find_var_value(t_env *env, char *var_name)
 			return (&env->env_cpy[i][len + 1]);
 		i++;
 	}
-	return ("");
+	return (NULL);
 }
 
 char	*handle_dollar(char *input, t_env *env)
@@ -83,16 +83,16 @@ char	*handle_dollar(char *input, t_env *env)
 		{
 			var_name = get_var_name(&new_input[i + 1]);
 			var_value = find_var_value(env, var_name);
+			dollar_var_name = ft_strjoin("$", var_name);
 			if (var_value)
 			{
-				dollar_var_name = ft_strjoin("$", var_name);
 				new_input = replace_var(new_input, dollar_var_name, var_value);
 				free(dollar_var_name);
 				i += ft_strlen(var_value) - 1;
 			}
 			else
 			{
-				i++;
+				new_input = replace_var(new_input, dollar_var_name, "");
 			}
 			free(var_name);
 		}
