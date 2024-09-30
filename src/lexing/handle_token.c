@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 21:25:33 by abesneux          #+#    #+#             */
-/*   Updated: 2024/09/09 20:17:22 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/09/30 22:03:42 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,3 +99,24 @@ void	handle_word(char *input, int *i, t_word **head, t_word **current)
 	*i += len - 1;// Déplacez l'index à la fin du mot traité
 	free(word);
 }
+
+void handle_env(char *input, int *i, t_word **head, t_word **current)
+{
+    char *word;
+    int j;
+    t_word *new_node;
+
+
+    j = *i + 1;
+    while (input[j] && !is_space(input[j]) && input[j] != '"' && input[j] != '\'' && input[j] != ';')
+        j++;
+    if (j > *i + 1)
+    {
+        word = ft_strndup(&input[*i + 1], j - *i - 1);
+        new_node = init_lex(word, V_ENV);
+        add_to_list(head, current, new_node);
+        *i = j - 1;
+        free(word);
+    }
+}
+

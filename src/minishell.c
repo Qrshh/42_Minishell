@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:10:08 by abesneux          #+#    #+#             */
-/*   Updated: 2024/09/30 15:59:27 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/09/30 22:09:04 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ t_word	*token(t_all *all)
 			handle_operator(all->input, &i, &head, &current);
 		else if (all->input[i] == '\'')
 			handle_single_quote(all->input, &i, &head, &current);
+		else if (all->input[i] == '$')
+			handle_env(all->input, &i, &head, &current);
 		else
 			handle_word(all->input, &i, &head, &current);
 		i++;
@@ -73,9 +75,9 @@ void	shell_loop(t_all *all, t_env *env)
 		}
 		if (!check_syntax(all->input))
 		{
-			all->input = handle_dollar(all->input, env);
 			all->list = token(all);
-			//print_list(all);
+			all->list = handle_dollar(all, env);
+			print_list(all);
 			pre_execute(all->list, env);
 		}
 		reset_all(all);
