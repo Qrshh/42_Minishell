@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 13:39:06 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/10/01 20:36:21 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/01 20:41:13 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ t_word	*handle_dollar(t_all *all, t_env *env)
 			else
 				current->str = replace_var(current->str, dollar_var_name, "");
 		}
-		free(dollar_var_name);
 		current = current->next;
 	}
 	return (all->list);
