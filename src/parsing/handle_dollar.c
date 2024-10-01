@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 13:39:06 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/09/30 22:09:50 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/01 19:27:23 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,20 @@ char	*replace_var(char *input, char *var_name, char *var_value)
 
 	i = 0;
 	new_len = ft_strlen(input) - ft_strlen(var_name) + ft_strlen(var_value);
-	new_input = malloc(sizeof(char) * new_len + 1);
+	new_input = malloc(sizeof(char) * (ft_strlen(var_value) + 1));
 	if (!new_input)
 		return (NULL);
-	pos = ft_strstr(input, var_name);
+	// pos = ft_strstr(input, var_name);
+	pos = ft_strstr(var_name,input);
+	// printf("ft_strstr :%s\n", pos);
 	if (pos)
-	{
-		ft_strncpy(new_input, input, pos - input);
-		new_input[pos - input] = '\0';
-		ft_strcat(new_input, var_value);
-		ft_strcat(new_input, pos + strlen(var_name));
-	}
+	// {
+		ft_strncpy(new_input, var_value, ft_strlen(var_value)+1);
+		// new_input[pos - input] = '\0';
+		// ft_strcat(new_input, var_value);
+		// ft_strcat(new_input, pos + strlen(var_name));
+	// }
+	// printf("laaaa --new_input:%s\n", new_input);
 	free(input);
 	return (new_input);
 }
@@ -67,7 +70,7 @@ char	*find_var_value(t_env *env, char *var_name)
 
 t_word *handle_dollar(t_all *all, t_env *env)
 {
-    t_word *current; // Pointeur sur la liste de tokens
+    t_word *current;
     char *var_value;
     char *var_name; 
     char *dollar_var_name;
@@ -80,27 +83,17 @@ t_word *handle_dollar(t_all *all, t_env *env)
             var_name = get_var_name(current->str); // Obtenir le nom de la variable
             dollar_var_name = ft_strjoin("$", var_name); // Construire le nom avec le dollar
             var_value = find_var_value(env, var_name); // Trouver la valeur
-
-            // Si une valeur est trouvée, remplacer le contenu du token
             if (var_value)
-            {
-                // Libérer l'ancienne chaîne 
-                // Allouer et copier la nouvelle valeur
-                current->str = replace_var(current->str, dollar_var_name, var_value); 
-            }
+			{
+                current->str = replace_var(current->str, dollar_var_name, var_value);
+				free(dollar_var_name); 
+			}
             else
-            {
-                // Si aucune valeur n'est trouvée, on peut choisir de laisser le token tel quel
-                // ou de le remplacer par une chaîne vide, à définir selon votre logique.
-                current->str = ft_strdup(dollar_var_name); // Remplacer par $VAR sans valeur
-            }
-
-            // Libération de la mémoire utilisée pour le nom de la variable et le dollar_var_name
-            free(var_name);
-            free(dollar_var_name);
+                current->str = replace_var(current->str, dollar_var_name, "");
+			free(var_name);
         }
-        current = current->next; // Passer au token suivant
+		current = current->next;
     }
-    return all->list; // Retourner la liste des tokens modifiée
+    return all->list;
 }
 

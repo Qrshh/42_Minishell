@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+         #
+#    By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/27 09:05:48 by abesneux          #+#    #+#              #
-#    Updated: 2024/09/25 12:24:05 by ozdemir          ###   ########.fr        #
+#    Updated: 2024/10/01 19:15:00 by abesneux         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ SRC_DIR     = src/
 OBJ_DIR     = obj/
 
 CC          = cc
-CFLAGS      = -Wall -Wextra -Werror -g -I/opt/homebrew/opt/readline/include
+CFLAGS      = -Wall -Wextra -Werror -g3 -I/opt/homebrew/opt/readline/include
 LDFLAGS		= -L/opt/homebrew/opt/readline/lib -lreadline
 RM          = rm -rf
 
@@ -77,7 +77,7 @@ clean:
 					@make clean -C $(LIBFT_DIR)
 					$(RM) $(OBJ_DIR)
 					$(RM) $(OBJ_CACHE)
-					@printf "$(YELLOW)Object files cleaned\n$(RESET)"
+					@printf "$(YELLOW)Object files cleaned\$(RESET)"
 
 fclean: 		clean
 					@make fclean -C $(LIBFT_DIR)
