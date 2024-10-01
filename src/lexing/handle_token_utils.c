@@ -1,40 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strstr.c                                        :+:      :+:    :+:   */
+/*   handle_token_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/25 15:39:13 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/10/01 20:38:05 by abesneux         ###   ########.fr       */
+/*   Created: 2024/10/01 19:46:09 by abesneux          #+#    #+#             */
+/*   Updated: 2024/10/01 20:36:36 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "minishell.h"
 
-char	*ft_strstr(const char *str1, const char *str2)
+void	handle_double_quote(char *input, int *i, t_word **head,
+		t_word **current)
 {
-	size_t	i;
-	size_t	j;
+	char	*word;
+	int		j;
+	t_word	*new_node;
 
-	if (!*str2)
-		return ((char *)str1);
-	i = 0;
-	while (str1[i] != '\0')
+	j = *i + 1;
+	while (input[j] && input[j] != '\'')
+		j++;
+	if (input[j] == '"')
 	{
-		if (str1[i] == str2[0])
-		{
-			j = 0;
-			while (str2[j] != '\0')
-			{
-				if (str1[i + j] != str2[j])
-					break ;
-				j++;
-			}
-			if (str2[j] == '\0')
-				return ((char *)&str1[i]);
-		}
-		i++;
+		word = ft_strndup(&input[*i + 1], j - *i - 1);
+		new_node = init_lex(word, WORD);
+		add_to_list(head, current, new_node);
+		*i = j;
+		free(word);
 	}
-	return (NULL);
 }

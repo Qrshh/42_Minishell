@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:10:08 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/01 19:27:29 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/01 20:37:20 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ t_word	*token(t_all *all)
 			handle_operator(all->input, &i, &head, &current);
 		else if (all->input[i] == '\'')
 			handle_single_quote(all->input, &i, &head, &current);
+		else if (all->input[i] == '"')
+			handle_double_quote(all->input, &i, &head, &current);
 		else if (all->input[i] == '$')
 			handle_env(all->input, &i, &head, &current);
 		else
@@ -71,7 +73,7 @@ void	shell_loop(t_all *all, t_env *env)
 		if (all->input[0] == '\0')
 		{
 			free(all->input);
-			continue;
+			continue ;
 		}
 		if (!check_syntax(all->input))
 		{
@@ -87,7 +89,7 @@ void	shell_loop(t_all *all, t_env *env)
 int	main(int ac, char **av, char **envp)
 {
 	t_all	*all;
-	t_env env;
+	t_env	env;
 
 	(void)av;
 	env.env_cpy = copy_env(envp);

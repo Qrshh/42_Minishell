@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 13:38:02 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/09/17 13:39:55 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/10/01 20:38:43 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ int	count_tab(char **env_cpy)
 
 void	sort_tab(char **env_cpy)
 {
-	int i;
-	int swapped;
-	char *temp;
-	int count;
+	int		i;
+	int		swapped;
+	char	*temp;
+	int		count;
 
 	count = count_tab(env_cpy);
 	swapped = 1;

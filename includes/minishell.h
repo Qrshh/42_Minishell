@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/09/30 21:32:47 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/01 19:54:35 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,13 +102,15 @@ int					count_list(t_word *list);
 
 // PARSING
 
-t_word	*handle_dollar(t_all *all, t_env *env);
+t_word				*handle_dollar(t_all *all, t_env *env);
 
 // TOKENISATION
 
 // LEXING
 t_word				*init_lex(char *str, t_token token);
 void				handle_single_quote(char *input, int *i, t_word **head,
+						t_word **current);
+void				handle_double_quote(char *input, int *i, t_word **head,
 						t_word **current);
 void				handle_operator(char *input, int *i, t_word **head,
 						t_word **current);
@@ -117,6 +119,8 @@ void				handle_word(char *input, int *i, t_word **head,
 void				handle_env(char *input, int *i, t_word **head,
 						t_word **current);
 int					word_len(char *input, int i);
+void				add_to_list(t_word **head, t_word **current,
+						t_word *new_node);
 int					is_operator(char c);
 
 // SIGNALS
