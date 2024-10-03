@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 21:04:49 by abesneux          #+#    #+#             */
-/*   Updated: 2024/09/25 16:31:04 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/10/03 21:21:14 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ t_cmd	*init_cmd(t_cmd *cmd, t_word *list)
 	cmd->args = list_to_array(list);
 	cmd->pipe = NULL;
 	cmd->previous = NULL;
+	cmd->old_fd = dup(STDOUT_FILENO);
 	return (cmd);
 }
 
@@ -54,6 +55,11 @@ void	pre_execute(t_word *list, t_env *env)
 		return ;
 	}
 	init_cmd(cmd, list);
+	if(handle_operator_exec(cmd->list))
+	{
+		free(cmd);
+		return ;
+	}
 	if (list->token == 0)
 	{
 		execute_command(cmd, env);

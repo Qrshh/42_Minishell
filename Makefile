@@ -6,7 +6,7 @@
 #    By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/27 09:05:48 by abesneux          #+#    #+#              #
-#    Updated: 2024/10/01 19:51:48 by abesneux         ###   ########.fr        #
+#    Updated: 2024/10/03 19:30:54 by abesneux         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ LIBFT        = $(LIBFT_DIR)libft.a
 LIBFT_CFLAGS = -fPIC
 
 PARSING_DIR = parsing/
-PARSING 	= syntax_checker syntax_checker_utils handle_dollar
+PARSING 	= syntax_checker syntax_checker_utils handle_dollar handle_operator
 
 LEXING_DIR = lexing/
 LEXING     = handle_token lexer tokenize handle_token_utils

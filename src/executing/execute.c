@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:12 by abesneux          #+#    #+#             */
-/*   Updated: 2024/09/25 16:31:55 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/10/03 21:23:36 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,5 @@ void	execute_command(t_cmd *cmd, t_env *env)
 	else if (pid < 0)
 		perror("Erreur de fork");
 	else
-	{
 		waitpid(pid, &status, 0);
-	}
 }

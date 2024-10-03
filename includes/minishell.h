@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/01 19:54:35 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/03 21:21:03 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "Libft/libft.h"
+# include <fcntl.h>
 # include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -58,6 +59,7 @@ typedef struct s_cmd
 {
 	t_word			*list;
 	char			**args;
+	int				old_fd;
 	struct s_cmd	*pipe;
 	struct s_cmd	*previous;
 }					t_cmd;
@@ -99,6 +101,7 @@ int					is_space(char c);
 char				**list_to_array(t_word *list);
 t_cmd				*init_cmd(t_cmd *cmd, t_word *list);
 int					count_list(t_word *list);
+int					handle_operator_exec(t_word *list);
 
 // PARSING
 
