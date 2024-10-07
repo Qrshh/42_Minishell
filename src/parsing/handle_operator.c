@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 18:28:53 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/03 21:21:05 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/07 19:31:54 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	handle_outfile(t_word *list)
     fd = -1;
     if(list->token == RIGHT)
 	    fd = open(list->next->str, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	else if (list->token == DOUBLE_RIGHT)
+		fd = open(list->next->str, O_CREAT | O_RDWR | O_APPEND, 0644);
 	if (fd < 0)
 	{
 		ft_putstr_fd("outfile : error\n", STDERR_FILENO);
@@ -43,7 +45,7 @@ int	handle_operator_exec(t_word *list)
 	current = list;
 	while (current)
 	{
-		if (current->token == RIGHT)
+		if (current->token == RIGHT || current->token == DOUBLE_RIGHT)
 		{
             if(handle_outfile(current))
                 return (1);

@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:12 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/03 21:23:36 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/07 20:03:58 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void	execute_command(t_cmd *cmd, t_env *env)
 	}
 	path = getpath(cmd->args[0], env->env_cpy);
 	pid = fork();
+	//faire une fonction qui permet a excve de pas prendre en compte les choses que l'ont fait nous meme genre les redirections
 	if (pid == 0)
 	{
 		execve(path, cmd->args, env->env_cpy);
