@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/03 21:21:03 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/08 18:47:12 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ typedef struct s_cmd
 {
 	t_word			*list;
 	char			**args;
-	int				old_fd;
+	int				old_out;
+	int 			old_inf;
 	struct s_cmd	*pipe;
 	struct s_cmd	*previous;
 }					t_cmd;

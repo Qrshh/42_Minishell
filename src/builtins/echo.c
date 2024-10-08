@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 15:40:07 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/10/07 19:52:53 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/08 18:46:24 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,29 +36,29 @@ int	flag_check(t_cmd *cmd)
 	return (flag);
 }
 
-int my_echo(t_cmd *cmd)
+int	my_echo(t_cmd *cmd)
 {
-	t_word *current;
-	int flag;
+	t_word	*current;
+	int		flag;
 
 	current = cmd->list;
 	current = current->next;
 	flag = flag_check(cmd);
-	if(flag)
+	if (flag)
 		current = current->next;
-	while(current)
+	while (current)
 	{
-		if(current->token == WORD || current->token == V_ENV)
+		if (current->token == WORD || current->token == V_ENV)
 		{
 			ft_printf("%s", current->str);
-			if(current->next)
+			if (current->next)
 				ft_printf(" ");
 		}
-		else 
+		else
 			break ;
 		current = current->next;
 	}
-	if(!flag)
+	if (!flag)
 		ft_printf("\n");
-	return(0);
+	return (0);
 }

@@ -6,11 +6,19 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 21:04:49 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/07 19:35:15 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/08 20:42:53 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void reset_all_fd(t_cmd *cmd)
+{
+	dup2(cmd->old_out, STDOUT_FILENO);
+	close(cmd->old_out);
+	dup2(cmd->old_inf, STDIN_FILENO);
+	close(cmd->old_inf);
+}
 
 int	check_cmd(char *word, char **env)
 {
@@ -38,7 +46,8 @@ t_cmd	*init_cmd(t_cmd *cmd, t_word *list)
 	cmd->args = list_to_array(list);
 	cmd->pipe = NULL;
 	cmd->previous = NULL;
-	cmd->old_fd = dup(STDOUT_FILENO);
+	cmd->old_out = dup(STDOUT_FILENO);
+	cmd->old_inf = dup(STDIN_FILENO);
 	return (cmd);
 }
 
@@ -57,17 +66,13 @@ void	pre_execute(t_word *list, t_env *env)
 	init_cmd(cmd, list);
 	if(handle_operator_exec(cmd->list))
 	{
-		dup2(cmd->old_fd, STDOUT_FILENO);
-		close(cmd->old_fd);
+		reset_all_fd(cmd);
 		free(cmd);
 		return ;
 	}
 	if (list->token == 0)
-	{
 		execute_command(cmd, env);
-	}
-	dup2(cmd->old_fd, STDOUT_FILENO);
-	close(cmd->old_fd);
+	reset_all_fd(cmd);
 	if (cmd->args)
 	{
 		while (cmd->args[i] != NULL)
