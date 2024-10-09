@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:12 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/09 16:22:37 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/10/09 16:57:42 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,15 +99,13 @@ void	execute_command(t_cmd *cmd, t_env *env)
 		g_exit_status = execute_builtin(cmd, env);
 		return ;
 	}
-	else
-		g_exit_status = 127;
 	path = getpath(cmd->args[0], env->env_cpy);
 	pid = fork();
 	if (pid == 0)
 	{
 		execve(path, cmd->args, env->env_cpy);
 		perror("Erreur d'exécution");
-		exit(EXIT_FAILURE);
+		exit(127);
 	}
 	else if (pid < 0)
 		perror("Erreur de fork");
@@ -117,6 +115,6 @@ void	execute_command(t_cmd *cmd, t_env *env)
 		if (WIFEXITED(status))
 			g_exit_status = WEXITSTATUS(status);
 		else
-			g_exit_status = 1;
+			g_exit_status = 128 + WTERMSIG(status);;
 	}
 }
