@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:12 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/09 16:57:42 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/10/09 17:09:35 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 char	**copy_env(char **main_env)
 {
-	int	i;
-	int len;
-	char **str;
+	int		i;
+	int		len;
+	char	**str;
 
 	i = -1;
 	len = 0;
@@ -115,6 +115,6 @@ void	execute_command(t_cmd *cmd, t_env *env)
 		if (WIFEXITED(status))
 			g_exit_status = WEXITSTATUS(status);
 		else
-			g_exit_status = 128 + WTERMSIG(status);;
+			g_exit_status = 128 + WTERMSIG(status);
 	}
 }

@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   handle_operator.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 18:28:53 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/08 20:40:14 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/09 17:07:10 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// faire une fonction handle operator qui appellera differentes fonctions en fonction de l'operateur
 
 #include "minishell.h"
 

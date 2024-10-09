@@ -71,16 +71,13 @@ void	print_list(t_all *all)
 {
 	t_word	*current;
 
-	current = all->list; // Commencez par le premier élément de la liste
+	current = all->list;
 	while (current != NULL)
 	{
-		// Affichez les informations que vous souhaitez pour chaque élément
 		printf("Index: %d\n", current->index);
 		printf("String: %s\n", current->str);
 		printf("Token: %d\n", current->token);
-		// Supposez que t_token est un type numérique, sinon adaptez
 		printf("----------\n");
-		// Passez à l'élément suivant dans la liste chaînée
 		current = current->next;
 	}
 }

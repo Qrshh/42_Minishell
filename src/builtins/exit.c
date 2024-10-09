@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:37:35 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/08 20:52:04 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/09 17:12:08 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	my_exit(t_cmd *cmd)
 	else if (cmd->args[1] && is_str_digit(cmd->args[1]))
 		exit_code = ft_atoi(cmd->args[1]);
 	else
-		return (ft_putstr_fd("exit: numeric argument required\n", STDERR_FILENO), 1);
+		return (ft_putstr_fd("exit: numeric argument required\n",
+				STDERR_FILENO), 1);
 	exit(exit_code);
 }

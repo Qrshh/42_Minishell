@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:06:00 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/10/01 20:38:32 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/09 17:13:34 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	my_export(t_cmd *cmd, t_env *env)
 			if (egal != -1)
 				printf("%.*s=\"%s\"\n", egal, env->env_cpy[i],
 					&env->env_cpy[i][egal + 1]);
-			else //%.*s affiche une string jusqua * (egal ici)
+			else
 				printf("%s\n", env->env_cpy[i]);
 			i++;
 		}

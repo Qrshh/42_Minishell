@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 13:39:06 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/10/09 16:24:02 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/10/09 17:07:16 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_word	*handle_dollar(t_all *all, t_env *env)
 				free(dollar_var_name);
 				free(var_name);
 				current = current->next;
-				continue;
+				continue ;
 			}
 			var_value = find_var_value(env, var_name);
 			if (var_value)

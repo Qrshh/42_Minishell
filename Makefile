@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+         #
+#    By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/27 09:05:48 by abesneux          #+#    #+#              #
-#    Updated: 2024/10/03 19:30:54 by abesneux         ###   ########.fr        #
+#    Updated: 2024/10/09 17:13:49 by ozdemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ BUILTINS_DIR = builtins/
 BUILTINS = handle_builtins echo exit pwd export export_utils env unset cd
 
 EXECUTING_DIR = executing/
-EXECUTING = execute execute_utils
+EXECUTING = execute execute_utils execute_utils2
 
 SRC_FILES  += minishell utils signal
 SRC_FILES += $(addprefix $(BUILTINS_DIR), $(BUILTINS))

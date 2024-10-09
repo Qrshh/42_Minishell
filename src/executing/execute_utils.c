@@ -3,52 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 21:04:49 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/08 20:42:53 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/09 17:13:03 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void reset_all_fd(t_cmd *cmd)
+void	reset_all_fd(t_cmd *cmd)
 {
 	dup2(cmd->old_out, STDOUT_FILENO);
 	close(cmd->old_out);
 	dup2(cmd->old_inf, STDIN_FILENO);
 	close(cmd->old_inf);
-}
-
-int	check_cmd(char *word, char **env)
-{
-	char	*path;
-
-	path = getpath(word, env);
-	if (path && access(path, X_OK) == 0)
-	{
-		ft_printf("La commande '%s' est exécutable.\n", word);
-		return (1);
-	}
-	else
-	{
-		ft_printf("Commande non trouvée ou non exécutable: '%s'\n", word);
-		return (0);
-	}
-	if (path != word)
-		free(path);
-	return (0);
-}
-
-t_cmd	*init_cmd(t_cmd *cmd, t_word *list)
-{
-	cmd->list = list;
-	cmd->args = list_to_array(list);
-	cmd->pipe = NULL;
-	cmd->previous = NULL;
-	cmd->old_out = dup(STDOUT_FILENO);
-	cmd->old_inf = dup(STDIN_FILENO);
-	return (cmd);
 }
 
 void	pre_execute(t_word *list, t_env *env)
@@ -64,7 +33,7 @@ void	pre_execute(t_word *list, t_env *env)
 		return ;
 	}
 	init_cmd(cmd, list);
-	if(handle_operator_exec(cmd->list))
+	if (handle_operator_exec(cmd->list))
 	{
 		reset_all_fd(cmd);
 		free(cmd);
