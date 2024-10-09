@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_dollar.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 13:39:06 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/10/01 20:41:13 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/09 16:23:07 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*get_var_name(char *str)
 	char	*var_name;
 
 	i = 0;
+	if (ft_strcmp(str, "?") == 0)
+		return (ft_strdup("?"));
 	while (ft_isalnum(str[i]) || str[i] == '_')
 		i++;
 	var_name = ft_substr(str, 0, i);
@@ -34,17 +36,9 @@ char	*replace_var(char *input, char *var_name, char *var_value)
 	new_input = malloc(sizeof(char) * (ft_strlen(var_value) + 1));
 	if (!new_input)
 		return (NULL);
-	// pos = ft_strstr(input, var_name);
 	pos = ft_strstr(var_name, input);
-	// printf("ft_strstr :%s\n", pos);
 	if (pos)
-		// {
 		ft_strncpy(new_input, var_value, ft_strlen(var_value) + 1);
-	// new_input[pos - input] = '\0';
-	// ft_strcat(new_input, var_value);
-	// ft_strcat(new_input, pos + strlen(var_name));
-	// }
-	// printf("laaaa --new_input:%s\n", new_input);
 	free(input);
 	return (new_input);
 }
@@ -72,6 +66,7 @@ t_word	*handle_dollar(t_all *all, t_env *env)
 	char	*var_value;
 	char	*var_name;
 	char	*dollar_var_name;
+	char	*exit_status_str;
 
 	current = all->list;
 	while (current)
@@ -80,15 +75,25 @@ t_word	*handle_dollar(t_all *all, t_env *env)
 		{
 			var_name = get_var_name(current->str);
 			dollar_var_name = ft_strjoin("$", var_name);
+			if (ft_strcmp(var_name, "?") == 0)
+			{
+				exit_status_str = ft_itoa(g_exit_status);
+				current->str = replace_var(current->str, "$?", exit_status_str);
+				free(dollar_var_name);
+				free(var_name);
+				current = current->next;
+				continue;
+			}
 			var_value = find_var_value(env, var_name);
 			if (var_value)
 			{
 				current->str = replace_var(current->str, dollar_var_name,
 						var_value);
-				free(dollar_var_name);
 			}
 			else
 				current->str = replace_var(current->str, dollar_var_name, "");
+			free(dollar_var_name);
+			free(var_name);
 		}
 		current = current->next;
 	}

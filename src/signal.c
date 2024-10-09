@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:31:37 by abesneux          #+#    #+#             */
-/*   Updated: 2024/09/04 15:24:31 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/10/09 16:18:08 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	handle_sigint(int signal)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+	g_exit_status = 130;
 }
 
 void	handle_sigquit(int signal)
