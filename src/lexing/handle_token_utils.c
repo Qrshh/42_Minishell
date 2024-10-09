@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_token_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 19:46:09 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/09 17:07:58 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/10/09 17:28:32 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,12 @@ void	handle_double_quote(char *input, int *i, t_word **head,
 		*i = j;
 		free(word);
 	}
+}
+
+int	is_token_redir(t_word *list)
+{
+	if (list->token == LEFT || list->token == RIGHT
+		|| list->token == DOUBLE_LEFT || list->token == DOUBLE_RIGHT)
+		return (1);
+	return (0);
 }

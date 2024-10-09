@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/09 17:08:46 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/10/09 17:29:03 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int					reset_all(t_all *all);
 void				init_all(t_all *all);
 void				free_tab(char **tab);
 void				skip_whitespaces(char *input, int *i);
+int					is_token_redir(t_word *list);
 
 // UTILS INPUT
 char				*read_and_trim_input(void);

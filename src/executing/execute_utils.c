@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 21:04:49 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/09 17:13:03 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/10/09 17:29:37 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,15 +83,20 @@ char	**list_to_array(t_word *list)
 	i = 0;
 	while (list && ft_strcmp(list->str, "|") != 0)
 	{
-		array[i] = ft_strdup(list->str);
-		if (!array[i++])
+		if(!is_token_redir(list))
 		{
-			perror("Erreur d'allocation mémoire");
-			while (i > 0)
-				free(array[--i]);
-			free(array);
-			return (NULL);
+			array[i] = ft_strdup(list->str);
+			if (!array[i++])
+			{
+				perror("Erreur d'allocation mémoire");
+				while (i > 0)
+					free(array[--i]);
+				free(array);
+				return (NULL);
+			}
 		}
+		else
+			list = list->next;
 		list = list->next;
 	}
 	array[i] = NULL;
