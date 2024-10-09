@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 21:04:49 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/09 17:29:37 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/09 17:55:34 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ char	**list_to_array(t_word *list)
 	i = 0;
 	while (list && ft_strcmp(list->str, "|") != 0)
 	{
-		if(!is_token_redir(list))
+		if (!is_token_redir(list))
 		{
 			array[i] = ft_strdup(list->str);
 			if (!array[i++])
