@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_operator.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 18:28:53 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/10 18:17:39 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/14 16:02:31 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,58 @@ int	handle_infile(t_word *list)
 	return (0);
 }
 
+int	redir_heredoc(void)
+{
+	int fd;
+
+	fd = open(".heredoc.tmp", O_RDONLY);
+	if (fd < 0)
+	{
+		ft_putstr_fd("heredoc : tmp error\n", STDERR_FILENO);
+		return (1);
+	}
+	if (dup2(fd, STDIN_FILENO) < 0)
+	{
+		ft_putstr_fd("heredoc : redirection error\n", STDERR_FILENO);
+		close(fd);
+		return (1);
+	}
+	close(fd);
+	unlink(".heredoc.tmp");
+	return (0);
+}
+
+int	handle_heredoc(char *delimiter)
+{
+	int	fd;
+	char	*line;
+
+	fd = open(".heredoc.tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (fd < 0)
+	{
+		ft_putstr_fd("heredoc : erreur creation tmp\n", STDERR_FILENO);
+		return (1);
+	}
+	while (g_exit_status != 130)
+	{
+		ft_putstr_fd("heredoc> ", STDOUT_FILENO);
+		line = get_next_line(STDIN_FILENO);
+		if (!line)
+			break;
+		line[ft_strlen(line) - 1] = '\0';
+		if (ft_strcmp(line, delimiter) == 0)
+		{
+			free(line);
+			break;
+		}
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
+		free(line);
+	}
+	close(fd);
+	return (0); 
+}
+
 int	handle_operator_exec(t_word *list)
 {
 	t_word	*current;
@@ -67,6 +119,13 @@ int	handle_operator_exec(t_word *list)
 		else if (current->token == LEFT)
 		{
 			if (handle_infile(current))
+				return (1);
+		}
+		else if (current->token == DOUBLE_LEFT)
+		{
+			if (handle_heredoc(current->next->str))
+				return (1);
+			if (redir_heredoc())
 				return (1);
 		}
 		current = current->next;
