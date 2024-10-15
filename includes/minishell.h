@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/15 16:44:28 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/10/15 16:50:29 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
-
 
 # define PATH_MAX 4096
 
@@ -109,8 +108,10 @@ int					handle_operator_exec(t_word *list);
 // PARSING
 
 t_word				*handle_dollar(t_all *all, t_env *env);
-void	heredoc_handler(int signum);
-void	sigaction_handle(void);
+void				heredoc_handler(int signum);
+void				sigaction_handle(void);
+int					handle_heredoc(char *delimiter);
+int					redir_heredoc(void);
 // TOKENISATION
 
 // LEXING
