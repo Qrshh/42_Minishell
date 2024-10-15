@@ -19,10 +19,10 @@ char	*read_and_trim_input(void)
 
 	input = readline("> ");
 	if (!input)
-		return (NULL);	
+		return (NULL);
+	else if (*input)
+		add_history(input);
 	trimmed_input = ft_strtrim(input, " \t");
-	if(trimmed_input && *trimmed_input)
-		add_history(trimmed_input);
 	free(input);
 	return (trimmed_input);
 }
