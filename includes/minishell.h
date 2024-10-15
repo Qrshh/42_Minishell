@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/09 17:29:03 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/15 14:26:17 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+
 
 # define PATH_MAX 4096
 
@@ -108,7 +109,7 @@ int					handle_operator_exec(t_word *list);
 // PARSING
 
 t_word				*handle_dollar(t_all *all, t_env *env);
-
+void sig_handler(void);
 // TOKENISATION
 
 // LEXING
