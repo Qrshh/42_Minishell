@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/15 14:26:17 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/10/15 16:44:28 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,8 @@ int					handle_operator_exec(t_word *list);
 // PARSING
 
 t_word				*handle_dollar(t_all *all, t_env *env);
-void sig_handler(void);
+void	heredoc_handler(int signum);
+void	sigaction_handle(void);
 // TOKENISATION
 
 // LEXING

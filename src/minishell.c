@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:10:08 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/15 15:48:21 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/15 16:45:45 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ int	main(int ac, char **av, char **envp)
 	t_all	*all;
 	t_env	env;
 
-	sig_handler();
 	(void)av;
 	env.env_cpy = copy_env(envp);
 	all = malloc(sizeof(t_all));

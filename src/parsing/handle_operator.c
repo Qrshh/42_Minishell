@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_operator.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 18:28:53 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/15 15:48:52 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/15 16:45:48 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int	handle_heredoc(char *delimiter)
 	int		fd;
 	char	*line;
 
+	sigaction_handle();
 	g_exit_status = 0;
 	fd = open(".heredoc.tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd < 0)
@@ -84,7 +85,7 @@ int	handle_heredoc(char *delimiter)
 		ft_putstr_fd("heredoc : erreur creation tmp\n", STDERR_FILENO);
 		return (1);
 	}
-	while (g_exit_status != 130)
+	while (1)
 	{
 		ft_putstr_fd("heredoc> ", STDOUT_FILENO);
 		line = get_next_line(STDIN_FILENO);
