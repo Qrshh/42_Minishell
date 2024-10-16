@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 19:46:09 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/09 17:55:41 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/16 18:02:05 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	handle_double_quote(char *input, int *i, t_word **head,
 	t_word	*new_node;
 
 	j = *i + 1;
-	while (input[j] && input[j] != '"')
+	while (input[j] && input[j] != '\'')
 		j++;
 	if (input[j] == '"')
 	{
