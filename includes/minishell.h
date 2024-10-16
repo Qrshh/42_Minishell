@@ -6,13 +6,14 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/15 16:50:29 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/10/16 16:01:08 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# define _POSIX_C_SOURCE 200809L
 # include "Libft/libft.h"
 # include <fcntl.h>
 # include <limits.h>
