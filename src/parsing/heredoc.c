@@ -6,11 +6,21 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 16:54:03 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/10/16 16:31:38 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/10/21 16:29:18 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	restore_sigint(void)
+{
+	struct sigaction sa;
+
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sa.sa_handler = handle_sigint;
+	sigaction(SIGINT, &sa, NULL);
+}
 
 void	heredoc_handler(int signum)
 {
@@ -80,6 +90,7 @@ int	handle_heredoc(char *delimiter)
 		free(line);
 	}
 	close(fd);
+	restore_sigint();
 	if (g_exit_status == 130)
 	{
 		unlink(".heredoc.tmp");
