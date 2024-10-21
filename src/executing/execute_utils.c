@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 21:04:49 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/10 17:53:00 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/19 21:48:39 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	pre_execute(t_word *list, t_env *env)
 		return ;
 	}
 	init_cmd(cmd, list);
-	if (handle_operator_exec(cmd->list))
+	if (handle_operator_exec(cmd, env))
 	{
 		reset_all_fd(cmd);
 		free(cmd);

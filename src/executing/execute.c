@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:12 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/10 17:45:29 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/19 22:41:08 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,6 @@ char	*getpath(char *cmd, char **env)
 void	execute_command(t_cmd *cmd, t_env *env)
 {
 	char	*path;
-	pid_t	pid;
-	int		status;
 
 	if (cmd->args[0] == NULL)
 		return ;
@@ -99,22 +97,11 @@ void	execute_command(t_cmd *cmd, t_env *env)
 		g_exit_status = execute_builtin(cmd, env);
 		return ;
 	}
-	path = getpath(cmd->args[0], env->env_cpy);
-	pid = fork();
-	if (pid == 0)
+	else
 	{
+		path = getpath(cmd->args[0], env->env_cpy);
 		execve(path, cmd->args, env->env_cpy);
 		perror("Erreur d'exécution");
 		exit(127);
-	}
-	else if (pid < 0)
-		perror("Erreur de fork");
-	else
-	{
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			g_exit_status = WEXITSTATUS(status);
-		else
-			g_exit_status = 128 + WTERMSIG(status);
 	}
 }

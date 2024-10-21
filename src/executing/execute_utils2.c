@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:12:28 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/10/09 17:13:07 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/10/19 22:05:15 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,29 @@ int	check_cmd(char *word, char **env)
 	return (0);
 }
 
+int count_pipes(t_word *list)
+{
+	int count = 0;
+	while(list)
+	{
+		if(list->token == PIPE)
+			count++;
+		list = list->next;
+	}
+	return (count);
+}
+
 t_cmd	*init_cmd(t_cmd *cmd, t_word *list)
 {
 	cmd->list = list;
 	cmd->args = list_to_array(list);
-	cmd->pipe = NULL;
+	cmd->nb_pipes = count_pipes(list);
+	cmd->pid = malloc(sizeof(pid_t) * (cmd->nb_pipes + 1));
+	if(!cmd->pid)
+	{
+		ft_putstr_fd("WA T FOU", STDERR_FILENO);
+		return NULL;
+	}
 	cmd->previous = NULL;
 	cmd->old_out = dup(STDOUT_FILENO);
 	cmd->old_inf = dup(STDIN_FILENO);

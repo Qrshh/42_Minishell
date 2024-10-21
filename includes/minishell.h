@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/16 16:31:36 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/10/19 22:02:04 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@
 # include "Libft/libft.h"
 # include <fcntl.h>
 # include <limits.h>
+# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
 
-# define PATH_MAX 4096
+//# define PATH_MAX 4096
 
 typedef enum e_token
 {
@@ -61,8 +61,10 @@ typedef struct s_cmd
 	char			**args;
 	int				old_out;
 	int				old_inf;
-	struct s_cmd	*pipe;
+	int				nb_pipes;
+	int 			*pid;
 	struct s_cmd	*previous;
+	char 			**post_pipe;
 }					t_cmd;
 
 typedef struct s_all
@@ -103,7 +105,7 @@ int					is_space(char c);
 char				**list_to_array(t_word *list);
 t_cmd				*init_cmd(t_cmd *cmd, t_word *list);
 int					count_list(t_word *list);
-int					handle_operator_exec(t_word *list);
+int					handle_operator_exec(t_cmd *cmd, t_env *env);
 
 // PARSING
 
