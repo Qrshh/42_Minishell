@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:12 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/22 16:46:33 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/22 20:56:21 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,10 @@ char	*getpath(char *cmd, char **env)
 	return (cmd);
 }
 
-void exec(t_cmd *cmd, t_env *env)
+void	exec(t_cmd *cmd, t_env *env)
 {
-	char *path;
-	
+	char	*path;
+
 	if (is_a_builtin(cmd->args[0]))
 	{
 		g_exit_status = execute_builtin(cmd, env);
@@ -102,29 +102,34 @@ void exec(t_cmd *cmd, t_env *env)
 	}
 }
 
-void process_pipe(t_cmd *cmd, t_env *env)
+void	process_pipe(t_cmd *cmd, t_env *env)
 {
-	pid_t pid;
-	pid_t pid2;
-	int 	pipefd[2];
-	// ft_printf("%d\n", cmd->flag_pipe);
+	pid_t	pid;
+	pid_t	pid2;
+	int		pipefd[2];
 
-	if(pipe(pipefd) < 0)
+	if (pipe(pipefd) < 0)
 		return ;
 	pid = fork();
-	if(pid < 0)
+	if (pid < 0)
 		return ;
-	if(pid == 0)
+	if (pid == 0)
 	{
 		close(pipefd[0]);
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[1]);
-		exec(cmd, env);
+		if (is_a_builtin(cmd->args[0]))
+		{
+			g_exit_status = execute_builtin(cmd, env);
+			exit(g_exit_status);
+		}
+		else
+			exec(cmd, env);
 	}
 	pid2 = fork();
-	if(pid2 < 0)
+	if (pid2 < 0)
 		return ;
-	if(pid2 == 0)
+	if (pid2 == 0)
 	{
 		close(pipefd[1]);
 		dup2(pipefd[0], STDIN_FILENO);
@@ -146,24 +151,14 @@ void	execute_command(t_cmd *cmd, t_env *env)
 
 	if (cmd->args[0] == NULL)
 		return ;
-
 	path = getpath(cmd->args[0], env->env_cpy);
-	if(cmd->flag_pipe)
+	if (cmd->flag_pipe)
 		process_pipe(cmd, env);
-	else 
+	else
 	{
-		if (is_a_builtin(cmd->args[0]))
-		{
-			g_exit_status = execute_builtin(cmd, env);
-			return ;
-		}
 		pid = fork();
 		if (pid == 0)
-		{
-			execve(path, cmd->args, env->env_cpy);
-			perror("Erreur d'exécution");
-			exit(127);
-		}
+			exec(cmd, env);
 		else if (pid < 0)
 			perror("Erreur de fork");
 		else
@@ -175,5 +170,4 @@ void	execute_command(t_cmd *cmd, t_env *env)
 				g_exit_status = 128 + WTERMSIG(status);
 		}
 	}
-
 }
