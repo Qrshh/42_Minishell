@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:12:28 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/10/21 13:01:42 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:23:45 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	count_list(t_word *list)
+{
+	int		count;
+	t_word	*temp;
+
+	count = 0;
+	temp = list;
+	while (temp && ft_strcmp(temp->str, "|") != 0)
+	{
+		count++;
+		temp = temp->next;
+	}
+	return (count);
+}
 
 int	check_cmd(char *word, char **env)
 {
@@ -32,12 +47,14 @@ int	check_cmd(char *word, char **env)
 	return (0);
 }
 
-int count_pipes(t_word *list)
+int	count_pipes(t_word *list)
 {
-	int count = 0;
-	while(list)
+	int	count;
+
+	count = 0;
+	while (list)
 	{
-		if(list->token == PIPE)
+		if (list->token == PIPE)
 			count++;
 		list = list->next;
 	}
@@ -50,10 +67,10 @@ t_cmd	*init_cmd(t_cmd *cmd, t_word *list)
 	cmd->args = list_to_array(list);
 	cmd->nb_pipes = count_pipes(list);
 	cmd->pid = malloc(sizeof(pid_t) * (cmd->nb_pipes + 1));
-	if(!cmd->pid)
+	if (!cmd->pid)
 	{
 		ft_putstr_fd("WA T FOU", STDERR_FILENO);
-		return NULL;
+		return (NULL);
 	}
 	cmd->previous = NULL;
 	cmd->old_out = dup(STDOUT_FILENO);

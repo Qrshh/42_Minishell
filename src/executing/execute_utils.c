@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 21:04:49 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/19 21:48:39 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:26:26 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,21 @@ void	reset_all_fd(t_cmd *cmd)
 	close(cmd->old_out);
 	dup2(cmd->old_inf, STDIN_FILENO);
 	close(cmd->old_inf);
+}
+
+void	free_cmd(t_cmd *cmd)
+{
+	int	i;
+
+	reset_all_fd(cmd);
+	if (cmd->args)
+	{
+		i = 0;
+		while (cmd->args[i])
+			free(cmd->args[i++]);
+		free(cmd->args);
+	}
+	free(cmd);
 }
 
 void	pre_execute(t_word *list, t_env *env)
@@ -42,31 +57,15 @@ void	pre_execute(t_word *list, t_env *env)
 	if (list->token == 0)
 		execute_command(cmd, env);
 	reset_all_fd(cmd);
-	if (cmd->args)
-	{
-		while (cmd->args[i] != NULL)
-		{
-			free(cmd->args[i]);
-			i++;
-		}
-		free(cmd->args);
-	}
-	free(cmd);
+	free_cmd(cmd);
 }
 
-int	count_list(t_word *list)
+char	**free_array(char **array, int i)
 {
-	int		count;
-	t_word	*temp;
-
-	count = 0;
-	temp = list;
-	while (temp && ft_strcmp(temp->str, "|") != 0)
-	{
-		count++;
-		temp = temp->next;
-	}
-	return (count);
+	while (i > 0)
+		free(array[--i]);
+	free(array);
+	return (NULL);
 }
 
 char	**list_to_array(t_word *list)
@@ -76,10 +75,7 @@ char	**list_to_array(t_word *list)
 
 	array = malloc((count_list(list) + 1) * sizeof(char *));
 	if (!array)
-	{
-		perror("Erreur d'allocation mémoire");
-		return (NULL);
-	}
+		return (perror("Erreur d'allocation mémoire"), NULL);
 	i = 0;
 	while (list && ft_strcmp(list->str, "|") != 0)
 	{
@@ -89,10 +85,7 @@ char	**list_to_array(t_word *list)
 			if (!array[i++])
 			{
 				perror("Erreur d'allocation mémoire");
-				while (i > 0)
-					free(array[--i]);
-				free(array);
-				return (NULL);
+				return (free_array(array, i));
 			}
 		}
 		else

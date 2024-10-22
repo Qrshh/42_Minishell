@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/21 15:59:28 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/10/22 13:07:13 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 # include "Libft/libft.h"
 # include <fcntl.h>
 # include <limits.h>
-# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/types.h>
@@ -62,9 +62,9 @@ typedef struct s_cmd
 	int				old_out;
 	int				old_inf;
 	int				nb_pipes;
-	int 			*pid;
+	int				*pid;
 	struct s_cmd	*previous;
-	char 			**post_pipe;
+	char			**post_pipe;
 }					t_cmd;
 
 typedef struct s_all

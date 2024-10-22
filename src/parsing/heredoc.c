@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 16:54:03 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/10/21 16:29:18 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/10/22 13:08:38 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	restore_sigint(void)
 {
-	struct sigaction sa;
+	struct sigaction	sa;
 
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
@@ -30,9 +30,10 @@ void	heredoc_handler(int signum)
 		write(1, "\n", 1);
 	}
 }
+
 void	sigaction_handle(void)
 {
-	struct sigaction sa;
+	struct sigaction	sa;
 
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
