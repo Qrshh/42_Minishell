@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:12:28 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/10/22 13:23:45 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/10/22 15:13:33 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,6 @@ t_cmd	*init_cmd(t_cmd *cmd, t_word *list)
 {
 	cmd->list = list;
 	cmd->args = list_to_array(list);
-	cmd->nb_pipes = count_pipes(list);
-	cmd->pid = malloc(sizeof(pid_t) * (cmd->nb_pipes + 1));
-	if (!cmd->pid)
-	{
-		ft_putstr_fd("WA T FOU", STDERR_FILENO);
-		return (NULL);
-	}
 	cmd->previous = NULL;
 	cmd->old_out = dup(STDOUT_FILENO);
 	cmd->old_inf = dup(STDIN_FILENO);
