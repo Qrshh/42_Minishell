@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:12 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/22 13:45:45 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:46:33 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,58 @@ char	*getpath(char *cmd, char **env)
 	return (cmd);
 }
 
+void exec(t_cmd *cmd, t_env *env)
+{
+	char *path;
+	
+	if (is_a_builtin(cmd->args[0]))
+	{
+		g_exit_status = execute_builtin(cmd, env);
+		return ;
+	}
+	else
+	{
+		path = getpath(cmd->args[0], env->env_cpy);
+		execve(path, cmd->args, env->env_cpy);
+	}
+}
+
+void process_pipe(t_cmd *cmd, t_env *env)
+{
+	pid_t pid;
+	pid_t pid2;
+	int 	pipefd[2];
+	// ft_printf("%d\n", cmd->flag_pipe);
+
+	if(pipe(pipefd) < 0)
+		return ;
+	pid = fork();
+	if(pid < 0)
+		return ;
+	if(pid == 0)
+	{
+		close(pipefd[0]);
+		dup2(pipefd[1], STDOUT_FILENO);
+		close(pipefd[1]);
+		exec(cmd, env);
+	}
+	pid2 = fork();
+	if(pid2 < 0)
+		return ;
+	if(pid2 == 0)
+	{
+		close(pipefd[1]);
+		dup2(pipefd[0], STDIN_FILENO);
+		close(pipefd[0]);
+		cmd->args = cmd->post_pipe;
+		exec(cmd, env);
+	}
+	close(pipefd[0]);
+	close(pipefd[1]);
+	waitpid(pid, NULL, 0);
+	waitpid(pid2, NULL, 0);
+}
+
 void	execute_command(t_cmd *cmd, t_env *env)
 {
 	char	*path;
@@ -94,27 +146,34 @@ void	execute_command(t_cmd *cmd, t_env *env)
 
 	if (cmd->args[0] == NULL)
 		return ;
-	if (is_a_builtin(cmd->args[0]))
-	{
-		g_exit_status = execute_builtin(cmd, env);
-		return ;
-	}
+
 	path = getpath(cmd->args[0], env->env_cpy);
-	pid = fork();
-	if (pid == 0)
+	if(cmd->flag_pipe)
+		process_pipe(cmd, env);
+	else 
 	{
-		execve(path, cmd->args, env->env_cpy);
-		perror("Erreur d'exécution");
-		exit(127);
-	}
-	else if (pid < 0)
-		perror("Erreur de fork");
-	else
-	{
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			g_exit_status = WEXITSTATUS(status);
+		if (is_a_builtin(cmd->args[0]))
+		{
+			g_exit_status = execute_builtin(cmd, env);
+			return ;
+		}
+		pid = fork();
+		if (pid == 0)
+		{
+			execve(path, cmd->args, env->env_cpy);
+			perror("Erreur d'exécution");
+			exit(127);
+		}
+		else if (pid < 0)
+			perror("Erreur de fork");
 		else
-			g_exit_status = 128 + WTERMSIG(status);
+		{
+			waitpid(pid, &status, 0);
+			if (WIFEXITED(status))
+				g_exit_status = WEXITSTATUS(status);
+			else
+				g_exit_status = 128 + WTERMSIG(status);
+		}
 	}
+
 }

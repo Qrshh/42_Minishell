@@ -6,20 +6,11 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 18:28:53 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/22 15:12:49 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:48:36 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	handle_pipe(t_cmd *cmd, t_env *env, t_word *current)
-{
-	(void)cmd;
-	(void)env;
-	(void)current;
-	ft_printf("Nique ta mere \n");
-	return(0);
-}
 
 int	handle_outfile(t_word *list)
 {
@@ -61,7 +52,7 @@ int	handle_infile(t_word *list)
 	return (0);
 }
 
-int	handle_operator_exec(t_cmd *cmd, t_env *env)
+int	handle_operator_exec(t_cmd *cmd)
 {
 	t_word	*current;
 
@@ -87,8 +78,8 @@ int	handle_operator_exec(t_cmd *cmd, t_env *env)
 		}
 		else if (current->token == PIPE)
 		{
-			if (handle_pipe(cmd, env, current))
-				return (1);
+			cmd->post_pipe = list_to_array(current->next);
+			cmd->flag_pipe = 1;
 		}
 		current = current->next;
 	}

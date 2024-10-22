@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/22 15:13:07 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:27:28 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,10 @@ typedef struct s_cmd
 {
 	t_word			*list;
 	char			**args;
+	char			**post_pipe;
 	int				old_out;
 	int				old_inf;
+	int				flag_pipe;
 	struct s_cmd	*previous;
 }					t_cmd;
 
@@ -102,8 +104,7 @@ int					is_space(char c);
 char				**list_to_array(t_word *list);
 t_cmd				*init_cmd(t_cmd *cmd, t_word *list);
 int					count_list(t_word *list);
-int					handle_operator_exec(t_cmd *cmd, t_env *env);
-
+int					handle_operator_exec(t_cmd *cmd);
 // PARSING
 
 t_word				*handle_dollar(t_all *all, t_env *env);
