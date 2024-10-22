@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_operator.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 18:28:53 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/22 13:36:21 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/10/22 13:44:15 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,61 +14,11 @@
 
 int	handle_pipe(t_cmd *cmd, t_env *env, t_word *current)
 {
-	int			pipefd[2];
-	static int	i = 0;
-	int			fd_in;
-
-	fd_in = STDIN_FILENO;
-	if (pipe(pipefd) == -1)
-	{
-		perror("Erreur lors de la création du pipe");
-		return (1);
-	}
-	cmd->pid[i] = fork();
-	if (cmd->pid[i] < 0)
-	{
-		perror("Erreur lors du fork");
-		return (1);
-	}
-	else if (cmd->pid[i] == 0)
-	{
-		if (current->previous && dup2(fd_in, STDIN_FILENO) == -1)
-		{
-			perror("Erreur dup2 fd_in");
-			exit(1);
-		}
-		close(pipefd[0]);
-		if (dup2(pipefd[1], STDOUT_FILENO) < 0)
-		{
-			perror("Erreur dup2 pipefd[1]");
-			exit(1);
-		}
-		close(pipefd[1]);
-		execute_command(cmd, env);
-	}
-	close(pipefd[1]);
-	cmd->pid[++i] = fork();
-	if (cmd->pid[i] < 0)
-	{
-		perror("Erreur lors du fork");
-		return (1);
-	}
-	else if (cmd->pid[i] == 0)
-	{
-		if (dup2(pipefd[0], STDIN_FILENO) == -1)
-		{
-			perror("Erreur dup2 pipefd[0]");
-			exit(1);
-		}
-		close(pipefd[0]);
-		cmd->args = cmd->post_pipe;
-		cmd->post_pipe = NULL;
-		execute_command(cmd, env);
-	}
-	close(pipefd[0]);
-	waitpid(cmd->pid[0], NULL, 0);
-	waitpid(cmd->pid[1], NULL, 0);
-	return (0);
+	(void)cmd;
+	(void)env;
+	(void)current;
+	ft_printf("Nique ta mere \n");
+	return(0);
 }
 
 int	handle_outfile(t_word *list)
