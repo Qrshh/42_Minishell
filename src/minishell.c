@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:10:08 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/22 13:07:35 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/10/22 13:49:05 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	init_all(t_all *all)
 	all->list = NULL;
 	init_signals();
 }
+
+3ds 
 
 t_word	*token(t_all *all)
 {
