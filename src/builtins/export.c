@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:06:00 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/10/09 17:13:34 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/10/23 16:12:48 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,23 @@ char	*create_env_var_string(char *name, char *value)
 	char	*new_var;
 	int		name_len;
 	int		value_len;
+	size_t		i;
 
+	i = 0;
 	name_len = ft_strlen(name);
 	value_len = ft_strlen(value);
 	new_var = malloc(sizeof(int) * (name_len + value_len + 2));
 	if (!new_var)
 		return (NULL);
+	while (i < ft_strlen(name))
+	{
+		if (!ft_isalpha(name[i]) && name[i] != '_')
+		{
+			perror("Syntax error");
+			return (NULL);
+		}
+		i++;
+	}
 	ft_strcpy(new_var, name);
 	new_var[name_len] = '=';
 	ft_strcpy(new_var + name_len + 1, value);

@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 18:28:53 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/22 16:48:36 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/23 14:49:04 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ int	handle_outfile(t_word *list)
 
 	fd = -1;
 	if (list->token == RIGHT)
-		fd = open(list->next->str, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	{
+		if(!is_operator(list->next->str[0]))
+			fd = open(list->next->str, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	}
 	else if (list->token == DOUBLE_RIGHT)
 		fd = open(list->next->str, O_CREAT | O_RDWR | O_APPEND, 0644);
 	if (fd < 0)

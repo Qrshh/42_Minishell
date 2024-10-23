@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:10:08 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/22 13:49:30 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/10/23 16:09:24 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_word	*token(t_all *all)
 			handle_single_quote(all->input, &i, &head, &current);
 		else if (all->input[i] == '"')
 			handle_double_quote(all->input, &i, &head, &current);
-		else if (all->input[i] == '$')
+		else if ((all->input[i] == '$' && ft_isalpha(all->input[i + 1])) || (all->input[i + 1] == '?'))
 			handle_env(all->input, &i, &head, &current);
 		else
 			handle_word(all->input, &i, &head, &current);

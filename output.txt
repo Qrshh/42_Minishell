@@ -1,0 +1,8 @@
+Makefile
+en.subject.pdf
+includes
+minishell
+obj
+output.txt
+src
+test.txt
