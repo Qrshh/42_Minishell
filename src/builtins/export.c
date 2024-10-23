@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:06:00 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/10/23 16:12:48 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/23 16:52:57 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,27 +93,33 @@ int	add_new_var(t_env *env, char *name, char *value)
 int	handle_export(t_cmd *cmd, t_env *env)
 {
 	int		i;
+	int		j;
 	char	*name;
 	char	*value;
 	int		update_result;
 
-	i = 0;
-	while (cmd->args[1][i] && cmd->args[1][i] != '=')
-		i++;
-	if (!cmd->args[1][i])
+	i = 1;
+	j = 0;
+	while (cmd->args[i])
 	{
-		printf("export: usage: export VARIABLE=value\n");
-		return (1);
+		while (cmd->args[i][j] && cmd->args[i][j] != '=')
+			j++;
+		if (!cmd->args[i][j])
+		{
+			printf("export: usage: export VARIABLE=value\n");
+			return (1);
+		}
+		name = ft_strndup(cmd->args[i], j);
+		value = ft_strdup(cmd->args[i] + j + 1);
+		if (!name || !value)
+			return (1);
+		update_result = update_var(env->env_cpy, name, value);
+		if (update_result == -1)
+			add_new_var(env, name, value);
+		free(name);
+		free(value);
+		i++;
 	}
-	name = ft_strndup(cmd->args[1], i);
-	value = ft_strdup(cmd->args[1] + i + 1);
-	if (!name || !value)
-		return (1);
-	update_result = update_var(env->env_cpy, name, value);
-	if (update_result == -1)
-		add_new_var(env, name, value);
-	free(name);
-	free(value);
 	return (0);
 }
 

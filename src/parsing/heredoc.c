@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 16:54:03 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/10/22 13:08:38 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/10/23 16:55:01 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	redir_heredoc(void)
 		close(fd);
 		return (1);
 	}
+	unlink(".heredoc.tmp");
 	close(fd);
 	return (0);
 }
