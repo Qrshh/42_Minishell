@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/22 16:27:28 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/22 21:24:29 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@
 # include "Libft/libft.h"
 # include <fcntl.h>
 # include <limits.h>
+# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
 
-# define PATH_MAX 4096
+//# define PATH_MAX 4096
 
 typedef enum e_token
 {

@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 21:04:49 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/22 20:49:51 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/22 22:22:43 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,7 @@ void	free_cmd(t_cmd *cmd)
 void	pre_execute(t_word *list, t_env *env)
 {
 	t_cmd	*cmd;
-	int		i;
 
-	i = 0;
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 	{

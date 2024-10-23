@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:12 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/22 20:56:21 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/22 22:31:55 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,14 +135,19 @@ void	process_pipe(t_cmd *cmd, t_env *env)
 		dup2(pipefd[0], STDIN_FILENO);
 		close(pipefd[0]);
 		cmd->args = cmd->post_pipe;
-		exec(cmd, env);
+		if (is_a_builtin(cmd->args[0]))
+		{
+			g_exit_status = execute_builtin(cmd, env);
+			exit(g_exit_status);
+		}
+		else
+			exec(cmd, env);
 	}
 	close(pipefd[0]);
 	close(pipefd[1]);
 	waitpid(pid, NULL, 0);
 	waitpid(pid2, NULL, 0);
 }
-
 void	execute_command(t_cmd *cmd, t_env *env)
 {
 	char	*path;
@@ -151,14 +156,24 @@ void	execute_command(t_cmd *cmd, t_env *env)
 
 	if (cmd->args[0] == NULL)
 		return ;
+
 	path = getpath(cmd->args[0], env->env_cpy);
-	if (cmd->flag_pipe)
+	if(cmd->flag_pipe)
 		process_pipe(cmd, env);
-	else
+	else 
 	{
+		if (is_a_builtin(cmd->args[0]))
+		{
+			g_exit_status = execute_builtin(cmd, env);
+			return ;
+		}
 		pid = fork();
 		if (pid == 0)
-			exec(cmd, env);
+		{
+			execve(path, cmd->args, env->env_cpy);
+			perror("Erreur d'exécution");
+			exit(127);
+		}
 		else if (pid < 0)
 			perror("Erreur de fork");
 		else
@@ -170,4 +185,5 @@ void	execute_command(t_cmd *cmd, t_env *env)
 				g_exit_status = 128 + WTERMSIG(status);
 		}
 	}
+
 }
