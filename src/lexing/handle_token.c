@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 21:25:33 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/09 17:07:56 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/10/24 13:23:15 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,16 +103,21 @@ void	handle_env(char *input, int *i, t_word **head, t_word **current)
 	int		j;
 	t_word	*new_node;
 
-	j = *i + 1;
-	while (input[j] && !is_space(input[j]) && input[j] != '"'
-		&& input[j] != '\'' && input[j] != ';')
-		j++;
-	if (j > *i + 1)
+	while (input[*i] && input[*i] == '$')
 	{
-		word = ft_strndup(&input[*i + 1], j - *i - 1);
-		new_node = init_lex(word, V_ENV);
-		add_to_list(head, current, new_node);
-		*i = j - 1;
-		free(word);
+		j = *i + 1;
+		while (input[j] && !is_space(input[j]) && input[j] != '"'
+			&& input[j] != '\'' && input[j] != ';' && input[j] != '$')
+			j++;
+		if (j > *i + 1)
+		{
+			word = ft_strndup(&input[*i + 1], j - *i - 1);
+			new_node = init_lex(word, V_ENV);
+			add_to_list(head, current, new_node);
+			*i = j - 1;
+			free(word);
+		}
+		*i += 1;
 	}
+
 }
