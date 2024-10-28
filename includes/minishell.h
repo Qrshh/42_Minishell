@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/22 21:24:29 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/28 15:56:09 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 # include "Libft/libft.h"
 # include <fcntl.h>
 # include <limits.h>
-# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/types.h>
@@ -130,6 +130,7 @@ int					word_len(char *input, int i);
 void				add_to_list(t_word **head, t_word **current,
 						t_word *new_node);
 int					is_operator(char c);
+void				merge_quoted_tokens(t_word **head, t_token quote_type);
 
 // SIGNALS
 void				init_signals(void);
