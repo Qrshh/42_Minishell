@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 19:46:09 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/28 17:54:11 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/28 18:58:32 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void merge_quoted_tokens(t_word **head, t_token quote_type)
                 free(next);
             }
             free(current->str);
-            ft_printf("test\n");
 			current->token = WORD;
             current->str = merged_content;
         }
@@ -51,8 +50,12 @@ void	handle_double_quote(char *input, int *i, t_word **head,
 	t_word	*new_node;
 
 	j = *i + 1;
-	while ((input[j] && input[j] != '"') )//|| (input[j] && input[j] != '\''))
+	while (input[j] && input[j] != '"' )
+    {
+        if(input[j] == '$')
+            return ;
 		j++;
+    }
 	if (input[j] == '"')
 	{
 		word = ft_strndup(&input[*i + 1], j - *i - 1);

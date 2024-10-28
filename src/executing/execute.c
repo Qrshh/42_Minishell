@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:12 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/28 15:22:11 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/28 18:33:38 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,7 @@ void	execute_command(t_cmd *cmd, t_env *env)
 		if (pid == 0)
 		{
 			execve(path, cmd->args, env->env_cpy);
-			perror("Erreur d'exécution");
+			perror("Command not found");
 			exit(127);
 		}
 		else if (pid < 0)
