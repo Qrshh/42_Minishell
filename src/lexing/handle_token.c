@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_token.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 21:25:33 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/24 13:23:15 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/10/28 17:52:08 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	handle_single_quote(char *input, int *i, t_word **head,
 	if (input[j] == '\'')
 	{
 		word = ft_strndup(&input[*i + 1], j - *i - 1);
-		new_node = init_lex(word, WORD);
+		new_node = init_lex(word, SINGLE_QUOTE);
 		add_to_list(head, current, new_node);
 		*i = j;
 		free(word);
