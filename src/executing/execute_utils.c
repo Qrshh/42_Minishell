@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 21:04:49 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/22 22:22:43 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/28 14:46:01 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	pre_execute(t_word *list, t_env *env)
 	init_cmd(cmd, list);
 	if (handle_operator_exec(cmd))
 	{
+		g_exit_status = 1;
 		reset_all_fd(cmd);
 		free(cmd);
 		return ;
