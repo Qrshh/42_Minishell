@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:12:28 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/10/22 16:17:32 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/29 18:16:10 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_cmd	*init_cmd(t_cmd *cmd, t_word *list)
 	cmd->list = list;
 	cmd->args = list_to_array(list);
 	cmd->post_pipe = NULL;
-	cmd->flag_pipe = 0;
+	cmd->nb_pipes = 0;
 	cmd->previous = NULL;
 	cmd->old_out = dup(STDOUT_FILENO);
 	cmd->old_inf = dup(STDIN_FILENO);

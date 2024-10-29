@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/28 15:56:09 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/29 19:27:46 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-//# define PATH_MAX 4096
+# define PATH_MAX 4096
 
 typedef enum e_token
 {
@@ -62,7 +62,7 @@ typedef struct s_cmd
 	char			**post_pipe;
 	int				old_out;
 	int				old_inf;
-	int				flag_pipe;
+	int				nb_pipes;
 	struct s_cmd	*previous;
 }					t_cmd;
 
@@ -77,6 +77,7 @@ extern int			g_exit_status;
 
 // INTIALISATION
 void				shell_loop(t_all *all, t_env *env);
+void	print_list_word(t_word *word);
 
 // UTILS ALL FUNCTIONS
 int					reset_all(t_all *all);
@@ -84,6 +85,7 @@ void				init_all(t_all *all);
 void				free_tab(char **tab);
 void				skip_whitespaces(char *input, int *i);
 int					is_token_redir(t_word *list);
+int					count_pipes(t_word *list);
 
 // UTILS INPUT
 char				*read_and_trim_input(void);

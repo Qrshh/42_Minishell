@@ -82,3 +82,18 @@ void	print_list(t_all *all)
 		current = current->next;
 	}
 }
+
+void	print_list_word(t_word *word)
+{
+	t_word	*current;
+
+	current = word;
+	while (current != NULL)
+	{
+		printf("Index: %d\n", current->index);
+		printf("String: %s\n", current->str);
+		printf("Token: %d\n", current->token);
+		printf("----------\n");
+		current = current->next;
+	}
+}

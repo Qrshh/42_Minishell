@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:12 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/28 18:33:38 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/29 20:21:04 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,52 +102,134 @@ void	exec(t_cmd *cmd, t_env *env)
 	}
 }
 
+// void	process_pipe(t_cmd *cmd, t_env *env)
+// {
+// 	pid_t		pid;
+// 	int			pipefd[2];
+// 	int	i = 0;
+// 	int fd_in = 0;
+
+// 	while(i <= cmd->nb_pipes)
+// 	{
+// 		if (pipe(pipefd) < 0)
+// 			return ;
+// 		pid = fork();
+// 		if (pid < 0)
+// 			return ;
+// 		if (pid == 0)
+// 		{
+// 			dup2(fd_in, 0);
+// 			if(i < cmd->nb_pipes)
+// 				dup2(pipefd[1], STDOUT_FILENO);
+// 			close(pipefd[0]);
+// 			if (is_a_builtin(cmd->args[0]))
+// 			{
+// 				g_exit_status = execute_builtin(cmd, env);
+// 				exit(g_exit_status);
+// 			}
+// 			else
+// 				exec(cmd, env);
+// 		}
+// 		// pid2 = fork();
+// 		// if (pid2 < 0)
+// 		// 	return ;
+// 		// if (pid2 == 0)
+// 		// {
+// 		// 	close(pipefd[1]);
+// 		// 	dup2(pipefd[0], STDIN_FILENO);
+// 		// 	close(pipefd[0]);
+// 		// 	cmd->args = cmd->post_pipe;
+// 		// 	if (is_a_builtin(cmd->args[0]))
+// 		// 	{
+// 		// 		g_exit_status = execute_builtin(cmd, env);
+// 		// 		exit(g_exit_status);
+// 		// 	}
+// 		// 	else
+// 		// 		exec(cmd, env);
+// 		// }
+// 		// close(pipefd[0]);
+// 		// close(pipefd[1]);
+// 		// waitpid(pid, NULL, 0);
+// 		// waitpid(pid2, NULL, 0);
+
+// 		else 
+// 		{
+// 			waitpid(pid, NULL, 0);
+// 			close(pipefd[1]);
+// 			fd_in = pipefd[0];
+// 		}
+// 		i++;
+// 	}
+
+// }
+
+void	pass_to_next(t_cmd *cmd, int *i)
+{
+	t_word *current;
+	int j;
+	int k;
+
+	k = 0;
+	j = 0;
+	current = cmd->list;
+	while(current)
+	{
+		if(current->token == PIPE)
+			j++;
+		if(j == *i)
+		{
+			while(current->token != PIPE)
+			{
+				cmd->args[k] = current->str;
+				k++;
+				current = current->next;
+			}
+			cmd->args[k] = NULL;
+			return ;
+		}
+		current = current->next;
+	}
+}
+
 void	process_pipe(t_cmd *cmd, t_env *env)
 {
 	pid_t	pid;
-	pid_t	pid2;
 	int		pipefd[2];
+	int		fd_in = 0;
+	int		i = 0;
 
-	if (pipe(pipefd) < 0)
-		return ;
-	pid = fork();
-	if (pid < 0)
-		return ;
-	if (pid == 0)
+	while (i <= cmd->nb_pipes)
 	{
-		close(pipefd[0]);
-		dup2(pipefd[1], STDOUT_FILENO);
-		close(pipefd[1]);
-		if (is_a_builtin(cmd->args[0]))
+		if (i <= cmd->nb_pipes && pipe(pipefd) < 0)
+			return ;
+		pid = fork();
+		if (pid < 0)
+			return ;
+		if (pid == 0)
 		{
-			g_exit_status = execute_builtin(cmd, env);
-			exit(g_exit_status);
+			dup2(fd_in, STDIN_FILENO);
+			if (i < cmd->nb_pipes)
+				dup2(pipefd[1], STDOUT_FILENO);
+			close(pipefd[0]);
+			if (is_a_builtin(cmd->args[0]))
+			{
+				g_exit_status = execute_builtin(cmd, env);
+				exit(g_exit_status);
+			}
+			else
+				exec(cmd, env);
 		}
 		else
-			exec(cmd, env);
-	}
-	pid2 = fork();
-	if (pid2 < 0)
-		return ;
-	if (pid2 == 0)
-	{
-		close(pipefd[1]);
-		dup2(pipefd[0], STDIN_FILENO);
-		close(pipefd[0]);
-		cmd->args = cmd->post_pipe;
-		if (is_a_builtin(cmd->args[0]))
 		{
-			g_exit_status = execute_builtin(cmd, env);
-			exit(g_exit_status);
+			waitpid(pid, NULL, 0);
+			close(pipefd[1]);
+			fd_in = pipefd[0];     
 		}
-		else
-			exec(cmd, env);
+		pass_to_next(cmd, &i);
+		i++;
 	}
-	close(pipefd[0]);
-	close(pipefd[1]);
-	waitpid(pid, NULL, 0);
-	waitpid(pid2, NULL, 0);
 }
+
 void	execute_command(t_cmd *cmd, t_env *env)
 {
 	char	*path;
@@ -156,11 +238,10 @@ void	execute_command(t_cmd *cmd, t_env *env)
 
 	if (cmd->args[0] == NULL)
 		return ;
-
 	path = getpath(cmd->args[0], env->env_cpy);
-	if(cmd->flag_pipe)
+	if (cmd->nb_pipes > 0)
 		process_pipe(cmd, env);
-	else 
+	else
 	{
 		if (is_a_builtin(cmd->args[0]))
 		{
@@ -185,5 +266,4 @@ void	execute_command(t_cmd *cmd, t_env *env)
 				g_exit_status = 128 + WTERMSIG(status);
 		}
 	}
-
 }

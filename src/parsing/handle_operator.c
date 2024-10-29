@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 18:28:53 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/23 14:49:04 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/29 18:13:42 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,7 @@ int	handle_operator_exec(t_cmd *cmd)
 				return (1);
 		}
 		else if (current->token == PIPE)
-		{
 			cmd->post_pipe = list_to_array(current->next);
-			cmd->flag_pipe = 1;
-		}
 		current = current->next;
 	}
 	return (0);
