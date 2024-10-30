@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 18:28:53 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/29 18:13:42 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/30 19:44:31 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,12 @@ int	handle_infile(t_word *list)
 int	handle_operator_exec(t_cmd *cmd)
 {
 	t_word	*current;
+	int 	i;
+	char 	*tmp;
 
+	i = 0;
 	current = cmd->list;
+	cmd->post_pipe = malloc(sizeof(char *) * (cmd->nb_pipes + 1));
 	while (current)
 	{
 		if (current->token == RIGHT || current->token == DOUBLE_RIGHT)
@@ -80,8 +84,32 @@ int	handle_operator_exec(t_cmd *cmd)
 				return (1);
 		}
 		else if (current->token == PIPE)
-			cmd->post_pipe = list_to_array(current->next);
+		{
+			ft_printf("test");
+			current = current->next;
+			tmp = ft_strdup("");  // Initialise tmp comme une chaîne vide
+
+			// Construire la commande jusqu’au prochain PIPE ou la fin de la liste
+			while (current && current->token != PIPE)
+			{
+				char *temp = ft_strjoin(tmp, current->str);
+				tmp = temp;  // Réassigner la nouvelle concaténation à tmp
+
+				current = current->next;
+				if (current && current->token != PIPE)  // Ajout d'un espace entre les mots
+				{
+					temp = ft_strjoin(tmp, " ");
+					free(tmp);
+					tmp = temp;
+				}
+			}
+
+			cmd->post_pipe[i++] = tmp;  // Ajouter la commande complète dans post_pipe
+			tmp = NULL;  // Réinitialiser tmp pour la prochaine commande
+		}
+		cmd->post_pipe[i] = NULL;
 		current = current->next;
 	}
 	return (0);
 }
+
