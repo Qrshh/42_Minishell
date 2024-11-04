@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/30 15:57:04 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/10/30 20:18:27 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct s_cmd
 	int				old_out;
 	int				old_inf;
 	int				nb_pipes;
+	struct s_cmd 	*next;
 	struct s_cmd	*previous;
 }					t_cmd;
 
