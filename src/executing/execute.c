@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:12 by abesneux          #+#    #+#             */
-/*   Updated: 2024/11/04 18:00:33 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/11/04 18:04:50 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,9 +139,7 @@ void	process_pipe(t_cmd *cmd, t_env *env)
 		cmd->args = cmd->post_pipe;
 		i++;
 		while(cmd->list && cmd->list->token != PIPE)
-		{
 			cmd->list = cmd->list->next;
-		}
 		cmd->post_pipe = list_to_array(cmd->list->next);
 	}
 }
