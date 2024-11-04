@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:12 by abesneux          #+#    #+#             */
-/*   Updated: 2024/11/04 18:04:50 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/11/04 20:16:24 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,11 +106,19 @@ void	process_pipe(t_cmd *cmd, t_env *env)
 {
 	pid_t	pid;
 	int		pipefd[2];
-	int		fd_in = 0;
-	int		i = 0;
+	int		fd_in;
+	int		i;
 
+	fd_in = 0;
+	i = 0;
 	while (i <= cmd->nb_pipes)
 	{
+		while (cmd->list && cmd->list->token != PIPE)
+			cmd->list = cmd->list->next;
+		if(cmd->list && cmd->list->token == PIPE)
+			cmd->post_pipe = list_to_array(cmd->list->next);
+		else 
+			cmd->post_pipe = NULL;
 		if (i <= cmd->nb_pipes && pipe(pipefd) < 0)
 			return ;
 		pid = fork();
@@ -134,13 +142,10 @@ void	process_pipe(t_cmd *cmd, t_env *env)
 		{
 			waitpid(pid, NULL, 0);
 			close(pipefd[1]);
-			fd_in = pipefd[0];     
+			fd_in = pipefd[0];
 		}
 		cmd->args = cmd->post_pipe;
 		i++;
-		while(cmd->list && cmd->list->token != PIPE)
-			cmd->list = cmd->list->next;
-		cmd->post_pipe = list_to_array(cmd->list->next);
 	}
 }
 
@@ -153,7 +158,8 @@ void	execute_command(t_cmd *cmd, t_env *env)
 	if (cmd->args[0] == NULL)
 		return ;
 	path = getpath(cmd->args[0], env->env_cpy);
-	if (cmd && cmd->nb_pipes > 0) {
+	if (cmd && cmd->nb_pipes > 0)
+	{
 		process_pipe(cmd, env);
 	}
 	else
