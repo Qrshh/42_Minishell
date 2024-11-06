@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:59:00 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/10/09 17:08:07 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/06 13:03:32 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	execute_builtin(t_cmd *cmd, t_env *env)
 	else if (ft_strcmp(cmd->args[0], "cd") == 0)
 		res = my_cd(cmd, env);
 	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
-		res = my_pwd(cmd);
+		res = my_pwd();
 	else if (ft_strcmp(cmd->args[0], "export") == 0)
 		res = my_export(cmd, env);
 	else if (ft_strcmp(cmd->args[0], "unset") == 0)

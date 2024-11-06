@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 15:40:07 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/10/09 17:08:23 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/06 17:43:32 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ int	flag_check(t_cmd *cmd)
 	while (cmd->args[i] && cmd->args[i][0] == '-')
 	{
 		j = 1;
-		while (cmd->args[i][j] == 'n')
+		while(cmd->args[i][j] == 'n')
 			j++;
 		if (cmd->args[i][j] == '\0')
 		{
-			flag = 1;
+			flag++;
 			i++;
 		}
 		else
@@ -40,25 +40,30 @@ int	my_echo(t_cmd *cmd)
 {
 	t_word	*current;
 	int		flag;
+	int	i;
 
+	i = 0;
 	current = cmd->list;
 	current = current->next;
 	flag = flag_check(cmd);
-	if (flag)
+	while (flag != 0 && i < flag)
+	{
 		current = current->next;
+		i++;
+	}
 	while (current)
 	{
 		if (current->token == WORD || current->token == V_ENV)
 		{
-			ft_printf("%s", current->str);
+			printf("%s", current->str);
 			if (current->next)
-				ft_printf(" ");
+				printf(" ");
 		}
 		else
 			break ;
 		current = current->next;
 	}
 	if (!flag)
-		ft_printf("\n");
+		printf("\n");
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/30 20:18:27 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/11/06 13:03:43 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-// # define PATH_MAX 4096
+# define PATH_MAX 4096
 
 typedef enum e_token
 {
@@ -145,7 +145,7 @@ int					my_exit(t_cmd *cmd);
 int					my_export(t_cmd *cmd, t_env *env);
 int					my_cd(t_cmd *cmd, t_env *env);
 int					my_echo(t_cmd *cmd);
-int					my_pwd(t_cmd *cmd);
+int					my_pwd();
 int					my_env(t_cmd *cmd, t_env *env);
 int					my_unset(t_cmd *cmd, t_env *env);
 void				sort_tab(char **env_cpy);

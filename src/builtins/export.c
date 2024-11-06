@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:06:00 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/10/23 16:52:57 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/06 16:16:00 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,10 @@ char	*create_env_var_string(char *name, char *value)
 		i++;
 	}
 	ft_strcpy(new_var, name);
-	new_var[name_len] = '=';
-	ft_strcpy(new_var + name_len + 1, value);
+	if (value_len > 0)
+		ft_strcpy(new_var + name_len, value);
+	else
+		new_var[name_len] = '\0';
 	return (new_var);
 }
 
@@ -47,10 +49,11 @@ int	update_var(char **env_cpy, char *name, char *value)
 
 	i = 0;
 	while (env_cpy[i])
-	{
-		if (ft_strncmp(env_cpy[i], name, ft_strlen(name)) == 0
-			&& env_cpy[i][strlen(name)] == '=')
+	{	
+		if (ft_strncmp(env_cpy[i], name, ft_strlen(name)) == 0)
 		{
+			if (value == NULL)
+				printf("same\n");
 			free(env_cpy[i]);
 			new_var = create_env_var_string(name, value);
 			if (!new_var)
@@ -99,19 +102,14 @@ int	handle_export(t_cmd *cmd, t_env *env)
 	int		update_result;
 
 	i = 1;
-	j = 0;
 	while (cmd->args[i])
 	{
+		j = 0;
 		while (cmd->args[i][j] && cmd->args[i][j] != '=')
 			j++;
-		if (!cmd->args[i][j])
-		{
-			printf("export: usage: export VARIABLE=value\n");
-			return (1);
-		}
 		name = ft_strndup(cmd->args[i], j);
-		value = ft_strdup(cmd->args[i] + j + 1);
-		if (!name || !value)
+		value = ft_strdup(cmd->args[i] + j);
+		if (!name)
 			return (1);
 		update_result = update_var(env->env_cpy, name, value);
 		if (update_result == -1)
