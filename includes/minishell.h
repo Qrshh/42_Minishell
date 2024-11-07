@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/30 20:18:27 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/11/07 16:57:47 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 # include "Libft/libft.h"
 # include <fcntl.h>
 # include <limits.h>
-# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/types.h>
@@ -51,6 +51,8 @@ typedef struct s_word
 	char			*str;
 	t_token			token;
 	int				index;
+	bool			has_space_before;
+	bool			has_space_after;
 	struct s_word	*next;
 	struct s_word	*previous;
 }					t_word;
@@ -63,7 +65,7 @@ typedef struct s_cmd
 	int				old_out;
 	int				old_inf;
 	int				nb_pipes;
-	struct s_cmd 	*next;
+	struct s_cmd	*next;
 	struct s_cmd	*previous;
 }					t_cmd;
 
@@ -78,7 +80,7 @@ extern int			g_exit_status;
 
 // INTIALISATION
 void				shell_loop(t_all *all, t_env *env);
-void	print_list_word(t_word *word);
+void				print_list_word(t_word *word);
 
 // UTILS ALL FUNCTIONS
 int					reset_all(t_all *all);
@@ -115,10 +117,12 @@ void				heredoc_handler(int signum);
 void				sigaction_handle(void);
 int					handle_heredoc(char *delimiter);
 int					redir_heredoc(void);
+int					check_space_before(char *input, int *i);
+int					check_space_after(char *input, int i);
 // TOKENISATION
 
 // LEXING
-t_word				*init_lex(char *str, t_token token);
+t_word				*init_lex(char *str, t_token token, int flag1, int flag2);
 void				handle_single_quote(char *input, int *i, t_word **head,
 						t_word **current);
 void				handle_double_quote(char *input, int *i, t_word **head,
@@ -133,7 +137,7 @@ int					word_len(char *input, int i);
 void				add_to_list(t_word **head, t_word **current,
 						t_word *new_node);
 int					is_operator(char c);
-void				merge_quoted_tokens(t_word **head, t_token quote_type);
+void				merge_quoted_tokens(t_word **head);
 
 // SIGNALS
 void				init_signals(void);
