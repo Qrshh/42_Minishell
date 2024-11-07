@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 21:25:33 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/28 17:52:08 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/11/07 17:28:59 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	handle_operator(char *input, int *i, t_word **head, t_word **current)
 	else if (input[*i] == '>')
 		token = RIGHT;
 	temp = ft_strndup(&input[*i], len);
-	new_node = init_lex(temp, token);
+	new_node = init_lex(temp, token, 0, 0);
 	add_to_list(head, current, new_node);
 	*i += len - 1;
 	free(temp);
@@ -62,14 +62,20 @@ void	handle_single_quote(char *input, int *i, t_word **head,
 	char	*word;
 	int		j;
 	t_word	*new_node;
+	int flag1;
+	int flag2;
 
+	flag1 = 0;
+	flag2 = 0;
 	j = *i + 1;
+	flag1 = check_space_before(input, i);
 	while (input[j] && input[j] != '\'')
 		j++;
 	if (input[j] == '\'')
 	{
+		flag2 = check_space_after(input, j);
 		word = ft_strndup(&input[*i + 1], j - *i - 1);
-		new_node = init_lex(word, SINGLE_QUOTE);
+		new_node = init_lex(word, SINGLE_QUOTE, flag1, flag2);
 		add_to_list(head, current, new_node);
 		*i = j;
 		free(word);
@@ -81,8 +87,13 @@ void	handle_word(char *input, int *i, t_word **head, t_word **current)
 	int		len;
 	char	*word;
 	t_word	*new_node;
+	int flag1;
+	int flag2;
 
+	flag1 = 0;
+	flag2 = 0;
 	len = 0;
+	flag1 = check_space_before(input, i);
 	while (input[*i + len] && !is_space(input[*i + len])
 		&& !is_operator(input[*i + len]))
 	{
@@ -90,8 +101,9 @@ void	handle_word(char *input, int *i, t_word **head, t_word **current)
 			break ;
 		len++;
 	}
+	flag2 = check_space_after(input, *i + len - 1);
 	word = ft_strndup(&input[*i], len);
-	new_node = init_lex(word, WORD);
+	new_node = init_lex(word, WORD, flag1, flag2);
 	add_to_list(head, current, new_node);
 	*i += len - 1;
 	free(word);
@@ -112,7 +124,7 @@ void	handle_env(char *input, int *i, t_word **head, t_word **current)
 		if (j > *i + 1)
 		{
 			word = ft_strndup(&input[*i + 1], j - *i - 1);
-			new_node = init_lex(word, V_ENV);
+			new_node = init_lex(word, V_ENV, 0, 0);
 			add_to_list(head, current, new_node);
 			*i = j - 1;
 			free(word);
