@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:06:00 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/11/06 16:16:00 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/07 16:01:53 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ int	update_var(char **env_cpy, char *name, char *value)
 	{	
 		if (ft_strncmp(env_cpy[i], name, ft_strlen(name)) == 0)
 		{
-			if (value == NULL)
-				printf("same\n");
 			free(env_cpy[i]);
 			new_var = create_env_var_string(name, value);
 			if (!new_var)
