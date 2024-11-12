@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 21:25:33 by abesneux          #+#    #+#             */
-/*   Updated: 2024/11/07 17:28:59 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/11/12 20:31:04 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ void	handle_single_quote(char *input, int *i, t_word **head,
 	char	*word;
 	int		j;
 	t_word	*new_node;
-	int flag1;
-	int flag2;
+	int		flag1;
+	int		flag2;
 
 	flag1 = 0;
 	flag2 = 0;
@@ -87,8 +87,8 @@ void	handle_word(char *input, int *i, t_word **head, t_word **current)
 	int		len;
 	char	*word;
 	t_word	*new_node;
-	int flag1;
-	int flag2;
+	int		flag1;
+	int		flag2;
 
 	flag1 = 0;
 	flag2 = 0;
@@ -131,5 +131,4 @@ void	handle_env(char *input, int *i, t_word **head, t_word **current)
 		}
 		*i += 1;
 	}
-
 }

@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 21:04:49 by abesneux          #+#    #+#             */
-/*   Updated: 2024/10/30 20:41:33 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/11/12 20:30:09 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,6 @@ void	reset_all_fd(t_cmd *cmd)
 	close(cmd->old_out);
 	dup2(cmd->old_inf, STDIN_FILENO);
 	close(cmd->old_inf);
-}
-
-void	free_cmd(t_cmd *cmd)
-{
-	int	i;
-
-	reset_all_fd(cmd);
-	if (cmd->args)
-	{
-		i = 0;
-		while (cmd->args[i])
-			free(cmd->args[i++]);
-		free(cmd->args);
-	}
-	free(cmd);
 }
 
 void	pre_execute(t_word *list, t_env *env)

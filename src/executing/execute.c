@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:12 by abesneux          #+#    #+#             */
-/*   Updated: 2024/11/05 14:03:17 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/11/12 20:30:12 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,12 +115,12 @@ void	process_pipe(t_cmd *cmd, t_env *env)
 	{
 		while (cmd->list && cmd->list->token != PIPE)
 			cmd->list = cmd->list->next;
-		if(cmd->list && cmd->list->token == PIPE)
+		if (cmd->list && cmd->list->token == PIPE)
 		{
 			cmd->post_pipe = list_to_array(cmd->list->next);
 			cmd->list = cmd->list->next;
 		}
-		else 
+		else
 			cmd->post_pipe = NULL;
 		if (i <= cmd->nb_pipes && pipe(pipefd) < 0)
 			return ;

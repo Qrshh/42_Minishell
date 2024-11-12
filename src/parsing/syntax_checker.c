@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_checker.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 00:53:43 by qrshh             #+#    #+#             */
-/*   Updated: 2024/10/09 17:11:03 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/12 20:31:45 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,9 +109,9 @@ int	has_logical_operator(const char *in)
 	while (in[i])
 	{
 		update_quotes_count(in[i], &s_quotes, &d_quotes);
-		if (!(s_quotes % 2) && !(d_quotes % 2) && (((in[i] == '&')
-					&& (in[i + 1] == '&')) || ((in[i] == '|')
-					&& (in[i + 1] == '|'))))
+		if (!(s_quotes % 2) && !(d_quotes % 2) && (((in[i] == '&') && (in[i
+						+ 1] == '&')) || ((in[i] == '|') && (in[i
+						+ 1] == '|'))))
 			return (1);
 		if (((in[i] == '<') && (in[i + 1] == '<') && (in[i + 2] == '<'))
 			|| ((in[i] == '>') && (in[i + 1] == '>') && (in[i + 2] == '>')))

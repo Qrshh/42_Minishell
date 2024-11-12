@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 21:43:09 by abesneux          #+#    #+#             */
-/*   Updated: 2024/11/07 17:09:15 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/11/12 20:31:13 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,29 +24,29 @@ t_word	*init_lex(char *str, t_token token, int flag1, int flag2)
 	node->str = ft_strdup(str);
 	node->token = token;
 	node->index = i++;
-	if(flag1)
+	if (flag1)
 		node->has_space_before = true;
-	else 
+	else
 		node->has_space_before = false;
-	if(flag2)
+	if (flag2)
 		node->has_space_after = true;
-	else 
+	else
 		node->has_space_after = false;
 	node->previous = NULL;
 	node->next = NULL;
 	return (node);
 }
 
-int check_space_before(char *input, int *i)
+int	check_space_before(char *input, int *i)
 {
-	if(*i > 0 && is_space(input[*(i) - 1]))
-		return(1);
-	return(0);
+	if (*i > 0 && is_space(input[*(i)-1]))
+		return (1);
+	return (0);
 }
 
-int check_space_after(char *input, int i)
+int	check_space_after(char *input, int i)
 {
-	if(input[i] && input[i + 1] && is_space(input[i + 1]))
+	if (input[i] && input[i + 1] && is_space(input[i + 1]))
 		return (1);
-	return(0);
+	return (0);
 }
