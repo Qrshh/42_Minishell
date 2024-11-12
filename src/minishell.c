@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:10:08 by abesneux          #+#    #+#             */
-/*   Updated: 2024/11/08 13:03:34 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/12 15:17:23 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,7 @@ void	shell_loop(t_all *all, t_env *env)
 			all->list = token(all);
 			//print_list(all);
 			all->list = handle_dollar(all, env);
-			merge_quoted_tokens(&(all->list), SINGLE_QUOTE);
-			merge_quoted_tokens(&(all->list), DOUBLE_QUOTE);
+			merge_quoted_tokens(&(all->list));
 			pre_execute(all->list, env);
 		}
 		reset_all(all);

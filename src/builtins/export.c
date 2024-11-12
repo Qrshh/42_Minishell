@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:06:00 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/11/12 13:44:02 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/12 16:09:32 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*create_env_var_string(char *name, char *value)
 	char	*new_var;
 	int		name_len;
 	int		value_len;
-	size_t		i;
+	size_t	i;
 
 	i = 0;
 	name_len = ft_strlen(name);
@@ -36,7 +36,10 @@ char	*create_env_var_string(char *name, char *value)
 	}
 	ft_strcpy(new_var, name);
 	if (value_len > 0)
-		ft_strcpy(new_var + name_len, value);
+	{
+		new_var[name_len] = '=';
+		ft_strcpy(new_var + name_len + 1, value);
+	}
 	else
 		new_var[name_len] = '\0';
 	return (new_var);
@@ -46,12 +49,22 @@ int	update_var(char **env_cpy, char *name, char *value)
 {
 	int		i;
 	char	*new_var;
+	int		name_len;
 
 	i = 0;
+	name_len = ft_strlen(name);
 	while (env_cpy[i])
-	{	
-		if (ft_strncmp(env_cpy[i], name, ft_strlen(name)) == 0)
+	{
+		if (ft_strncmp(env_cpy[i], name, ft_strlen(name)) == 0
+			&& (env_cpy[i][name_len] == '='
+				|| env_cpy[i][name_len] == '\0'))
 		{
+			if (value == NULL || ft_strlen(value) == 0)
+			{
+				if (env_cpy[i][name_len] != '=')
+					return (0);
+				return (0);
+			}
 			free(env_cpy[i]);
 			new_var = create_env_var_string(name, value);
 			if (!new_var)
@@ -106,14 +119,23 @@ int	handle_export(t_cmd *cmd, t_env *env)
 		while (cmd->args[i][j] && cmd->args[i][j] != '=')
 			j++;
 		name = ft_strndup(cmd->args[i], j);
-		value = ft_strdup(cmd->args[i] + j);
+		if (cmd->args[i][j] == '\0')
+			value = NULL;
+		else
+			value = ft_strdup(cmd->args[i] + j + 1);
 		if (!name)
 			return (1);
 		update_result = update_var(env->env_cpy, name, value);
 		if (update_result == -1)
-			add_new_var(env, name, value);
+		{
+			if (value == NULL)
+				add_new_var(env, name, "");
+			else
+				add_new_var(env, name, value);
+		}
 		free(name);
-		free(value);
+		if (value != NULL)
+			free(value);
 		i++;
 	}
 	return (0);
@@ -121,8 +143,8 @@ int	handle_export(t_cmd *cmd, t_env *env)
 
 int	my_export(t_cmd *cmd, t_env *env)
 {
-	int	i;
-	int	egal;
+	int i;
+	int egal;
 
 	i = 0;
 	if (!cmd->args[1])
