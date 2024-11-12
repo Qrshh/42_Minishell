@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 13:12:38 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/10/09 17:08:01 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/12 14:16:15 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	my_unset(t_cmd *cmd, t_env *env)
 	while (env->env_cpy[++i])
 	{
 		if (ft_strncmp(env->env_cpy[i], var, ft_strlen(var)) != 0
-			|| env->env_cpy[i][strlen(var)] != '=')
+			|| (env->env_cpy[i][strlen(var)] != '\0' && env->env_cpy[i][ft_strlen(var)] != '='))
 			new_env[j++] = ft_strdup(env->env_cpy[i]);
 		else
 			free(env->env_cpy[i]);

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   handle_token_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 19:46:09 by abesneux          #+#    #+#             */
-/*   Updated: 2024/11/07 17:06:24 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/11/08 13:02:23 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void merge_quoted_tokens(t_word **head)
+void merge_quoted_tokens(t_word **head, t_token quote_type)
 {
     t_word *current = *head;
     t_word *next;
@@ -20,38 +20,23 @@ void merge_quoted_tokens(t_word **head)
 
     while (current)
     {
-        // Si le token est de type WORD ou guillemets
-        if (current->token == WORD || current->token == SINGLE_QUOTE || current->token == DOUBLE_QUOTE)
+        if (current->token == quote_type)
         {
-            // Initialiser le contenu fusionné avec le contenu du token actuel
             merged_content = ft_strdup(current->str);
-
-            // Fusionner avec les tokens suivants tant qu'ils sont adjacents, de type guillemets ou WORD, et sans espace entre eux
-            while (current->next &&
-                   (current->next->token == SINGLE_QUOTE || current->next->token == DOUBLE_QUOTE || current->next->token == WORD) &&
-                   !current->has_space_after && !current->next->has_space_before)
+            while (current->next && current->next->token == quote_type)
             {
                 next = current->next;
-                
-                // Ajouter le contenu du token suivant
-                char *temp = merged_content;
                 merged_content = ft_strjoin(merged_content, next->str);
-                free(temp);
-
-                // Mettre à jour la liste chaînée pour supprimer le token suivant
                 current->next = next->next;
                 if (next->next)
                     next->next->previous = current;
 
-                // Libérer la mémoire du token fusionné
                 free(next->str);
                 free(next);
             }
-
-            // Mettre à jour le token courant avec le contenu fusionné
             free(current->str);
+			current->token = WORD;
             current->str = merged_content;
-            current->token = WORD;  // Le token fusionné devient un mot normal
         }
         current = current->next;
     }

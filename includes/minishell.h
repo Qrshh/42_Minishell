@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/11/07 17:38:58 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/11/08 13:03:08 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ int					word_len(char *input, int i);
 void				add_to_list(t_word **head, t_word **current,
 						t_word *new_node);
 int					is_operator(char c);
-void				merge_quoted_tokens(t_word **head);
+void				merge_quoted_tokens(t_word **head, t_token quote_type);
 
 // SIGNALS
 void				init_signals(void);
