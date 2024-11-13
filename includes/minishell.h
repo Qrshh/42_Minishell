@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/11/12 15:14:49 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/13 14:30:33 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef enum e_token
 typedef struct s_environement
 {
 	char			**env_cpy;
+	int equal;
 }					t_env;
 
 typedef struct s_word

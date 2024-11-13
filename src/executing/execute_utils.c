@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 21:04:49 by abesneux          #+#    #+#             */
-/*   Updated: 2024/11/12 20:30:09 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/11/13 13:13:06 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	pre_execute(t_word *list, t_env *env)
 	if (list->token == 0)
 		execute_command(cmd, env);
 	reset_all_fd(cmd);
-	free_cmd(cmd);
 }
 
 char	**free_array(char **array, int i)

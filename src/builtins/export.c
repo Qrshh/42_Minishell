@@ -6,13 +6,13 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:06:00 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/11/12 16:09:32 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/13 16:08:15 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*create_env_var_string(char *name, char *value)
+char	*create_env_var_string(t_env *env, char *name, char *value)
 {
 	char	*new_var;
 	int		name_len;
@@ -30,12 +30,13 @@ char	*create_env_var_string(char *name, char *value)
 		if (!ft_isalpha(name[i]) && name[i] != '_')
 		{
 			perror("Syntax error");
+			free(new_var);
 			return (NULL);
 		}
 		i++;
 	}
 	ft_strcpy(new_var, name);
-	if (value_len > 0)
+	if (value_len > 0 || env->equal == 0)
 	{
 		new_var[name_len] = '=';
 		ft_strcpy(new_var + name_len + 1, value);
@@ -45,7 +46,7 @@ char	*create_env_var_string(char *name, char *value)
 	return (new_var);
 }
 
-int	update_var(char **env_cpy, char *name, char *value)
+int	update_var(t_env *env, char *name, char *value)
 {
 	int		i;
 	char	*new_var;
@@ -53,23 +54,29 @@ int	update_var(char **env_cpy, char *name, char *value)
 
 	i = 0;
 	name_len = ft_strlen(name);
-	while (env_cpy[i])
+	while (env->env_cpy[i])
 	{
-		if (ft_strncmp(env_cpy[i], name, ft_strlen(name)) == 0
-			&& (env_cpy[i][name_len] == '='
-				|| env_cpy[i][name_len] == '\0'))
+		if (ft_strncmp(env->env_cpy[i], name, ft_strlen(name)) == 0
+			&& (env->env_cpy[i][name_len] == '='
+				|| env->env_cpy[i][name_len] == '\0'))
 		{
 			if (value == NULL || ft_strlen(value) == 0)
 			{
-				if (env_cpy[i][name_len] != '=')
-					return (0);
-				return (0);
+				if (env->env_cpy[i][name_len] != '=')
+				{
+					if (value != NULL) 
+					{
+            					free(env->env_cpy[i]);
+            					env->env_cpy[i] = create_env_var_string(env, name, "");
+            					return (0);
+        				}
+				}
 			}
-			free(env_cpy[i]);
-			new_var = create_env_var_string(name, value);
+			free(env->env_cpy[i]);
+			new_var = create_env_var_string(env, name, value);
 			if (!new_var)
 				return (1);
-			env_cpy[i] = new_var;
+			env->env_cpy[i] = new_var;
 			return (0);
 		}
 		i++;
@@ -95,7 +102,7 @@ int	add_new_var(t_env *env, char *name, char *value)
 		new_env_cpy[i] = env->env_cpy[i];
 		i++;
 	}
-	new_env_cpy[count] = create_env_var_string(name, value);
+	new_env_cpy[count] = create_env_var_string(env, name, value);
 	if (!new_env_cpy[count])
 		return (free(new_env_cpy), 1);
 	new_env_cpy[count + 1] = NULL;
@@ -120,12 +127,18 @@ int	handle_export(t_cmd *cmd, t_env *env)
 			j++;
 		name = ft_strndup(cmd->args[i], j);
 		if (cmd->args[i][j] == '\0')
+		{
 			value = NULL;
+			env->equal = 1; //test
+		}
 		else
+		{
 			value = ft_strdup(cmd->args[i] + j + 1);
+			env->equal = 0; //test=
+		}
 		if (!name)
 			return (1);
-		update_result = update_var(env->env_cpy, name, value);
+		update_result = update_var(env, name, value);
 		if (update_result == -1)
 		{
 			if (value == NULL)
