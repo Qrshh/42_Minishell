@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:06:00 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/11/13 16:08:15 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/13 17:05:57 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,18 @@ char	*create_env_var_string(t_env *env, char *name, char *value)
 	char	*new_var;
 	int		name_len;
 	int		value_len;
-	size_t	i;
+	int	i;
 
 	i = 0;
 	name_len = ft_strlen(name);
-	value_len = ft_strlen(value);
+	if (value != NULL)
+		value_len = ft_strlen(value);
+	else
+		value_len = 0;
 	new_var = malloc(sizeof(int) * (name_len + value_len + 2));
 	if (!new_var)
 		return (NULL);
-	while (i < ft_strlen(name))
+	while (i < name_len)
 	{
 		if (!ft_isalpha(name[i]) && name[i] != '_')
 		{
@@ -41,15 +44,12 @@ char	*create_env_var_string(t_env *env, char *name, char *value)
 		new_var[name_len] = '=';
 		ft_strcpy(new_var + name_len + 1, value);
 	}
-	else
-		new_var[name_len] = '\0';
 	return (new_var);
 }
 
 int	update_var(t_env *env, char *name, char *value)
 {
 	int		i;
-	char	*new_var;
 	int		name_len;
 
 	i = 0;
@@ -62,21 +62,16 @@ int	update_var(t_env *env, char *name, char *value)
 		{
 			if (value == NULL || ft_strlen(value) == 0)
 			{
-				if (env->env_cpy[i][name_len] != '=')
-				{
-					if (value != NULL) 
-					{
-            					free(env->env_cpy[i]);
-            					env->env_cpy[i] = create_env_var_string(env, name, "");
-            					return (0);
-        				}
-				}
+            			free(env->env_cpy[i]);
+            			env->env_cpy[i] = create_env_var_string(env, name, "");
+        			if (!env->env_cpy[i])
+    					return (1);						
+				return (0);
 			}
 			free(env->env_cpy[i]);
-			new_var = create_env_var_string(env, name, value);
-			if (!new_var)
+			env->env_cpy[i] = create_env_var_string(env, name, value);
+			if (!env->env_cpy[i])
 				return (1);
-			env->env_cpy[i] = new_var;
 			return (0);
 		}
 		i++;
@@ -147,7 +142,7 @@ int	handle_export(t_cmd *cmd, t_env *env)
 				add_new_var(env, name, value);
 		}
 		free(name);
-		if (value != NULL)
+		if (cmd->args[i][j] != '\0')
 			free(value);
 		i++;
 	}
