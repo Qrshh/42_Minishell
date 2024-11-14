@@ -3,24 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 16:54:03 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/11/12 20:31:38 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/11/14 16:54:14 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	restore_sigint(void)
-{
-	struct sigaction	sa;
-
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sa.sa_handler = handle_sigint;
-	sigaction(SIGINT, &sa, NULL);
-}
 
 void	heredoc_handler(int signum)
 {
@@ -29,16 +19,6 @@ void	heredoc_handler(int signum)
 		g_exit_status = 130;
 		write(1, "\n", 1);
 	}
-}
-
-void	sigaction_handle(void)
-{
-	struct sigaction	sa;
-
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sa.sa_handler = heredoc_handler;
-	sigaction(SIGINT, &sa, NULL);
 }
 
 int	redir_heredoc(void)
@@ -62,19 +42,8 @@ int	redir_heredoc(void)
 	return (0);
 }
 
-int	handle_heredoc(char *delimiter)
+void	heredoc_loop(int fd, char *line, char *delimiter)
 {
-	int		fd;
-	char	*line;
-
-	sigaction_handle();
-	g_exit_status = 0;
-	fd = open(".heredoc.tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (fd < 0)
-	{
-		ft_putstr_fd("heredoc : erreur creation tmp\n", STDERR_FILENO);
-		return (1);
-	}
 	while (1)
 	{
 		ft_putstr_fd("heredoc> ", STDOUT_FILENO);
@@ -91,6 +60,23 @@ int	handle_heredoc(char *delimiter)
 		write(fd, "\n", 1);
 		free(line);
 	}
+}
+
+int	handle_heredoc(char *delimiter)
+{
+	int		fd;
+	char	*line;
+
+	line = NULL;
+	sigaction_handle();
+	g_exit_status = 0;
+	fd = open(".heredoc.tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (fd < 0)
+	{
+		ft_putstr_fd("heredoc : erreur creation tmp\n", STDERR_FILENO);
+		return (1);
+	}
+	heredoc_loop(fd, line, delimiter);
 	close(fd);
 	restore_sigint();
 	if (g_exit_status == 130)

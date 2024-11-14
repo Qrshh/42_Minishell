@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 15:40:07 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/11/07 12:57:41 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/14 17:41:42 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ int	my_echo(t_cmd *cmd)
 	int		i;
 
 	i = 0;
-	current = cmd->list;
-	current = current->next;
+	current = cmd->list->next;
 	flag = flag_check(cmd);
 	while (flag != 0 && i < flag)
 	{
@@ -56,8 +55,6 @@ int	my_echo(t_cmd *cmd)
 			if (current->next)
 				printf(" ");
 		}
-		else
-			break ;
 		current = current->next;
 	}
 	if (!flag)

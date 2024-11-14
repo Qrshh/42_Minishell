@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 13:39:06 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/11/14 15:19:56 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/14 17:41:22 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,32 @@ char	*find_var_value(t_env *env, char *var_name)
 	return (NULL);
 }
 
+void	handle_dollar_var(t_word *current, t_env *env, char *var_name)
+{
+	char	*var_value;
+	char	*dollar_var_name;
+
+	dollar_var_name = ft_strjoin("$", var_name);
+	if (ft_strcmp(var_name, "?") == 0)
+	{
+		current->str = replace_var(current->str, "$?", ft_itoa(g_exit_status));
+	}
+	else
+	{
+		var_value = find_var_value(env, var_name);
+		if (var_value)
+			current->str = replace_var(current->str, dollar_var_name,
+					var_value);
+		else
+			current->str = replace_var(current->str, dollar_var_name, "");
+	}
+	free(dollar_var_name);
+}
+
 t_word	*handle_dollar(t_all *all, t_env *env)
 {
 	t_word	*current;
-	char	*var_value;
 	char	*var_name;
-	char	*dollar_var_name;
-	char	*exit_status_str;
 
 	current = all->list;
 	while (current)
@@ -72,25 +91,7 @@ t_word	*handle_dollar(t_all *all, t_env *env)
 		if (current->token == V_ENV)
 		{
 			var_name = get_var_name(current->str);
-			dollar_var_name = ft_strjoin("$", var_name);
-			if (ft_strcmp(var_name, "?") == 0)
-			{
-				exit_status_str = ft_itoa(g_exit_status);
-				current->str = replace_var(current->str, "$?", exit_status_str);
-				free(dollar_var_name);
-				free(var_name);
-				current = current->next;
-				continue ;
-			}
-			var_value = find_var_value(env, var_name);
-			if (var_value && ft_strlen(var_value) > 0)
-			{
-				current->str = replace_var(current->str, dollar_var_name,
-						var_value);
-			}
-			else
-				current->str = replace_var(current->str, dollar_var_name, "");
-			free(dollar_var_name);
+			handle_dollar_var(current, env, var_name);
 			free(var_name);
 		}
 		current = current->next;

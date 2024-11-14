@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/11/14 15:20:28 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/14 16:24:21 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,8 @@ int					handle_heredoc(char *delimiter);
 int					redir_heredoc(void);
 int					check_space_before(char *input, int *i);
 int					check_space_after(char *input, int i);
+void				restore_sigint(void);
+void				sigaction_handle(void);
 // TOKENISATION
 
 // LEXING
