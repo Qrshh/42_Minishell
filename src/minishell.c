@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:10:08 by abesneux          #+#    #+#             */
-/*   Updated: 2024/11/12 20:31:48 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/11/14 15:25:09 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,12 @@ t_word	*token(t_all *all)
 {
 	t_word	*head;
 	t_word	*current;
-	int		len;
 	int		i;
 
 	head = NULL;
 	current = NULL;
-	len = ft_strlen(all->input);
 	i = 0;
-	while (i < len)
+	while (i < (int)ft_strlen(all->input))
 	{
 		skip_whitespaces(all->input, &i);
 		if (is_operator(all->input[i]))

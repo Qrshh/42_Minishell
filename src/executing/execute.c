@@ -3,42 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:12 by abesneux          #+#    #+#             */
-/*   Updated: 2024/11/12 20:30:12 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/11/14 15:30:16 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	**copy_env(char **main_env)
-{
-	int		i;
-	int		len;
-	char	**str;
-
-	i = -1;
-	len = 0;
-	while (main_env[len])
-		len++;
-	str = malloc(sizeof(char *) * (len + 1));
-	if (!str)
-		return (NULL);
-	while (++i < len)
-	{
-		str[i] = ft_strdup(main_env[i]);
-		if (!str[i])
-		{
-			while (i > 0)
-				free(str[--i]);
-			free(str);
-			return (NULL);
-		}
-	}
-	str[len] = NULL;
-	return (str);
-}
 
 char	*path_join(char *path, char *bin)
 {

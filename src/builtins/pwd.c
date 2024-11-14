@@ -6,13 +6,13 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 21:03:45 by qrshh             #+#    #+#             */
-/*   Updated: 2024/11/06 13:13:35 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/14 15:25:57 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	my_pwd()
+int	my_pwd(void)
 {
 	char	cwd[PATH_MAX];
 

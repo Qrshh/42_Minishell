@@ -6,11 +6,39 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 21:04:49 by abesneux          #+#    #+#             */
-/*   Updated: 2024/11/13 13:13:06 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/14 15:30:27 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	**copy_env(char **main_env)
+{
+	int		i;
+	int		len;
+	char	**str;
+
+	i = -1;
+	len = 0;
+	while (main_env[len])
+		len++;
+	str = malloc(sizeof(char *) * (len + 1));
+	if (!str)
+		return (NULL);
+	while (++i < len)
+	{
+		str[i] = ft_strdup(main_env[i]);
+		if (!str[i])
+		{
+			while (i > 0)
+				free(str[--i]);
+			free(str);
+			return (NULL);
+		}
+	}
+	str[len] = NULL;
+	return (str);
+}
 
 void	reset_all_fd(t_cmd *cmd)
 {

@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 13:12:38 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/11/12 14:16:15 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/14 15:27:55 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ int	my_unset(t_cmd *cmd, t_env *env)
 
 	i = -1;
 	j = 0;
-	if (!cmd->args[1])
-		return (printf("unset: not enough arguments\n"), 1);
 	var = cmd->args[1];
 	new_env = malloc(sizeof(char *) * count_tab(env->env_cpy));
 	if (!new_env)
@@ -30,7 +28,8 @@ int	my_unset(t_cmd *cmd, t_env *env)
 	while (env->env_cpy[++i])
 	{
 		if (ft_strncmp(env->env_cpy[i], var, ft_strlen(var)) != 0
-			|| (env->env_cpy[i][strlen(var)] != '\0' && env->env_cpy[i][ft_strlen(var)] != '='))
+			|| (env->env_cpy[i][strlen(var)] != '\0'
+			&& env->env_cpy[i][ft_strlen(var)] != '='))
 			new_env[j++] = ft_strdup(env->env_cpy[i]);
 		else
 			free(env->env_cpy[i]);

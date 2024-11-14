@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:06:00 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/11/14 14:08:48 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/14 15:29:29 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*create_env_var_string(t_env *env, char *name, char *value)
 	char	*new_var;
 	int		name_len;
 	int		value_len;
-	int	i;
+	int		i;
 
 	i = 0;
 	name_len = ft_strlen(name);
@@ -49,8 +49,8 @@ char	*create_env_var_string(t_env *env, char *name, char *value)
 
 int	update_var(t_env *env, char *name, char *value)
 {
-	int		i;
-	int		name_len;
+	int	i;
+	int	name_len;
 
 	i = 0;
 	name_len = ft_strlen(name);
@@ -58,16 +58,16 @@ int	update_var(t_env *env, char *name, char *value)
 	{
 		if (ft_strncmp(env->env_cpy[i], name, ft_strlen(name)) == 0
 			&& (env->env_cpy[i][name_len] == '='
-				|| env->env_cpy[i][name_len] == '\0'))
+			|| env->env_cpy[i][name_len] == '\0'))
 		{
 			if (value == NULL)
 			{
 				if (env->env_cpy[i][name_len] == '=')
 					return (0);
-            			free(env->env_cpy[i]);
-            			env->env_cpy[i] = create_env_var_string(env, name, "");
-        			if (!env->env_cpy[i])
-    					return (1);						
+				free(env->env_cpy[i]);
+				env->env_cpy[i] = create_env_var_string(env, name, "");
+				if (!env->env_cpy[i])
+					return (1);
 				return (0);
 			}
 			free(env->env_cpy[i]);
@@ -126,12 +126,12 @@ int	handle_export(t_cmd *cmd, t_env *env)
 		if (cmd->args[i][j] == '\0')
 		{
 			value = NULL;
-			env->equal = 1; //test
+			env->equal = 1;
 		}
 		else
 		{
 			value = ft_strdup(cmd->args[i] + j + 1);
-			env->equal = 0; //test=
+			env->equal = 0;
 		}
 		if (!name)
 			return (1);
@@ -153,8 +153,8 @@ int	handle_export(t_cmd *cmd, t_env *env)
 
 int	my_export(t_cmd *cmd, t_env *env)
 {
-	int i;
-	int egal;
+	int	i;
+	int	egal;
 
 	i = 0;
 	if (!cmd->args[1])

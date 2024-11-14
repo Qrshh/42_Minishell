@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/11/13 14:30:33 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/14 15:20:28 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef enum e_token
 typedef struct s_environement
 {
 	char			**env_cpy;
-	int equal;
+	int				equal;
 }					t_env;
 
 typedef struct s_word
@@ -150,7 +150,7 @@ int					my_exit(t_cmd *cmd);
 int					my_export(t_cmd *cmd, t_env *env);
 int					my_cd(t_cmd *cmd, t_env *env);
 int					my_echo(t_cmd *cmd);
-int					my_pwd();
+int					my_pwd(void);
 int					my_env(t_cmd *cmd, t_env *env);
 int					my_unset(t_cmd *cmd, t_env *env);
 void				sort_tab(char **env_cpy);
