@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:06:00 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/11/13 17:05:57 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/14 14:08:48 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,10 @@ int	update_var(t_env *env, char *name, char *value)
 			&& (env->env_cpy[i][name_len] == '='
 				|| env->env_cpy[i][name_len] == '\0'))
 		{
-			if (value == NULL || ft_strlen(value) == 0)
+			if (value == NULL)
 			{
+				if (env->env_cpy[i][name_len] == '=')
+					return (0);
             			free(env->env_cpy[i]);
             			env->env_cpy[i] = create_env_var_string(env, name, "");
         			if (!env->env_cpy[i])
