@@ -6,21 +6,11 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 13:38:02 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/11/14 15:25:34 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/18 14:25:21 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	count_tab(char **env_cpy)
-{
-	int	count;
-
-	count = 0;
-	while (env_cpy[count])
-		count++;
-	return (count);
-}
 
 void	sort_tab(char **env_cpy)
 {
@@ -47,4 +37,56 @@ void	sort_tab(char **env_cpy)
 			i++;
 		}
 	}
+}
+
+int	is_valid_name(char *name, int name_len)
+{
+	int	i;
+
+	i = 0;
+	while (i < name_len)
+	{
+		if (!ft_isalpha(name[i]) && name[i] != '_')
+		{
+			perror("Syntax error");
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+int	update_or_create_var(t_env *env, char **env_cpy, char *name, char *value)
+{
+	free(*env_cpy);
+	if (value == NULL)
+		*env_cpy = create_env_var_string(env, name, "");
+	else
+		*env_cpy = create_env_var_string(env, name, value);
+	if (!*env_cpy)
+		return (1);
+	return (0);
+}
+
+int	extract_name_value(char *arg, char **name, char **value, t_env *env)
+{
+	int	j;
+
+	j = 0;
+	while (arg[j] && arg[j] != '=')
+		j++;
+	*name = ft_strndup(arg, j);
+	if (!*name)
+		return (1);
+	if (arg[j] == '\0')
+	{
+		*value = NULL;
+		env->equal = 1;
+	}
+	else
+	{
+		*value = ft_strdup(arg + j + 1);
+		env->equal = 0;
+	}
+	return (0);
 }

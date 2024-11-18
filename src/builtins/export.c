@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:06:00 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/11/14 15:29:29 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/18 14:26:28 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,8 @@ char	*create_env_var_string(t_env *env, char *name, char *value)
 	new_var = malloc(sizeof(int) * (name_len + value_len + 2));
 	if (!new_var)
 		return (NULL);
-	while (i < name_len)
-	{
-		if (!ft_isalpha(name[i]) && name[i] != '_')
-		{
-			perror("Syntax error");
-			free(new_var);
-			return (NULL);
-		}
-		i++;
-	}
+	if (is_valid_name(name, name_len))
+		return (NULL);
 	ft_strcpy(new_var, name);
 	if (value_len > 0 || env->equal == 0)
 	{
@@ -60,21 +52,9 @@ int	update_var(t_env *env, char *name, char *value)
 			&& (env->env_cpy[i][name_len] == '='
 			|| env->env_cpy[i][name_len] == '\0'))
 		{
-			if (value == NULL)
-			{
-				if (env->env_cpy[i][name_len] == '=')
-					return (0);
-				free(env->env_cpy[i]);
-				env->env_cpy[i] = create_env_var_string(env, name, "");
-				if (!env->env_cpy[i])
-					return (1);
+			if (value == NULL && env->env_cpy[i][name_len] == '=')
 				return (0);
-			}
-			free(env->env_cpy[i]);
-			env->env_cpy[i] = create_env_var_string(env, name, value);
-			if (!env->env_cpy[i])
-				return (1);
-			return (0);
+			return (update_or_create_var(env, &env->env_cpy[i], name, value));
 		}
 		i++;
 	}
@@ -111,7 +91,6 @@ int	add_new_var(t_env *env, char *name, char *value)
 int	handle_export(t_cmd *cmd, t_env *env)
 {
 	int		i;
-	int		j;
 	char	*name;
 	char	*value;
 	int		update_result;
@@ -119,21 +98,7 @@ int	handle_export(t_cmd *cmd, t_env *env)
 	i = 1;
 	while (cmd->args[i])
 	{
-		j = 0;
-		while (cmd->args[i][j] && cmd->args[i][j] != '=')
-			j++;
-		name = ft_strndup(cmd->args[i], j);
-		if (cmd->args[i][j] == '\0')
-		{
-			value = NULL;
-			env->equal = 1;
-		}
-		else
-		{
-			value = ft_strdup(cmd->args[i] + j + 1);
-			env->equal = 0;
-		}
-		if (!name)
+		if (extract_name_value(cmd->args[i], &name, &value, env))
 			return (1);
 		update_result = update_var(env, name, value);
 		if (update_result == -1)
@@ -144,7 +109,7 @@ int	handle_export(t_cmd *cmd, t_env *env)
 				add_new_var(env, name, value);
 		}
 		free(name);
-		if (cmd->args[i][j] != '\0')
+		if (value != NULL)
 			free(value);
 		i++;
 	}

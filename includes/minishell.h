@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/11/14 16:24:21 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/18 14:22:43 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,13 @@ int					my_env(t_cmd *cmd, t_env *env);
 int					my_unset(t_cmd *cmd, t_env *env);
 void				sort_tab(char **env_cpy);
 int					count_tab(char **env_cpy);
+int					is_valid_name(char *name, int name_len);
+int					update_or_create_var(t_env *env, char **env_cpy, char *name,
+						char *value);
+char				*create_env_var_string(t_env *env, char *name, char *value);
+int					extract_name_value(char *arg, char **name, char **value,
+						t_env *env);
+
 // TESTS
 void				print_list(t_all *all);
 
