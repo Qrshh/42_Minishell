@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:12:28 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/11/12 20:30:05 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/11/18 17:21:59 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ int	check_cmd(char *word, char **env)
 	path = getpath(word, env);
 	if (path && access(path, X_OK) == 0)
 	{
-		ft_printf("La commande '%s' est exécutable.\n", word);
+		printf("La commande '%s' est exécutable.\n", word);
 		return (1);
 	}
 	else
 	{
-		ft_printf("Commande non trouvée ou non exécutable: '%s'\n", word);
+		printf("Commande non trouvée ou non exécutable: '%s'\n", word);
 		return (0);
 	}
 	if (path != word)

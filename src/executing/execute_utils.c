@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 21:04:49 by abesneux          #+#    #+#             */
-/*   Updated: 2024/11/14 15:30:27 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/18 16:21:15 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	pre_execute(t_word *list, t_env *env)
 	cmd->nb_pipes = count_pipes(cmd->list);
 	if (handle_operator_exec(cmd))
 	{
-		g_exit_status = 1;
 		reset_all_fd(cmd);
 		free(cmd);
 		return ;

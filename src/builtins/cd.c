@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 20:58:31 by qrshh             #+#    #+#             */
-/*   Updated: 2024/10/09 17:08:26 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/18 17:26:07 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,19 @@ int	my_cd(t_cmd *cmd, t_env *env)
 	char	*old_pwd;
 	char	*new_pwd;
 
+	if (cmd->args[2])
+		return (printf("cd : too many arguments\n"), 1);
 	old_pwd = getcwd(NULL, 0);
 	if (!cmd->args[1])
 	{
 		home = getenv("HOME");
 		if (!home)
-			return (printf("cd: HOME not set\n"), 1);
+			return (perror("cd: HOME not set\n"), 1);
 		if (chdir(home) != 0)
 			return (printf("cd: no such file or dir: %s\n", home), 1);
 	}
 	else if (chdir(cmd->args[1]) != 0)
-	{
 		return (printf("cd: no such file or dir: %s\n", cmd->args[1]), 1);
-	}
 	new_pwd = getcwd(NULL, 0);
 	if (new_pwd)
 	{

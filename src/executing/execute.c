@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:12 by abesneux          #+#    #+#             */
-/*   Updated: 2024/11/18 15:05:43 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/18 16:19:39 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,8 +127,6 @@ void	process_pipe(t_cmd *cmd, t_env *env)
 void	execute_command(t_cmd *cmd, t_env *env)
 {
 	char	*path;
-	pid_t	pid;
-	int		status;
 
 	if (cmd->args[0] == NULL)
 		return ;
