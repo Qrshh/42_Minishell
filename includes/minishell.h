@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/11/18 14:22:43 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/18 14:57:51 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ char				**list_to_array(t_word *list);
 t_cmd				*init_cmd(t_cmd *cmd, t_word *list);
 int					count_list(t_word *list);
 int					handle_operator_exec(t_cmd *cmd);
+void				builtin_exec(t_cmd *cmd, t_env *env, char *path);
 // PARSING
 
 t_word				*handle_dollar(t_all *all, t_env *env);
@@ -163,7 +164,7 @@ int					update_or_create_var(t_env *env, char **env_cpy, char *name,
 char				*create_env_var_string(t_env *env, char *name, char *value);
 int					extract_name_value(char *arg, char **name, char **value,
 						t_env *env);
-
+char				*merge_content(t_word *current);
 // TESTS
 void				print_list(t_all *all);
 

@@ -3,21 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   handle_token_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 19:46:09 by abesneux          #+#    #+#             */
-/*   Updated: 2024/11/12 20:31:00 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/11/18 14:51:44 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+char	*merge_content(t_word *current)
+{
+	char	*merged_content;
+	char	*temp;
+	t_word	*next;
+
+	merged_content = ft_strdup(current->str);
+	while (current->next && (current->next->token == SINGLE_QUOTE
+			|| current->next->token == DOUBLE_QUOTE
+			|| current->next->token == WORD) && !current->has_space_after
+		&& !current->next->has_space_before)
+	{
+		next = current->next;
+		temp = merged_content;
+		merged_content = ft_strjoin(merged_content, next->str);
+		free(temp);
+		current->next = next->next;
+		if (next->next)
+			next->next->previous = current;
+		free(next->str);
+		free(next);
+	}
+	return (merged_content);
+}
+
 void	merge_quoted_tokens(t_word **head)
 {
 	t_word	*current;
-	t_word	*next;
-	char	*merged_content;
-	char	*temp;
 
 	current = *head;
 	while (current)
@@ -25,25 +47,7 @@ void	merge_quoted_tokens(t_word **head)
 		if (current->token == WORD || current->token == SINGLE_QUOTE
 			|| current->token == DOUBLE_QUOTE)
 		{
-			merged_content = ft_strdup(current->str);
-			while (current->next && (current->next->token == SINGLE_QUOTE
-					|| current->next->token == DOUBLE_QUOTE
-					|| current->next->token == WORD)
-				&& !current->has_space_after
-				&& !current->next->has_space_before)
-			{
-				next = current->next;
-				temp = merged_content;
-				merged_content = ft_strjoin(merged_content, next->str);
-				free(temp);
-				current->next = next->next;
-				if (next->next)
-					next->next->previous = current;
-				free(next->str);
-				free(next);
-			}
-			free(current->str);
-			current->str = merged_content;
+			current->str = merge_content(current);
 			current->token = WORD;
 		}
 		current = current->next;

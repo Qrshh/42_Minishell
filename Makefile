@@ -6,7 +6,7 @@
 #    By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/27 09:05:48 by abesneux          #+#    #+#              #
-#    Updated: 2024/10/15 16:59:27 by ozdemir          ###   ########.fr        #
+#    Updated: 2024/11/18 14:51:39 by ozdemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ BUILTINS_DIR = builtins/
 BUILTINS = handle_builtins echo exit pwd export export_utils env unset cd
 
 EXECUTING_DIR = executing/
-EXECUTING = execute execute_utils execute_utils2
+EXECUTING = execute execute_utils execute_utils2 execute_utils3
 
 SRC_FILES  += minishell utils signal
 SRC_FILES += $(addprefix $(BUILTINS_DIR), $(BUILTINS))

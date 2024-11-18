@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:12 by abesneux          #+#    #+#             */
-/*   Updated: 2024/11/14 15:45:14 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/18 15:05:43 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,32 +134,7 @@ void	execute_command(t_cmd *cmd, t_env *env)
 		return ;
 	path = getpath(cmd->args[0], env->env_cpy);
 	if (cmd && cmd->nb_pipes > 0)
-	{
 		process_pipe(cmd, env);
-	}
 	else
-	{
-		if (is_a_builtin(cmd->args[0]))
-		{
-			g_exit_status = execute_builtin(cmd, env);
-			return ;
-		}
-		pid = fork();
-		if (pid == 0)
-		{
-			execve(path, cmd->args, env->env_cpy);
-			perror("Command not found");
-			exit(127);
-		}
-		else if (pid < 0)
-			perror("Erreur de fork");
-		else
-		{
-			waitpid(pid, &status, 0);
-			if (WIFEXITED(status))
-				g_exit_status = WEXITSTATUS(status);
-			else
-				g_exit_status = 128 + WTERMSIG(status);
-		}
-	}
+		builtin_exec(cmd, env, path);
 }
