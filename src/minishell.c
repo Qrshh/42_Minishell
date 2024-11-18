@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:10:08 by abesneux          #+#    #+#             */
-/*   Updated: 2024/11/14 15:25:09 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/18 19:26:46 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void	shell_loop(t_all *all, t_env *env)
 		if (!check_syntax(all->input))
 		{
 			all->list = token(all);
-			// print_list(all);
 			all->list = handle_dollar(all, env);
 			merge_quoted_tokens(&(all->list));
 			pre_execute(all->list, env);

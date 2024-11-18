@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/11/18 14:57:51 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/18 20:33:00 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,11 @@ t_cmd				*init_cmd(t_cmd *cmd, t_word *list);
 int					count_list(t_word *list);
 int					handle_operator_exec(t_cmd *cmd);
 void				builtin_exec(t_cmd *cmd, t_env *env, char *path);
-// PARSING
+void				handle_parent_process(int *fd_in, int pipefd[2], pid_t pid);
+void				handle_child_process(t_cmd *cmd, t_env *env, int pipefd[2],
+						int fd_in);
+void				prepare_next_pipe(t_cmd *cmd);
+void				exec(t_cmd *cmd, t_env *env);
 
 t_word				*handle_dollar(t_all *all, t_env *env);
 void				heredoc_handler(int signum);

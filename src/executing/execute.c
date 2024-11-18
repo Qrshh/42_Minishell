@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:12 by abesneux          #+#    #+#             */
-/*   Updated: 2024/11/18 16:19:39 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/18 21:18:29 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,11 @@ void	exec(t_cmd *cmd, t_env *env)
 		g_exit_status = execute_builtin(cmd, env);
 		return ;
 	}
-	else
+	path = getpath(cmd->args[0], env->env_cpy);
+	if (!path || execve(path, cmd->args, env->env_cpy) == -1)
 	{
-		path = getpath(cmd->args[0], env->env_cpy);
-		execve(path, cmd->args, env->env_cpy);
+		perror("Command not found");
+		exit(127);
 	}
 }
 
@@ -83,44 +84,20 @@ void	process_pipe(t_cmd *cmd, t_env *env)
 
 	fd_in = 0;
 	i = 0;
-	while (i <= cmd->nb_pipes)
+	while (cmd->nb_pipes >= 0)
 	{
-		while (cmd->list && cmd->list->token != PIPE)
-			cmd->list = cmd->list->next;
-		if (cmd->list && cmd->list->token == PIPE)
-		{
-			cmd->post_pipe = list_to_array(cmd->list->next);
-			cmd->list = cmd->list->next;
-		}
-		else
-			cmd->post_pipe = NULL;
+		prepare_next_pipe(cmd);
 		if (i <= cmd->nb_pipes && pipe(pipefd) < 0)
 			return ;
 		pid = fork();
 		if (pid < 0)
 			return ;
 		if (pid == 0)
-		{
-			dup2(fd_in, STDIN_FILENO);
-			if (i < cmd->nb_pipes)
-				dup2(pipefd[1], STDOUT_FILENO);
-			close(pipefd[0]);
-			if (is_a_builtin(cmd->args[0]))
-			{
-				g_exit_status = execute_builtin(cmd, env);
-				exit(g_exit_status);
-			}
-			else
-				exec(cmd, env);
-		}
+			handle_child_process(cmd, env, pipefd, fd_in);
 		else
-		{
-			waitpid(pid, NULL, 0);
-			close(pipefd[1]);
-			fd_in = pipefd[0];
-		}
+			handle_parent_process(&fd_in, pipefd, pid);
 		cmd->args = cmd->post_pipe;
-		i++;
+		cmd->nb_pipes--;
 	}
 }
 
