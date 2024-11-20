@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:12 by abesneux          #+#    #+#             */
-/*   Updated: 2024/11/18 21:18:29 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/11/20 15:09:53 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,4 +112,5 @@ void	execute_command(t_cmd *cmd, t_env *env)
 		process_pipe(cmd, env);
 	else
 		builtin_exec(cmd, env, path);
+	signal(SIGQUIT, SIG_IGN);
 }

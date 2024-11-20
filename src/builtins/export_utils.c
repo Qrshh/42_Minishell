@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 13:38:02 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/11/19 14:41:01 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/20 15:35:13 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	extract_name_value(char *arg, char **name, char **value, t_env *env)
 	if (!*name)
 		return (1);
 	if (is_valid_name(*name, j))
-        	return (free(*name), 1);
+		return (free(*name), 1);
 	if (arg[j] == '\0')
 	{
 		*value = NULL;

@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 21:04:49 by abesneux          #+#    #+#             */
-/*   Updated: 2024/11/19 14:51:12 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/20 15:35:20 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,12 @@ void	reset_all_fd(t_cmd *cmd)
 	close(cmd->old_inf);
 }
 
-void	pre_execute(t_word *list, t_env *env)
+void	pre_execute(t_word *list, t_env *env, char *input)
 {
 	t_cmd	*cmd;
 
+	if (strcmp(input, "cat") == 0 || strncmp(input, "grep", 4) == 0)
+		signal(SIGQUIT, handle_sigquit);
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 	{

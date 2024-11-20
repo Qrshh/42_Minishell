@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/11/18 20:33:00 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/11/20 15:06:59 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char				*read_and_trim_input(void);
 
 // EXECUTION
 void				execute_command(t_cmd *cmd, t_env *env);
-void				pre_execute(t_word *list, t_env *env);
+void				pre_execute(t_word *list, t_env *env, char *input);
 char				*getpath(char *cmd, char **env);
 int					execute_builtin(t_cmd *cmd, t_env *env);
 int					is_a_builtin(char *cmd);

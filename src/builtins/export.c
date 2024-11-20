@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:06:00 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/11/19 14:31:01 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/20 13:07:20 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,8 @@ int	handle_export(t_cmd *cmd, t_env *env)
 	char	*name;
 	char	*value;
 	int		update_result;
-	int	flag;
 
 	i = 1;
-	flag = 0;
 	while (cmd->args[i])
 	{
 		if (extract_name_value(cmd->args[i], &name, &value, env))
