@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 13:38:02 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/11/18 14:25:21 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/19 14:41:01 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,15 @@ int	extract_name_value(char *arg, char **name, char **value, t_env *env)
 	int	j;
 
 	j = 0;
+	if (arg[0] == '=')
+		return (printf("Syntax error\n"), 1);
 	while (arg[j] && arg[j] != '=')
 		j++;
 	*name = ft_strndup(arg, j);
 	if (!*name)
 		return (1);
+	if (is_valid_name(*name, j))
+        	return (free(*name), 1);
 	if (arg[j] == '\0')
 	{
 		*value = NULL;

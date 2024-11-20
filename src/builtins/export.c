@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:06:00 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/11/18 14:26:28 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/19 14:31:01 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ char	*create_env_var_string(t_env *env, char *name, char *value)
 		value_len = 0;
 	new_var = malloc(sizeof(int) * (name_len + value_len + 2));
 	if (!new_var)
-		return (NULL);
-	if (is_valid_name(name, name_len))
 		return (NULL);
 	ft_strcpy(new_var, name);
 	if (value_len > 0 || env->equal == 0)
@@ -94,8 +92,10 @@ int	handle_export(t_cmd *cmd, t_env *env)
 	char	*name;
 	char	*value;
 	int		update_result;
+	int	flag;
 
 	i = 1;
+	flag = 0;
 	while (cmd->args[i])
 	{
 		if (extract_name_value(cmd->args[i], &name, &value, env))
