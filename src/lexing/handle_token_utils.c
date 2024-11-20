@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_token_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 19:46:09 by abesneux          #+#    #+#             */
-/*   Updated: 2024/11/18 14:51:44 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/20 18:04:49 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*merge_content(t_word *current)
 	merged_content = ft_strdup(current->str);
 	while (current->next && (current->next->token == SINGLE_QUOTE
 			|| current->next->token == DOUBLE_QUOTE
-			|| current->next->token == WORD) && !current->has_space_after
+			|| current->next->token == WORD || current->next->token == V_ENV) && !current->has_space_after
 		&& !current->next->has_space_before)
 	{
 		next = current->next;
@@ -45,7 +45,7 @@ void	merge_quoted_tokens(t_word **head)
 	while (current)
 	{
 		if (current->token == WORD || current->token == SINGLE_QUOTE
-			|| current->token == DOUBLE_QUOTE)
+			|| current->token == DOUBLE_QUOTE || current->token == V_ENV)
 		{
 			current->str = merge_content(current);
 			current->token = WORD;
