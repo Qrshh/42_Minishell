@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 16:54:03 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/11/20 16:47:16 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/11/20 18:24:47 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,10 @@ int	handle_heredoc(t_word *list)
 {
 	int		fd;
 	char	*line;
-	char *delimiter;
+	char	*delimiter;
 
-	if(!list->next)
-		return(ft_putstr_fd("Heredoc error \n", STDERR_FILENO), 1);
+	if (!list->next)
+		return (ft_putstr_fd("Heredoc error \n", STDERR_FILENO), 1);
 	delimiter = list->next->str;
 	line = NULL;
 	sigaction_handle();
