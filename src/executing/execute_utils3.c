@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 14:51:16 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/11/18 21:19:31 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/11/20 17:48:26 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	handle_child_process(t_cmd *cmd, t_env *env, int pipefd[2], int fd_in)
 	if (cmd->nb_pipes > 0)
 		dup2(pipefd[1], STDOUT_FILENO);
 	close(pipefd[0]);
+	close(pipefd[1]);
 	if (is_a_builtin(cmd->args[0]))
 	{
 		g_exit_status = execute_builtin(cmd, env);

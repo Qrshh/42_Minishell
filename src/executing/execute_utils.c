@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 21:04:49 by abesneux          #+#    #+#             */
-/*   Updated: 2024/11/20 15:35:20 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/20 16:25:17 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ char	**list_to_array(t_word *list)
 				return (free_array(array, i));
 			}
 		}
-		else
+		else if (is_token_redir(list) && list->next)
 			list = list->next;
 		list = list->next;
 	}

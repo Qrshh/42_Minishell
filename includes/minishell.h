@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 20:06:36 by abesneux          #+#    #+#             */
-/*   Updated: 2024/11/20 15:06:59 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/20 16:46:38 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ extern int			g_exit_status;
 
 // INTIALISATION
 void				shell_loop(t_all *all, t_env *env);
-void				print_list_word(t_word *word);
 
 // UTILS ALL FUNCTIONS
 int					reset_all(t_all *all);
@@ -121,7 +120,7 @@ void				exec(t_cmd *cmd, t_env *env);
 t_word				*handle_dollar(t_all *all, t_env *env);
 void				heredoc_handler(int signum);
 void				sigaction_handle(void);
-int					handle_heredoc(char *delimiter);
+int					handle_heredoc(t_word *list);
 int					redir_heredoc(void);
 int					check_space_before(char *input, int *i);
 int					check_space_after(char *input, int i);

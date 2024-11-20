@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 16:54:03 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/11/14 16:54:14 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/20 16:47:16 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,15 @@ void	heredoc_loop(int fd, char *line, char *delimiter)
 	}
 }
 
-int	handle_heredoc(char *delimiter)
+int	handle_heredoc(t_word *list)
 {
 	int		fd;
 	char	*line;
+	char *delimiter;
 
+	if(!list->next)
+		return(ft_putstr_fd("Heredoc error \n", STDERR_FILENO), 1);
+	delimiter = list->next->str;
 	line = NULL;
 	sigaction_handle();
 	g_exit_status = 0;

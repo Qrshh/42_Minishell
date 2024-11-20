@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:12 by abesneux          #+#    #+#             */
-/*   Updated: 2024/11/20 15:09:53 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/20 17:42:32 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,14 +80,12 @@ void	process_pipe(t_cmd *cmd, t_env *env)
 	pid_t	pid;
 	int		pipefd[2];
 	int		fd_in;
-	int		i;
 
 	fd_in = 0;
-	i = 0;
 	while (cmd->nb_pipes >= 0)
 	{
 		prepare_next_pipe(cmd);
-		if (i <= cmd->nb_pipes && pipe(pipefd) < 0)
+		if (pipe(pipefd) < 0)
 			return ;
 		pid = fork();
 		if (pid < 0)

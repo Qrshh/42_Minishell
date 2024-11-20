@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 18:28:53 by abesneux          #+#    #+#             */
-/*   Updated: 2024/11/12 20:31:31 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/11/20 16:44:57 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ int	handle_outfile(t_word *list)
 	int	fd;
 
 	fd = -1;
-	if (list->token == RIGHT)
+	if (list->token == RIGHT && list->next)
 	{
 		if (!is_operator(list->next->str[0]))
 			fd = open(list->next->str, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	}
-	else if (list->token == DOUBLE_RIGHT)
+	else if (list->token == DOUBLE_RIGHT && list->next)
 		fd = open(list->next->str, O_CREAT | O_RDWR | O_APPEND, 0644);
 	if (fd < 0)
 	{
@@ -44,7 +44,7 @@ int	handle_infile(t_word *list)
 	int	fd;
 
 	fd = -1;
-	if (list->token == LEFT)
+	if (list->token == LEFT && list->next)
 		fd = open(list->next->str, O_RDONLY);
 	if (fd < 0)
 		return ((ft_putstr_fd("infile : error\n", STDERR_FILENO), 1));
@@ -74,7 +74,7 @@ int	handle_operator_exec(t_cmd *cmd)
 		}
 		else if (current->token == DOUBLE_LEFT)
 		{
-			if (handle_heredoc(current->next->str))
+			if (handle_heredoc(current))
 				return (1);
 			if (redir_heredoc())
 				return (1);
