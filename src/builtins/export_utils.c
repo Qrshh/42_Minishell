@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 13:38:02 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/11/20 18:31:07 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/11/20 18:33:31 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	is_valid_name(char *name, int name_len)
 	while (i < name_len)
 	{
 		if (!ft_isalpha(name[i]) && name[i] != '_')
-			return(ft_putstr_fd(" not a valid identifier", STDERR_FILENO), 1);
+			return (ft_putstr_fd(" not a valid identifier", STDERR_FILENO), 1);
 		i++;
 	}
 	return (0);
