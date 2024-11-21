@@ -58,7 +58,9 @@ int	handle_infile(t_word *list)
 int	handle_operator_exec(t_cmd *cmd)
 {
 	t_word	*current;
-
+	t_word	*last_heredoc;
+	
+	last_heredoc = NULL;
 	current = cmd->list;
 	while (current)
 	{
@@ -76,10 +78,12 @@ int	handle_operator_exec(t_cmd *cmd)
 		{
 			if (handle_heredoc(current))
 				return (1);
-			if (redir_heredoc())
-				return (1);
+			last_heredoc = current;
 		}
 		current = current->next;
 	}
+	if (last_heredoc && redir_heredoc(last_heredoc))
+		return (1);
+	unlink(last_heredoc->str);
 	return (0);
 }

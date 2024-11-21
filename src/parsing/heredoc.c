@@ -21,24 +21,46 @@ void	heredoc_handler(int signum)
 	}
 }
 
-int	redir_heredoc(void)
+char *heredoc_tmp_file(int heredoc_index)
+{
+    char *index_str;
+    char *tmpfile;
+
+    index_str = ft_itoa(heredoc_index);
+    if (!index_str) 
+		return (NULL);
+
+    tmpfile = malloc(ft_strlen(".heredoc_") + ft_strlen(index_str) + ft_strlen(".tmp") + 1);
+    if (!tmpfile) 
+	{
+        free(index_str);
+        return (NULL);
+    }
+    strcpy(tmpfile, ".heredoc_");
+    strcat(tmpfile, index_str);
+    strcat(tmpfile, ".tmp");
+    free(index_str);
+    return tmpfile;
+}
+
+int	redir_heredoc(t_word *list)
 {
 	int	fd;
 
-	fd = open(".heredoc.tmp", O_RDONLY);
+	fd = open(list->str, O_RDONLY);
 	if (fd < 0)
 	{
-		ft_putstr_fd("heredoc : tmp error\n", STDERR_FILENO);
+		printf("heredoc open");
 		return (1);
 	}
 	if (dup2(fd, STDIN_FILENO) < 0)
 	{
-		ft_putstr_fd("heredoc : redirection error\n", STDERR_FILENO);
+		printf("dup2");
 		close(fd);
 		return (1);
 	}
-	unlink(".heredoc.tmp");
 	close(fd);
+	unlink(list->str);
 	return (0);
 }
 
@@ -62,31 +84,36 @@ void	heredoc_loop(int fd, char *line, char *delimiter)
 	}
 }
 
-int	handle_heredoc(t_word *list)
+int	handle_heredoc(t_word *current)
 {
 	int		fd;
-	char	*line;
 	char	*delimiter;
-
-	if (!list->next)
+	char	*tmpfile;
+	int 	heredoc_index;
+	
+	heredoc_index = 0;
+	if (!current->next)
 		return (ft_putstr_fd("Heredoc error \n", STDERR_FILENO), 1);
-	delimiter = list->next->str;
-	line = NULL;
-	sigaction_handle();
-	g_exit_status = 0;
-	fd = open(".heredoc.tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	delimiter = current->next->str;
+	tmpfile = heredoc_tmp_file(heredoc_index++);
+	fd = open(tmpfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd < 0)
 	{
 		ft_putstr_fd("heredoc : erreur creation tmp\n", STDERR_FILENO);
 		return (1);
 	}
-	heredoc_loop(fd, line, delimiter);
+	sigaction_handle();
+	g_exit_status = 0;
+	heredoc_loop(fd, NULL, delimiter);
 	close(fd);
 	restore_sigint();
 	if (g_exit_status == 130)
 	{
-		unlink(".heredoc.tmp");
+		unlink(tmpfile);
 		return (1);
 	}
+	free(current->str);
+	current->str = tmpfile;
+
 	return (0);
 }

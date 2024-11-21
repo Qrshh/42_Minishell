@@ -121,9 +121,9 @@ t_word				*handle_dollar(t_all *all, t_env *env);
 void				heredoc_handler(int signum);
 void				sigaction_handle(void);
 int					handle_heredoc(t_word *list);
-int					redir_heredoc(void);
 int					check_space_before(char *input, int *i);
 int					check_space_after(char *input, int i);
+int					redir_heredoc(t_word *list);
 void				restore_sigint(void);
 void				sigaction_handle(void);
 // TOKENISATION
