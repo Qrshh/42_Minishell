@@ -6,7 +6,7 @@
 /*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:06:00 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/11/21 15:05:39 by abesneux         ###   ########.fr       */
+/*   Updated: 2024/11/21 15:07:36 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	update_var(t_env *env, char *name, char *value)
 	{
 		if (ft_strncmp(env->env_cpy[i], name, ft_strlen(name)) == 0
 			&& (env->env_cpy[i][name_len] == '='
-				|| env->env_cpy[i][name_len] == '\0'))
+			|| env->env_cpy[i][name_len] == '\0'))
 		{
 			if (value == NULL && env->env_cpy[i][name_len] == '=')
 				return (0);
