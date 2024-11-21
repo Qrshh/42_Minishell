@@ -117,17 +117,16 @@ void	handle_env(char *input, int *i, t_word **head, t_word **current)
 	int		flag1;
 	int		flag2;
 
-	flag1 = check_space_before(input, i);
-	flag2 = 0;
 	while (input[*i] && input[*i] == '$')
 	{
+		flag1 = check_space_before(input, i);
 		j = *i + 1;
 		while (input[j] && !is_space(input[j]) && input[j] != '"'
 			&& input[j] != '\'' && input[j] != ';' && input[j] != '$')
 			j++;
 		if (j > *i + 1)
 		{
-			flag2 = check_space_after(input, j);
+			flag2 = check_space_after(input, j - 1);
 			word = ft_strndup(&input[*i + 1], j - *i - 1);
 			new_node = init_lex(word, V_ENV, flag1, flag2);
 			add_to_list(head, current, new_node);

@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   handle_operator.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2024/10/03 18:28:53 by abesneux          #+#    #+#             */
 /*   Updated: 2024/11/20 16:44:57 by abesneux         ###   ########.fr       */
 /*                                                                            */
@@ -12,9 +15,10 @@
 
 #include "minishell.h"
 
+
 int	handle_outfile(t_word *list)
 {
-	int	fd;
+	int fd;
 
 	fd = -1;
 	if (list->token == RIGHT && list->next)
@@ -41,7 +45,7 @@ int	handle_outfile(t_word *list)
 
 int	handle_infile(t_word *list)
 {
-	int	fd;
+	int fd;
 
 	fd = -1;
 	if (list->token == LEFT && list->next)
@@ -57,9 +61,9 @@ int	handle_infile(t_word *list)
 
 int	handle_operator_exec(t_cmd *cmd)
 {
-	t_word	*current;
-	t_word	*last_heredoc;
-	
+	t_word *current;
+	t_word *last_heredoc;
+
 	last_heredoc = NULL;
 	current = cmd->list;
 	while (current)
@@ -83,7 +87,10 @@ int	handle_operator_exec(t_cmd *cmd)
 		current = current->next;
 	}
 	if (last_heredoc && redir_heredoc(last_heredoc))
-		return (1);
-	unlink(last_heredoc->str);
+	{
+		if(redir_heredoc(last_heredoc))
+			return (1);
+		unlink(last_heredoc->str);
+	}
 	return (0);
 }
