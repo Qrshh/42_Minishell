@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:06:00 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/11/20 13:07:20 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/21 15:05:39 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@ char	*create_env_var_string(t_env *env, char *name, char *value)
 	char	*new_var;
 	int		name_len;
 	int		value_len;
-	int		i;
 
-	i = 0;
 	name_len = ft_strlen(name);
 	if (value != NULL)
 		value_len = ft_strlen(value);
@@ -48,7 +46,7 @@ int	update_var(t_env *env, char *name, char *value)
 	{
 		if (ft_strncmp(env->env_cpy[i], name, ft_strlen(name)) == 0
 			&& (env->env_cpy[i][name_len] == '='
-			|| env->env_cpy[i][name_len] == '\0'))
+				|| env->env_cpy[i][name_len] == '\0'))
 		{
 			if (value == NULL && env->env_cpy[i][name_len] == '=')
 				return (0);
