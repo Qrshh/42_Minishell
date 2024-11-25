@@ -21,26 +21,15 @@ void	heredoc_handler(int signum)
 	}
 }
 
-char *heredoc_tmp_file(int heredoc_index)
+char	*heredoc_tmp_file(void)
 {
-    char *index_str;
-    char *tmpfile;
+	char	*tmpfile;
 
-    index_str = ft_itoa(heredoc_index);
-    if (!index_str) 
+	tmpfile = malloc(ft_strlen(".heredoc.tmp") + 1);
+	if (!tmpfile)
 		return (NULL);
-
-    tmpfile = malloc(ft_strlen(".heredoc_") + ft_strlen(index_str) + ft_strlen(".tmp") + 1);
-    if (!tmpfile) 
-	{
-        free(index_str);
-        return (NULL);
-    }
-    strcpy(tmpfile, ".heredoc_");
-    strcat(tmpfile, index_str);
-    strcat(tmpfile, ".tmp");
-    free(index_str);
-    return tmpfile;
+	strcpy(tmpfile, ".heredoc.tmp");
+	return (tmpfile);
 }
 
 int	redir_heredoc(t_word *list)
@@ -71,7 +60,10 @@ void	heredoc_loop(int fd, char *line, char *delimiter)
 		ft_putstr_fd("heredoc> ", STDOUT_FILENO);
 		line = get_next_line(STDIN_FILENO);
 		if (!line || g_exit_status == 130)
+		{
+			printf("EOF incorrect, leaving\n");
 			break ;
+		}
 		line[ft_strlen(line) - 1] = '\0';
 		if (ft_strcmp(line, delimiter) == 0)
 		{
@@ -89,19 +81,14 @@ int	handle_heredoc(t_word *current)
 	int		fd;
 	char	*delimiter;
 	char	*tmpfile;
-	int 	heredoc_index;
-	
-	heredoc_index = 0;
+
 	if (!current->next)
 		return (ft_putstr_fd("Heredoc error \n", STDERR_FILENO), 1);
 	delimiter = current->next->str;
-	tmpfile = heredoc_tmp_file(heredoc_index++);
+	tmpfile = heredoc_tmp_file();
 	fd = open(tmpfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd < 0)
-	{
-		ft_putstr_fd("heredoc : erreur creation tmp\n", STDERR_FILENO);
-		return (1);
-	}
+		return (ft_putstr_fd("heredoc : error tmp\n", STDERR_FILENO), 1);
 	sigaction_handle();
 	g_exit_status = 0;
 	heredoc_loop(fd, NULL, delimiter);
@@ -110,10 +97,10 @@ int	handle_heredoc(t_word *current)
 	if (g_exit_status == 130)
 	{
 		unlink(tmpfile);
+		free(tmpfile);
 		return (1);
 	}
 	free(current->str);
 	current->str = tmpfile;
-
 	return (0);
 }

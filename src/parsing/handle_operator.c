@@ -15,10 +15,9 @@
 
 #include "minishell.h"
 
-
 int	handle_outfile(t_word *list)
 {
-	int fd;
+	int	fd;
 
 	fd = -1;
 	if (list->token == RIGHT && list->next)
@@ -45,7 +44,7 @@ int	handle_outfile(t_word *list)
 
 int	handle_infile(t_word *list)
 {
-	int fd;
+	int	fd;
 
 	fd = -1;
 	if (list->token == LEFT && list->next)
@@ -59,10 +58,21 @@ int	handle_infile(t_word *list)
 	return (0);
 }
 
+int	handle_last_heredoc(t_word *last_heredoc)
+{
+	if (!last_heredoc)
+		return (0);
+	if (redir_heredoc(last_heredoc))
+		return (1);
+	unlink(last_heredoc->str);
+	return (0);
+}
+
+
 int	handle_operator_exec(t_cmd *cmd)
 {
-	t_word *current;
-	t_word *last_heredoc;
+	t_word	*current;
+	t_word	*last_heredoc;
 
 	last_heredoc = NULL;
 	current = cmd->list;
@@ -73,11 +83,8 @@ int	handle_operator_exec(t_cmd *cmd)
 			if (handle_outfile(current))
 				return (1);
 		}
-		else if (current->token == LEFT)
-		{
-			if (handle_infile(current))
-				return (1);
-		}
+		else if (current->token == LEFT && handle_infile(current))
+			return (1);
 		else if (current->token == DOUBLE_LEFT)
 		{
 			if (handle_heredoc(current))
@@ -86,11 +93,5 @@ int	handle_operator_exec(t_cmd *cmd)
 		}
 		current = current->next;
 	}
-	if (last_heredoc && redir_heredoc(last_heredoc))
-	{
-		if(redir_heredoc(last_heredoc))
-			return (1);
-		unlink(last_heredoc->str);
-	}
-	return (0);
+	return (handle_last_heredoc(last_heredoc));
 }
