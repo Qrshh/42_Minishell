@@ -64,6 +64,8 @@ void	handle_child_process(t_cmd *cmd, t_env *env, int pipefd[2], int fd_in)
 	if (is_a_builtin(cmd->args[0]))
 	{
 		g_exit_status = execute_builtin(cmd, env);
+		free_cmd(cmd);
+		free_env(env);
 		exit(g_exit_status);
 	}
 	else

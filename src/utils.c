@@ -52,10 +52,7 @@ int	reset_all(t_all *all)
 	t_word	*next;
 
 	if (all->input)
-	{
-		free(all->input);
 		all->input = NULL;
-	}
 	current = all->list;
 	while (current)
 	{

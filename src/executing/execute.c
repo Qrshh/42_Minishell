@@ -71,6 +71,8 @@ void	exec(t_cmd *cmd, t_env *env)
 	if (!path || execve(path, cmd->args, env->env_cpy) == -1)
 	{
 		perror("Command not found");
+		free_cmd(cmd);
+		free_env(env);
 		exit(127);
 	}
 }
@@ -80,11 +82,15 @@ void	process_pipe(t_cmd *cmd, t_env *env)
 	pid_t	pid;
 	int		pipefd[2];
 	int		fd_in;
+	char	*path;
 
+	path = getpath(cmd->args[0], env->env_cpy);
 	fd_in = 0;
 	while (cmd->nb_pipes >= 0)
 	{
 		prepare_next_pipe(cmd);
+		if (cmd->nb_pipes == 0 && is_a_builtin(cmd->args[0]))
+			builtin_exec(cmd, env, path);
 		if (pipe(pipefd) < 0)
 			return ;
 		pid = fork();

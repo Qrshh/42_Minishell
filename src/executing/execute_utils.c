@@ -54,6 +54,7 @@ void	pre_execute(t_word *list, t_env *env, char *input)
 
 	if (strcmp(input, "cat") == 0 || strncmp(input, "grep", 4) == 0)
 		signal(SIGQUIT, handle_sigquit);
+	free(input);
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 	{
@@ -65,7 +66,7 @@ void	pre_execute(t_word *list, t_env *env, char *input)
 	if (handle_operator_exec(cmd))
 	{
 		reset_all_fd(cmd);
-		free(cmd);
+		free_cmd(cmd);
 		return ;
 	}
 	if (list->token == 0)

@@ -73,7 +73,6 @@ typedef struct s_cmd
 typedef struct s_all
 {
 	char			*input;
-	char			**splited_input;
 	t_word			*list;
 }					t_all;
 
@@ -89,6 +88,10 @@ void				free_tab(char **tab);
 void				skip_whitespaces(char *input, int *i);
 int					is_token_redir(t_word *list);
 int					count_pipes(t_word *list);
+void				free_cmd(t_cmd *cmd);
+void				free_env(t_env *env);
+void				free_all(t_all *all);
+void				free_list(t_word *list);
 
 // UTILS INPUT
 char				*read_and_trim_input(void);

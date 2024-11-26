@@ -68,7 +68,6 @@ int	handle_last_heredoc(t_word *last_heredoc)
 	return (0);
 }
 
-
 int	handle_operator_exec(t_cmd *cmd)
 {
 	t_word	*current;

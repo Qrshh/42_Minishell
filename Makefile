@@ -42,7 +42,7 @@ BUILTINS = handle_builtins echo exit pwd export export_utils env unset cd
 EXECUTING_DIR = executing/
 EXECUTING = execute execute_utils execute_utils2 execute_utils3
 
-SRC_FILES  += minishell utils signal
+SRC_FILES  += minishell utils signal free
 SRC_FILES += $(addprefix $(BUILTINS_DIR), $(BUILTINS))
 SRC_FILES += $(addprefix $(LEXING_DIR), $(LEXING))
 SRC_FILES += $(addprefix $(PARSING_DIR), $(PARSING))

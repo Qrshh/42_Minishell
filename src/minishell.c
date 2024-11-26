@@ -101,6 +101,7 @@ int	main(int ac, char **av, char **envp)
 	}
 	if (ac == 1)
 		shell_loop(all, &env);
+	free_tab(env.env_cpy);
 	free(all);
 	clear_history();
 	return (0);
