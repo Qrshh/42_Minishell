@@ -77,33 +77,48 @@ void	exec(t_cmd *cmd, t_env *env)
 	}
 }
 
-void	process_pipe(t_cmd *cmd, t_env *env)
+void process_pipe(t_cmd *cmd, t_env *env)
 {
-	pid_t	pid;
-	int		pipefd[2];
-	int		fd_in;
-	char	*path;
+    pid_t  *pids;
+    int    pipefd[2];
+    int    fd_in;
+    int    i;
 
-	path = getpath(cmd->args[0], env->env_cpy);
-	fd_in = 0;
-	while (cmd->nb_pipes >= 0)
-	{
-		prepare_next_pipe(cmd);
-		if (cmd->nb_pipes == 0 && is_a_builtin(cmd->args[0]))
-			builtin_exec(cmd, env, path);
-		if (pipe(pipefd) < 0)
-			return ;
-		pid = fork();
-		if (pid < 0)
-			return ;
-		if (pid == 0)
-			handle_child_process(cmd, env, pipefd, fd_in);
-		else
-			handle_parent_process(&fd_in, pipefd, pid);
-		cmd->args = cmd->post_pipe;
-		cmd->nb_pipes--;
-	}
+    pids = malloc((cmd->nb_pipes + 1) * sizeof(pid_t));
+    if (!pids)
+        return;
+    fd_in = 0;
+    i = 0;
+    while (cmd->nb_pipes >= 0)
+    {
+        prepare_next_pipe(cmd);
+        if (pipe(pipefd) < 0)
+            return;
+        pids[i] = fork();
+        if (pids[i] < 0)
+            return;
+        if (pids[i] == 0)
+            handle_child_process(cmd, env, pipefd, fd_in);
+		close(pipefd[1]);
+		if(fd_in != 0)
+			close(fd_in);
+		fd_in = pipefd[0];
+        cmd->args = cmd->post_pipe;
+        cmd->nb_pipes--;
+        i++;
+    }
+    for (int j = 0; j < i; j++)
+    {
+        int status;
+        waitpid(pids[j], &status, 0);
+        if (WIFEXITED(status))
+            g_exit_status = WEXITSTATUS(status);
+        else if (WIFSIGNALED(status))
+            g_exit_status = 128 + WTERMSIG(status);
+    }
+    free(pids);
 }
+
 
 void	execute_command(t_cmd *cmd, t_env *env)
 {
