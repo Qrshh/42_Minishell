@@ -111,7 +111,7 @@ t_cmd				*init_cmd(t_cmd *cmd, t_word *list);
 int					count_list(t_word *list);
 int					handle_operator_exec(t_cmd *cmd);
 void				builtin_exec(t_cmd *cmd, t_env *env, char *path);
-void				handle_parent_process(int *fd_in, int pipefd[2], pid_t pid);
+void				handle_parent_process(int *fd_in, int pipefd[2]);
 void				handle_child_process(t_cmd *cmd, t_env *env, int pipefd[2],
 						int fd_in);
 void				prepare_next_pipe(t_cmd *cmd);
