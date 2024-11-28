@@ -71,7 +71,7 @@ void	shell_loop(t_all *all, t_env *env)
 			break ;
 		if (all->input[0] == '\0')
 		{
-			free_all(all);
+			free(all->input);
 			continue ;
 		}
 		if (!check_syntax(all))

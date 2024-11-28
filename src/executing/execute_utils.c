@@ -59,7 +59,8 @@ void	pre_execute(t_word *list, t_env *env, char *input)
 	if (!cmd)
 	{
 		free_cmd(cmd);
-		printf("Erreur d'allocation mémoire pour cmd");
+		free_list(list);
+		printf("Erreur d'allocation mémoire pour cmd\n");
 		return ;
 	}
 	init_cmd(cmd, list);
@@ -67,10 +68,11 @@ void	pre_execute(t_word *list, t_env *env, char *input)
 	if (handle_operator_exec(cmd))
 	{
 		reset_all_fd(cmd);
+		free_list(list);
 		free_cmd(cmd);
 		return ;
 	}
-	if (list->token == 0)
+	if (cmd->list->token == 0)
 		execute_command(cmd, env);
 	reset_all_fd(cmd);
 }
@@ -90,7 +92,7 @@ char	**list_to_array(t_word *list)
 
 	array = malloc((count_list(list) + 1) * sizeof(char *));
 	if (!array)
-		return (printf("Erreur d'allocation mémoire"), NULL);
+		return (printf("Erreur d'allocation mémoire\n"), NULL);
 	i = 0;
 	while (list && ft_strcmp(list->str, "|") != 0)
 	{
@@ -99,7 +101,7 @@ char	**list_to_array(t_word *list)
 			array[i] = ft_strdup(list->str);
 			if (!array[i++])
 			{
-				printf("Erreur d'allocation mémoire");
+				printf("Erreur d'allocation mémoire\n");
 				return (free_array(array, i));
 			}
 		}

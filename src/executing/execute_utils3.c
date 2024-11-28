@@ -32,11 +32,11 @@ void	simple_exec(t_cmd *cmd, t_env *env, char *path)
 		execve(path, cmd->args, env->env_cpy);
 		free_cmd(cmd);
 		free_tab(env->env_cpy);
-		printf("Command not found");
+		printf("Command not found\n");
 		exit(127);
 	}
 	else if (pid < 0)
-		printf("Fork error");
+		printf("Fork error\n");
 	else
 	{
 		waitpid(pid, &status, 0);
