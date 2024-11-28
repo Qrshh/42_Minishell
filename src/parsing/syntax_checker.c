@@ -12,25 +12,24 @@
 
 #include "minishell.h"
 
-int	check_syntax(char *input)
+int	check_syntax(t_all *all)
 {
-	if (has_unclosed_quotes(input))
+	if (has_unclosed_quotes(all->input))
 	{
 		ft_putstr_fd("Syntax error : unclosed quotes \n", STDERR_FILENO);
 		return (1);
 	}
-	else if (has_logical_operator(input))
+	else if (has_logical_operator(all->input))
 	{
 		ft_putstr_fd("Syntax error : logical operators are not supported \n",
 			STDERR_FILENO);
 		return (1);
 	}
-	else if (pipe_checker(input))
+	else if (pipe_checker(all->input))
 	{
 		ft_putstr_fd("Syntax error : misplaced operator \n", STDERR_FILENO);
 		return (1);
 	}
-	ft_strtrim(input, " \t");
 	return (0);
 }
 

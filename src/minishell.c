@@ -71,10 +71,10 @@ void	shell_loop(t_all *all, t_env *env)
 			break ;
 		if (all->input[0] == '\0')
 		{
-			free(all->input);
+			free_all(all);
 			continue ;
 		}
-		if (!check_syntax(all->input))
+		if (!check_syntax(all))
 		{
 			all->list = token(all);
 			all->list = handle_dollar(all, env);
@@ -97,12 +97,13 @@ int	main(int ac, char **av, char **envp)
 	if (!all)
 	{
 		printf("Error while malloc\n");
+		free_all(all);
 		return (1);
 	}
 	if (ac == 1)
 		shell_loop(all, &env);
 	free_tab(env.env_cpy);
-	free(all);
+	free_all(all);
 	clear_history();
 	return (0);
 }

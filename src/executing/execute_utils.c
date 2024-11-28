@@ -52,13 +52,14 @@ void	pre_execute(t_word *list, t_env *env, char *input)
 {
 	t_cmd	*cmd;
 
-	if (strcmp(input, "cat") == 0 || strncmp(input, "grep", 4) == 0)
+	if (isatty(0))
 		signal(SIGQUIT, handle_sigquit);
 	free(input);
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 	{
-		perror("Erreur d'allocation mémoire pour cmd");
+		free_cmd(cmd);
+		printf("Erreur d'allocation mémoire pour cmd");
 		return ;
 	}
 	init_cmd(cmd, list);
@@ -89,7 +90,7 @@ char	**list_to_array(t_word *list)
 
 	array = malloc((count_list(list) + 1) * sizeof(char *));
 	if (!array)
-		return (perror("Erreur d'allocation mémoire"), NULL);
+		return (printf("Erreur d'allocation mémoire"), NULL);
 	i = 0;
 	while (list && ft_strcmp(list->str, "|") != 0)
 	{
@@ -98,7 +99,7 @@ char	**list_to_array(t_word *list)
 			array[i] = ft_strdup(list->str);
 			if (!array[i++])
 			{
-				perror("Erreur d'allocation mémoire");
+				printf("Erreur d'allocation mémoire");
 				return (free_array(array, i));
 			}
 		}

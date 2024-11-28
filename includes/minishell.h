@@ -103,7 +103,7 @@ char				*getpath(char *cmd, char **env);
 int					execute_builtin(t_cmd *cmd, t_env *env);
 int					is_a_builtin(char *cmd);
 char				**copy_env(char **main_env);
-int					check_syntax(char *input);
+int					check_syntax(t_all *all);
 int					has_unclosed_quotes(const char *input);
 int					has_logical_operator(const char *input);
 int					pipe_checker(const char *input);
@@ -113,7 +113,7 @@ char				**list_to_array(t_word *list);
 t_cmd				*init_cmd(t_cmd *cmd, t_word *list);
 int					count_list(t_word *list);
 int					handle_operator_exec(t_cmd *cmd);
-void				builtin_exec(t_cmd *cmd, t_env *env, char *path);
+void				simple_exec(t_cmd *cmd, t_env *env, char *path);
 void				handle_parent_process(int *fd_in, int pipefd[2]);
 void				handle_child_process(t_cmd *cmd, t_env *env, int pipefd[2],
 						int fd_in);

@@ -16,7 +16,7 @@
 #include "minishell.h"
 
 
-void	builtin_exec(t_cmd *cmd, t_env *env, char *path)
+void	simple_exec(t_cmd *cmd, t_env *env, char *path)
 {
 	pid_t pid;
 	int status;
@@ -30,11 +30,13 @@ void	builtin_exec(t_cmd *cmd, t_env *env, char *path)
 	if (pid == 0)
 	{
 		execve(path, cmd->args, env->env_cpy);
-		perror("Command not found");
+		free_cmd(cmd);
+		free_tab(env->env_cpy);
+		printf("Command not found");
 		exit(127);
 	}
 	else if (pid < 0)
-		perror("Fork error");
+		printf("Fork error");
 	else
 	{
 		waitpid(pid, &status, 0);
@@ -67,15 +69,7 @@ void	handle_child_process(t_cmd *cmd, t_env *env, int pipefd[2], int fd_in)
 		dup2(pipefd[1], STDOUT_FILENO);
 	close(pipefd[1]);
 	close(pipefd[0]);
-	if (is_a_builtin(cmd->args[0]))
-	{
-		g_exit_status = execute_builtin(cmd, env);
-		free_cmd(cmd);
-		free_env(env);
-		exit(g_exit_status);
-	}
-	else
-		exec(cmd, env);
+	exec(cmd, env);
 }
 
 void	handle_parent_process(int *fd_in, int pipefd[2])

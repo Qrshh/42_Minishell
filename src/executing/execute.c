@@ -62,15 +62,10 @@ void	exec(t_cmd *cmd, t_env *env)
 {
 	char	*path;
 
-	if (is_a_builtin(cmd->args[0]))
-	{
-		g_exit_status = execute_builtin(cmd, env);
-		return ;
-	}
 	path = getpath(cmd->args[0], env->env_cpy);
 	if (!path || execve(path, cmd->args, env->env_cpy) == -1)
 	{
-		perror("Command not found");
+		printf("Command not found");
 		free_cmd(cmd);
 		free_env(env);
 		exit(127);
@@ -130,6 +125,6 @@ void	execute_command(t_cmd *cmd, t_env *env)
 	if (cmd && cmd->nb_pipes > 0)
 		process_pipe(cmd, env);
 	else
-		builtin_exec(cmd, env, path);
+		simple_exec(cmd, env, path);
 	signal(SIGQUIT, SIG_IGN);
 }

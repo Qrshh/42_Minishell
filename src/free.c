@@ -6,7 +6,7 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 16:38:07 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/11/26 17:02:02 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/11/28 16:48:20 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 void	free_cmd(t_cmd *cmd)
 {
-	t_cmd	*temp;
-
 	if (cmd)
 	{
-		temp = cmd;
-		cmd = cmd->next;
-		free_tab(cmd->args);
-		free_tab(cmd->post_pipe);
+		if (cmd->list)
+			free_list(cmd->list);
+		if (cmd->args)
+			free_tab(cmd->args);
+		if (cmd->post_pipe)
+			free_tab(cmd->post_pipe);
 		free(cmd);
 	}
 }
