@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   execute_utils2.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2024/10/09 17:12:28 by ozdemir           #+#    #+#             */
 /*   Updated: 2024/11/18 17:21:59 by ozdemir          ###   ########.fr       */
 /*                                                                            */
@@ -71,4 +74,24 @@ t_cmd	*init_cmd(t_cmd *cmd, t_word *list)
 	cmd->old_out = dup(STDOUT_FILENO);
 	cmd->old_inf = dup(STDIN_FILENO);
 	return (cmd);
+}
+
+int	handle_single_pipe(t_cmd *cmd, t_env *env, int pipefd[2], pid_t *pid)
+{
+	int	fd_in;
+
+	fd_in = 0;
+	prepare_next_pipe(cmd);
+	if (pipe(pipefd) < 0)
+		return (-1);
+	*pid = fork();
+	if (*pid < 0)
+		return (-1);
+	if (*pid == 0)
+		handle_child_process(cmd, env, pipefd, fd_in);
+	close(pipefd[1]);
+	if (fd_in != 0)
+		close(fd_in);
+	fd_in = pipefd[0];
+	return (0);
 }

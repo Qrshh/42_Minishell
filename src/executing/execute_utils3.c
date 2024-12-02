@@ -2,11 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   execute_utils3.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
+/*                                                    +:+ +:+
 	+:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+      
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+
 	+#+        */
-/*                                                +#+#+#+#+#+  
+/*                                                +#+#+#+#+#+
 	+#+           */
 /*   Created: 2024/11/18 14:51:16 by ozdemir           #+#    #+#             */
 /*   Updated: 2024/11/20 17:48:26 by abesneux         ###   ########.fr       */
@@ -15,11 +15,10 @@
 
 #include "minishell.h"
 
-
 void	simple_exec(t_cmd *cmd, t_env *env, char *path)
 {
-	pid_t pid;
-	int status;
+	pid_t	pid;
+	int		status;
 
 	if (is_a_builtin(cmd->args[0]))
 	{
@@ -35,8 +34,6 @@ void	simple_exec(t_cmd *cmd, t_env *env, char *path)
 		printf("Command not found\n");
 		exit(127);
 	}
-	else if (pid < 0)
-		printf("Fork error\n");
 	else
 	{
 		waitpid(pid, &status, 0);
@@ -62,7 +59,8 @@ void	prepare_next_pipe(t_cmd *cmd)
 
 void	handle_child_process(t_cmd *cmd, t_env *env, int pipefd[2], int fd_in)
 {
-	static int i;
+	static int	i;
+
 	i = cmd->nb_pipes;
 	dup2(fd_in, STDIN_FILENO);
 	if (i > 0)
@@ -74,7 +72,8 @@ void	handle_child_process(t_cmd *cmd, t_env *env, int pipefd[2], int fd_in)
 
 void	handle_parent_process(int *fd_in, int pipefd[2])
 {
-	int status;
+	int	status;
+
 	waitpid(-1, &status, 0);
 	if (WIFEXITED(status))
 		g_exit_status = WEXITSTATUS(status);
@@ -82,4 +81,21 @@ void	handle_parent_process(int *fd_in, int pipefd[2])
 		g_exit_status = 128 + WTERMSIG(status);
 	close(pipefd[1]);
 	*fd_in = pipefd[0];
+}
+
+void	wait_children(pid_t *pids, int i)
+{
+	int	j;
+	int	status;
+
+	j = 0;
+	while (j < i)
+	{
+		waitpid(pids[j], &status, 0);
+		if (WIFEXITED(status))
+			g_exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			g_exit_status = 128 + WTERMSIG(status);
+		j++;
+	}
 }

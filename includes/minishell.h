@@ -129,6 +129,9 @@ int					check_space_after(char *input, int i);
 int					redir_heredoc(t_word *list);
 void				restore_sigint(void);
 void				sigaction_handle(void);
+void				wait_children(pid_t *pids, int i);
+int					handle_single_pipe(t_cmd *cmd, t_env *env, int pipefd[2],
+						pid_t *pid);
 // TOKENISATION
 
 // LEXING

@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2024/07/08 22:06:12 by abesneux          #+#    #+#             */
 /*   Updated: 2024/11/20 17:42:32 by abesneux         ###   ########.fr       */
 /*                                                                            */
@@ -72,48 +75,27 @@ void	exec(t_cmd *cmd, t_env *env)
 	}
 }
 
-void process_pipe(t_cmd *cmd, t_env *env)
+void	process_pipe(t_cmd *cmd, t_env *env)
 {
-    pid_t  *pids;
-    int    pipefd[2];
-    int    fd_in;
-    int    i;
+	pid_t	*pids;
+	int		pipefd[2];
+	int		i;
 
-    pids = malloc((cmd->nb_pipes + 1) * sizeof(pid_t));
-    if (!pids)
-        return;
-    fd_in = 0;
-    i = 0;
-    while (cmd->nb_pipes >= 0)
-    {
-        prepare_next_pipe(cmd);
-        if (pipe(pipefd) < 0)
-            return;
-        pids[i] = fork();
-        if (pids[i] < 0)
-            return;
-        if (pids[i] == 0)
-            handle_child_process(cmd, env, pipefd, fd_in);
-		close(pipefd[1]);
-		if(fd_in != 0)
-			close(fd_in);
-		fd_in = pipefd[0];
-        cmd->args = cmd->post_pipe;
-        cmd->nb_pipes--;
-        i++;
-    }
-    for (int j = 0; j < i; j++)
-    {
-        int status;
-        waitpid(pids[j], &status, 0);
-        if (WIFEXITED(status))
-            g_exit_status = WEXITSTATUS(status);
-        else if (WIFSIGNALED(status))
-            g_exit_status = 128 + WTERMSIG(status);
-    }
-    free(pids);
+	pids = malloc((cmd->nb_pipes + 1) * sizeof(pid_t));
+	if (!pids)
+		return ;
+	i = 0;
+	while (cmd->nb_pipes >= 0)
+	{
+		if (handle_single_pipe(cmd, env, pipefd, &pids[i]) < 0)
+			return ;
+		cmd->args = cmd->post_pipe;
+		cmd->nb_pipes--;
+		i++;
+	}
+	wait_children(pids, i);
+	free(pids);
 }
-
 
 void	execute_command(t_cmd *cmd, t_env *env)
 {
