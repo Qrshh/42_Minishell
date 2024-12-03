@@ -69,6 +69,7 @@ void	exec(t_cmd *cmd, t_env *env)
 	if (!path || execve(path, cmd->args, env->env_cpy) == -1)
 	{
 		printf("Command not found\n");
+		free(path);
 		free_cmd(cmd);
 		free_env(env);
 		exit(127);
