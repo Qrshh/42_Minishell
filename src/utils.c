@@ -46,14 +46,14 @@ void	skip_whitespaces(char *input, int *i)
 		(*i)++;
 }
 
-int	reset_all(t_all *all)
+int	reset_cmd(t_cmd *cmd)
 {
 	t_word	*current;
 	t_word	*next;
 
-	if (all->input)
-		all->input = NULL;
-	current = all->list;
+	if (cmd->input)
+		cmd->input = NULL;
+	current = cmd->list;
 	while (current)
 	{
 		next = current->next;
@@ -61,15 +61,15 @@ int	reset_all(t_all *all)
 		free(current);
 		current = next;
 	}
-	all->list = NULL;
+	cmd->list = NULL;
 	return (1);
 }
 
-void	print_list(t_all *all)
+void	print_list(t_cmd *cmd)
 {
 	t_word	*current;
 
-	current = all->list;
+	current = cmd->list;
 	while (current != NULL)
 	{
 		printf("Index: %d\n", current->index);

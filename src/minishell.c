@@ -14,14 +14,15 @@
 
 int		g_exit_status = 0;
 
-void	init_all(t_all *all)
+void	init_cmd_1(t_cmd *cmd)
 {
-	all->input = NULL;
-	all->list = NULL;
+	cmd->input = NULL;
+	cmd->list = NULL;
+	cmd->args = NULL;
 	init_signals();
 }
 
-t_word	*token(t_all *all)
+t_word	*token(t_cmd *cmd)
 {
 	t_word	*head;
 	t_word	*current;
@@ -30,20 +31,20 @@ t_word	*token(t_all *all)
 	head = NULL;
 	current = NULL;
 	i = 0;
-	while (i < (int)ft_strlen(all->input))
+	while (i < (int)ft_strlen(cmd->input))
 	{
-		skip_whitespaces(all->input, &i);
-		if (is_operator(all->input[i]))
-			handle_operator(all->input, &i, &head, &current);
-		else if (all->input[i] == '\'')
-			handle_single_quote(all->input, &i, &head, &current);
-		else if (all->input[i] == '"')
-			handle_double_quote(all->input, &i, &head, &current);
-		else if ((all->input[i] == '$' && ft_isalpha(all->input[i + 1]))
-			|| (all->input[i + 1] == '?'))
-			handle_env(all->input, &i, &head, &current);
+		skip_whitespaces(cmd->input, &i);
+		if (is_operator(cmd->input[i]))
+			handle_operator(cmd->input, &i, &head, &current);
+		else if (cmd->input[i] == '\'')
+			handle_single_quote(cmd->input, &i, &head, &current);
+		else if (cmd->input[i] == '"')
+			handle_double_quote(cmd->input, &i, &head, &current);
+		else if ((cmd->input[i] == '$' && ft_isalpha(cmd->input[i + 1]))
+			|| (cmd->input[i + 1] == '?'))
+			handle_env(cmd->input, &i, &head, &current);
 		else
-			handle_word(all->input, &i, &head, &current);
+			handle_word(cmd->input, &i, &head, &current);
 		i++;
 	}
 	return (head);
@@ -62,48 +63,48 @@ int	get_num_digits(int num)
 	return (count);
 }
 
-void	shell_loop(t_all *all, t_env *env)
+void	shell_loop(t_cmd *cmd, t_env *env)
 {
 	while (1)
 	{
-		all->input = read_and_trim_input();
-		if (!all->input)
+		cmd->input = read_and_trim_input();
+		if (!cmd->input)
 			break ;
-		if (all->input[0] == '\0')
+		if (cmd->input[0] == '\0')
 		{
-			free(all->input);
+			free(cmd->input);
 			continue ;
 		}
-		if (!check_syntax(all))
+		if (!check_syntax(cmd))
 		{
-			all->list = token(all);
-			all->list = handle_dollar(all, env);
-			merge_quoted_tokens(&(all->list));
-			pre_execute(all->list, env, all->input);
+			cmd->list = token(cmd);
+			cmd->list = handle_dollar(cmd, env);
+			merge_quoted_tokens(&(cmd->list));
+			pre_execute(cmd, env, cmd->input);
 		}
-		reset_all(all);
+		reset_cmd(cmd);
 	}
 }
 
 int	main(int ac, char **av, char **envp)
 {
-	t_all	*all;
+	t_cmd *cmd;
 	t_env	env;
 
 	(void)av;
 	env.env_cpy = copy_env(envp);
-	all = malloc(sizeof(t_all));
-	init_all(all);
-	if (!all)
+	cmd = malloc(sizeof(t_cmd));
+	init_cmd_1(cmd);
+	if (!cmd)
 	{
 		printf("Error while malloc\n");
-		free_all(all);
+		free_cmd(cmd);
 		return (1);
 	}
 	if (ac == 1)
-		shell_loop(all, &env);
+		shell_loop(cmd, &env);
 	free_tab(env.env_cpy);
-	free_all(all);
+	free_cmd(cmd);
 	clear_history();
 	return (0);
 }

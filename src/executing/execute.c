@@ -109,5 +109,6 @@ void	execute_command(t_cmd *cmd, t_env *env)
 		process_pipe(cmd, env);
 	else
 		simple_exec(cmd, env, path);
+	free(path);
 	signal(SIGQUIT, SIG_IGN);
 }

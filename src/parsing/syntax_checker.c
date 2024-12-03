@@ -12,20 +12,20 @@
 
 #include "minishell.h"
 
-int	check_syntax(t_all *all)
+int	check_syntax(t_cmd *cmd)
 {
-	if (has_unclosed_quotes(all->input))
+	if (has_unclosed_quotes(cmd->input))
 	{
 		ft_putstr_fd("Syntax error : unclosed quotes \n", STDERR_FILENO);
 		return (1);
 	}
-	else if (has_logical_operator(all->input))
+	else if (has_logical_operator(cmd->input))
 	{
 		ft_putstr_fd("Syntax error : logical operators are not supported \n",
 			STDERR_FILENO);
 		return (1);
 	}
-	else if (pipe_checker(all->input))
+	else if (pipe_checker(cmd->input))
 	{
 		ft_putstr_fd("Syntax error : misplaced operator \n", STDERR_FILENO);
 		return (1);

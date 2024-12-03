@@ -80,12 +80,12 @@ void	handle_dollar_var(t_word *current, t_env *env, char *var_name)
 	free(dollar_var_name);
 }
 
-t_word	*handle_dollar(t_all *all, t_env *env)
+t_word	*handle_dollar(t_cmd *cmd, t_env *env)
 {
 	t_word	*current;
 	char	*var_name;
 
-	current = all->list;
+	current = cmd->list;
 	while (current)
 	{
 		if (current->token == V_ENV)
@@ -96,5 +96,5 @@ t_word	*handle_dollar(t_all *all, t_env *env)
 		}
 		current = current->next;
 	}
-	return (all->list);
+	return (cmd->list);
 }

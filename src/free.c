@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 16:38:07 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/11/28 16:48:20 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/12/03 03:42:17 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,3 @@ void	free_list(t_word *list)
 	}
 }
 
-void	free_all(t_all *all)
-{
-	if (all)
-	{
-		if (all->input)
-			free(all->input);
-		if (all->list)
-			free_list(all->list);
-		free(all);
-	}
-}

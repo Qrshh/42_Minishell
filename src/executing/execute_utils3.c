@@ -29,7 +29,6 @@ void	simple_exec(t_cmd *cmd, t_env *env, char *path)
 	if (pid == 0)
 	{
 		execve(path, cmd->args, env->env_cpy);
-		free(path);
 		free_tab(env->env_cpy);
 		printf("Command not found\n");
 		exit(127);

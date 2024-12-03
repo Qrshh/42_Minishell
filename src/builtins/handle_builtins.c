@@ -30,7 +30,7 @@ int	execute_builtin(t_cmd *cmd, t_env *env)
 	else if (ft_strcmp(cmd->args[0], "env") == 0)
 		res = my_env(cmd, env);
 	else if (ft_strcmp(cmd->args[0], "exit") == 0)
-		res = my_exit(cmd);
+		res = my_exit(cmd, env);
 	return (res);
 }
 

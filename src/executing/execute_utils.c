@@ -48,27 +48,16 @@ void	reset_all_fd(t_cmd *cmd)
 	close(cmd->old_inf);
 }
 
-void	pre_execute(t_word *list, t_env *env, char *input)
+void	pre_execute(t_cmd *cmd, t_env *env, char *input)
 {
-	t_cmd	*cmd;
-
 	if (isatty(0))
 		signal(SIGQUIT, handle_sigquit);
 	free(input);
-	cmd = malloc(sizeof(t_cmd));
-	if (!cmd)
-	{
-		free_cmd(cmd);
-		free_list(list);
-		printf("Erreur d'allocation mémoire pour cmd\n");
-		return ;
-	}
-	init_cmd(cmd, list);
+	init_cmd(cmd);
 	cmd->nb_pipes = count_pipes(cmd->list);
 	if (handle_operator_exec(cmd))
 	{
 		reset_all_fd(cmd);
-		free_list(list);
 		free_cmd(cmd);
 		return ;
 	}
@@ -105,8 +94,6 @@ char	**list_to_array(t_word *list)
 				return (free_array(array, i));
 			}
 		}
-		else if (is_token_redir(list) && list->next)
-			list = list->next;
 		list = list->next;
 	}
 	array[i] = NULL;

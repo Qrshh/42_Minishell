@@ -30,26 +30,6 @@ int	count_list(t_word *list)
 	return (count);
 }
 
-int	check_cmd(char *word, char **env)
-{
-	char	*path;
-
-	path = getpath(word, env);
-	if (path && access(path, X_OK) == 0)
-	{
-		printf("La commande '%s' est exécutable.\n", word);
-		return (1);
-	}
-	else
-	{
-		printf("Commande non trouvée ou non exécutable: '%s'\n", word);
-		return (0);
-	}
-	if (path != word)
-		free(path);
-	return (0);
-}
-
 int	count_pipes(t_word *list)
 {
 	int	count;
@@ -64,10 +44,9 @@ int	count_pipes(t_word *list)
 	return (count);
 }
 
-t_cmd	*init_cmd(t_cmd *cmd, t_word *list)
+t_cmd	*init_cmd(t_cmd *cmd)
 {
-	cmd->list = list;
-	cmd->args = list_to_array(list);
+	cmd->args = list_to_array(cmd->list);
 	cmd->post_pipe = NULL;
 	cmd->nb_pipes = 0;
 	cmd->previous = NULL;
