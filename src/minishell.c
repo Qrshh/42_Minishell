@@ -19,6 +19,7 @@ void	init_cmd_1(t_cmd *cmd)
 	cmd->input = NULL;
 	cmd->list = NULL;
 	cmd->args = NULL;
+	cmd->post_pipe = NULL;
 	init_signals();
 }
 

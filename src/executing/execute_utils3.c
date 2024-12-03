@@ -30,6 +30,8 @@ void	simple_exec(t_cmd *cmd, t_env *env, char *path)
 	{
 		execve(path, cmd->args, env->env_cpy);
 		free_tab(env->env_cpy);
+		free_cmd(cmd);
+		free(path);
 		printf("Command not found\n");
 		exit(127);
 	}

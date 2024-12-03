@@ -37,7 +37,6 @@ char	*replace_var(char *input, char *var_name, char *var_value)
 	pos = ft_strstr(var_name, input);
 	if (pos)
 		ft_strncpy(new_input, var_value, ft_strlen(var_value) + 1);
-	free(input);
 	return (new_input);
 }
 
@@ -62,20 +61,21 @@ void	handle_dollar_var(t_word *current, t_env *env, char *var_name)
 {
 	char	*var_value;
 	char	*dollar_var_name;
+	char	*new_str;
 
 	dollar_var_name = ft_strjoin("$", var_name);
 	if (ft_strcmp(var_name, "?") == 0)
 	{
-		current->str = replace_var(current->str, "$?", ft_itoa(g_exit_status));
+		new_str = replace_var(current->str, "$?", ft_itoa(g_exit_status));
 	}
 	else
 	{
 		var_value = find_var_value(env, var_name);
 		if (var_value)
-			current->str = replace_var(current->str, dollar_var_name,
+			new_str = replace_var(current->str, dollar_var_name,
 					var_value);
 		else
-			current->str = replace_var(current->str, dollar_var_name, "");
+			new_str = replace_var(current->str, dollar_var_name, "");
 	}
 	free(dollar_var_name);
 }
