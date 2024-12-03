@@ -39,12 +39,12 @@ int	redir_heredoc(t_word *list)
 	fd = open(list->str, O_RDONLY);
 	if (fd < 0)
 	{
-		printf("heredoc open");
+		printf("heredoc open\n");
 		return (1);
 	}
 	if (dup2(fd, STDIN_FILENO) < 0)
 	{
-		printf("dup2");
+		printf("dup2\n");
 		close(fd);
 		return (1);
 	}

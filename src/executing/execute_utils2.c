@@ -57,9 +57,8 @@ t_cmd	*init_cmd(t_cmd *cmd)
 
 int	handle_single_pipe(t_cmd *cmd, t_env *env, int pipefd[2], pid_t *pid)
 {
-	int	fd_in;
+	static int	fd_in = 0;
 
-	fd_in = 0;
 	prepare_next_pipe(cmd);
 	if (pipe(pipefd) < 0)
 		return (-1);

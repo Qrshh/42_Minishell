@@ -15,10 +15,9 @@
 
 #include "minishell.h"
 
-
 int	is_str_digit(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (str[i] == '+')
@@ -36,8 +35,8 @@ int	is_str_digit(char *str)
 
 int	my_exit(t_cmd *cmd, t_env *env)
 {
-	int exit_code;
-	
+	int	exit_code;
+
 	if (cmd->args[1] && cmd->args[2])
 		return (ft_putstr_fd("exit: too many arguments\n", STDERR_FILENO), 1);
 	if (!cmd->args[1])

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int		g_exit_status = 0;
+int	g_exit_status = 0;
 
 void	init_cmd_1(t_cmd *cmd)
 {
@@ -88,7 +88,7 @@ void	shell_loop(t_cmd *cmd, t_env *env)
 
 int	main(int ac, char **av, char **envp)
 {
-	t_cmd *cmd;
+	t_cmd	*cmd;
 	t_env	env;
 
 	(void)av;
