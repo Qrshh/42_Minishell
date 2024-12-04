@@ -94,6 +94,7 @@ void	process_pipe(t_cmd *cmd, t_env *env)
 		cmd->nb_pipes--;
 		i++;
 	}
+	free_cmd(cmd);
 	wait_children(pids, i);
 	free(pids);
 }
@@ -107,7 +108,11 @@ void	execute_command(t_cmd *cmd, t_env *env)
 	path = getpath(cmd->args[0], env->env_cpy);
 	signal(SIGQUIT, SIG_IGN);
 	if (cmd && cmd->nb_pipes > 0)
+	{
 		process_pipe(cmd, env);
+		free_cmd(cmd);
+		free(path);
+	}
 	else
 		simple_exec(cmd, env, path);
 }

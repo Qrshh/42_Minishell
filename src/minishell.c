@@ -69,6 +69,7 @@ void	shell_loop(t_cmd *cmd, t_env *env)
 	while (1)
 	{
 		cmd->input = read_and_trim_input();
+		init_signals();
 		if (!cmd->input)
 			break ;
 		if (cmd->input[0] == '\0')
@@ -105,7 +106,6 @@ int	main(int ac, char **av, char **envp)
 	if (ac == 1)
 		shell_loop(cmd, &env);
 	free_tab(env.env_cpy);
-	free_cmd(cmd);
 	free(cmd);
 	clear_history();
 	return (0);

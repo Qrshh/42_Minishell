@@ -18,6 +18,7 @@ void	handle_sigint(int signal)
 	ft_putstr_fd("\n", STDERR_FILENO);
 	rl_on_new_line();
 	rl_replace_line("", 0);
+	rl_redisplay();
 	g_exit_status = 130;
 }
 

@@ -28,15 +28,18 @@ void	simple_exec(t_cmd *cmd, t_env *env, char *path)
 	pid = fork();
 	if (pid == 0)
 	{
-		execve(path, cmd->args, env->env_cpy);
+		if (execve(path, cmd->args, env->env_cpy))
+			exit(127);
 		printf("Command not found\n");
-		g_exit_status = 127;
+		free_cmd(cmd);
+		exit(127);
 	}
 	else
 	{
 		waitpid(pid, &status, 0);
 		free_cmd(cmd);
-		free_tab(env->env_cpy);
+		if(path)
+			free(path);
 		if (WIFEXITED(status))
 			g_exit_status = WEXITSTATUS(status);
 		else

@@ -48,20 +48,10 @@ void	skip_whitespaces(char *input, int *i)
 
 int	reset_cmd(t_cmd *cmd)
 {
-	t_word	*current;
-	t_word	*next;
-
 	if (cmd->input)
 		cmd->input = NULL;
-	current = cmd->list;
-	while (current)
-	{
-		next = current->next;
-		free(current->str);
-		free(current);
-		current = next;
-	}
-	cmd->list = NULL;
+	if(cmd->list)
+		cmd->list = NULL;
 	return (1);
 }
 
