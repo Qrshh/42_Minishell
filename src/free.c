@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 16:38:07 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/12/03 13:47:44 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/12/04 00:52:46 by abesneux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	free_cmd(t_cmd *cmd)
 			free_tab(cmd->args);
 		if (cmd->post_pipe)
 			free_tab(cmd->post_pipe);
-		free(cmd);
 	}
 }
 
@@ -47,4 +46,5 @@ void	free_list(t_word *list)
 			free(temp->str);
 		free(temp);
 	}
+	free(list);
 }

@@ -29,15 +29,14 @@ void	simple_exec(t_cmd *cmd, t_env *env, char *path)
 	if (pid == 0)
 	{
 		execve(path, cmd->args, env->env_cpy);
-		free_tab(env->env_cpy);
-		free_cmd(cmd);
-		free(path);
 		printf("Command not found\n");
-		exit(127);
+		g_exit_status = 127;
 	}
 	else
 	{
 		waitpid(pid, &status, 0);
+		free_cmd(cmd);
+		free_tab(env->env_cpy);
 		if (WIFEXITED(status))
 			g_exit_status = WEXITSTATUS(status);
 		else

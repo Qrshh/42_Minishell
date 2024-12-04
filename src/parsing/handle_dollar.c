@@ -61,21 +61,19 @@ void	handle_dollar_var(t_word *current, t_env *env, char *var_name)
 {
 	char	*var_value;
 	char	*dollar_var_name;
-	char	*new_str;
 
 	dollar_var_name = ft_strjoin("$", var_name);
 	if (ft_strcmp(var_name, "?") == 0)
 	{
-		new_str = replace_var(current->str, "$?", ft_itoa(g_exit_status));
+		current->str = replace_var(current->str, "$?", ft_itoa(g_exit_status));
 	}
 	else
 	{
 		var_value = find_var_value(env, var_name);
 		if (var_value)
-			new_str = replace_var(current->str, dollar_var_name,
-					var_value);
+			current->str = replace_var(current->str, dollar_var_name, var_value);
 		else
-			new_str = replace_var(current->str, dollar_var_name, "");
+			current->str = replace_var(current->str, dollar_var_name, "");
 	}
 	free(dollar_var_name);
 }

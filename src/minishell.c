@@ -106,6 +106,7 @@ int	main(int ac, char **av, char **envp)
 		shell_loop(cmd, &env);
 	free_tab(env.env_cpy);
 	free_cmd(cmd);
+	free(cmd);
 	clear_history();
 	return (0);
 }
