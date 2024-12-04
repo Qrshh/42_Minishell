@@ -31,7 +31,7 @@ void	handle_sigquit(int signal)
 void	init_signals(void)
 {
 	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, SIG_IGN)
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	sigaction_handle(void)
