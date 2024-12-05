@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2024/09/23 13:12:38 by ozdemir           #+#    #+#             */
 /*   Updated: 2024/11/18 17:08:08 by ozdemir          ###   ########.fr       */
 /*                                                                            */
@@ -12,7 +15,8 @@
 
 #include "minishell.h"
 
-int	copy_env_without_var(char **env_cpy, char *var, char **new_env, t_arena *arena)
+int	copy_env_without_var(char **env_cpy, char *var, char **new_env,
+		t_arena *arena)
 {
 	int	i;
 	int	j;

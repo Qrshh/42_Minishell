@@ -99,9 +99,9 @@ void	execute_command(t_cmd *cmd, t_env *env, t_arena *arena)
 	if (cmd->args[0] == NULL)
 		return ;
 	path = getpath(cmd->args[0], env->env_cpy, arena);
-	signal(SIGQUIT, SIG_IGN);
 	if (cmd && cmd->nb_pipes > 0)
 		process_pipe(cmd, env, arena);
 	else
 		simple_exec(cmd, env, path, arena);
+	signal(SIGQUIT, SIG_IGN);
 }

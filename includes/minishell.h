@@ -163,7 +163,7 @@ void	handle_sigint(int signal);
 void	handle_sigquit(int signal);
 
 // BUILTINS
-int		my_exit(t_cmd *cmd, t_env *env);
+int		my_exit(t_cmd *cmd, t_env *env, t_arena *arena);
 int		my_export(t_cmd *cmd, t_env *env, t_arena *arena);
 int		my_cd(t_cmd *cmd, t_env *env, t_arena *arena);
 int		my_echo(t_cmd *cmd);

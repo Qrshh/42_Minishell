@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: abesneux <abesneux@student.42.fr>          +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2024/09/16 14:06:00 by ozdemir           #+#    #+#             */
 /*   Updated: 2024/11/21 15:07:36 by abesneux         ###   ########.fr       */
 /*                                                                            */
@@ -12,7 +15,8 @@
 
 #include "minishell.h"
 
-char	*create_env_var_string(t_env *env, char *name, char *value, t_arena *arena)
+char	*create_env_var_string(t_env *env, char *name, char *value,
+		t_arena *arena)
 {
 	char	*new_var;
 	int		name_len;
@@ -50,7 +54,8 @@ int	update_var(t_env *env, char *name, char *value, t_arena *arena)
 		{
 			if (value == NULL && env->env_cpy[i][name_len] == '=')
 				return (0);
-			return (update_or_create_var(env, &env->env_cpy[i], name, value, arena));
+			return (update_or_create_var(env, &env->env_cpy[i], name, value,
+					arena));
 		}
 		i++;
 	}

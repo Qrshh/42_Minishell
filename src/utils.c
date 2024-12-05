@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   all.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: qrshh <qrshh@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: qrshh <qrshh@student.42.fr>                +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2024/05/23 21:07:54 by qrshh             #+#    #+#             */
 /*   Updated: 2024/05/23 21:12:04 by qrshh            ###   ########.fr       */
 /*                                                                            */
@@ -49,7 +52,7 @@ int	reset_cmd(t_cmd *cmd)
 {
 	if (cmd->input)
 		cmd->input = NULL;
-	if(cmd->list)
+	if (cmd->list)
 		cmd->list = NULL;
 	return (1);
 }

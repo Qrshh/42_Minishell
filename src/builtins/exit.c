@@ -33,7 +33,7 @@ int	is_str_digit(char *str)
 	return (1);
 }
 
-int	my_exit(t_cmd *cmd, t_env *env)
+int	my_exit(t_cmd *cmd, t_env *env, t_arena *arena)
 {
 	int	exit_code;
 
@@ -49,5 +49,6 @@ int	my_exit(t_cmd *cmd, t_env *env)
 	else
 		return (ft_putstr_fd("exit: numeric argument required\n",
 				STDERR_FILENO), 2);
+	free_arena(arena);
 	exit(exit_code);
 }
