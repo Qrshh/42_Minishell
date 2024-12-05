@@ -68,7 +68,7 @@ int	handle_last_heredoc(t_word *last_heredoc)
 	return (0);
 }
 
-int	handle_operator_exec(t_cmd *cmd)
+int	handle_operator_exec(t_cmd *cmd, t_arena *arena)
 {
 	t_word	*current;
 	t_word	*last_heredoc;
@@ -86,7 +86,7 @@ int	handle_operator_exec(t_cmd *cmd)
 			return (1);
 		else if (current->token == DOUBLE_LEFT)
 		{
-			if (handle_heredoc(current))
+			if (handle_heredoc(current, arena))
 				return (1);
 			last_heredoc = current;
 		}

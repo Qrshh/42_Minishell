@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	**copy_env(char **main_env)
+char	**copy_env(char **main_env, t_arena *arena)
 {
 	int		i;
 	int		len;
@@ -22,19 +22,15 @@ char	**copy_env(char **main_env)
 	len = 0;
 	while (main_env[len])
 		len++;
-	str = malloc(sizeof(char *) * (len + 1));
+	str = arena_alloc(arena, sizeof(char *) * (len + 1));
 	if (!str)
 		return (NULL);
 	while (++i < len)
 	{
-		str[i] = ft_strdup(main_env[i]);
+		str[i] = arena_alloc(arena, ft_strlen(main_env[i]) + 1);
 		if (!str[i])
-		{
-			while (i > 0)
-				free(str[--i]);
-			free(str);
 			return (NULL);
-		}
+		ft_strcpy(str[i], main_env[i]);
 	}
 	str[len] = NULL;
 	return (str);
@@ -48,21 +44,21 @@ void	reset_all_fd(t_cmd *cmd)
 	close(cmd->old_inf);
 }
 
-void	pre_execute(t_cmd *cmd, t_env *env, char *input)
+void	pre_execute(t_cmd *cmd, t_env *env, char *input, t_arena *arena)
 {
+	if (!input)
+		return ;
 	if (isatty(0))
 		signal(SIGQUIT, handle_sigquit);
-	free(input);
-	init_cmd(cmd);
+	init_cmd(cmd, arena);
 	cmd->nb_pipes = count_pipes(cmd->list);
-	if (handle_operator_exec(cmd))
+	if (handle_operator_exec(cmd, arena))
 	{
 		reset_all_fd(cmd);
-		free_cmd(cmd);
 		return ;
 	}
 	if (cmd->list->token == 0)
-		execute_command(cmd, env);
+		execute_command(cmd, env, arena);
 	reset_all_fd(cmd);
 }
 
@@ -74,12 +70,12 @@ char	**free_array(char **array, int i)
 	return (NULL);
 }
 
-char	**list_to_array(t_word *list)
+char	**list_to_array(t_word *list, t_arena *arena)
 {
 	char	**array;
 	int		i;
 
-	array = malloc((count_list(list) + 1) * sizeof(char *));
+	array = arena_alloc(arena, (count_list(list) + 1) * sizeof(char *));
 	if (!array)
 		return (printf("Erreur d'allocation mémoire\n"), NULL);
 	i = 0;
@@ -87,11 +83,11 @@ char	**list_to_array(t_word *list)
 	{
 		if (!is_token_redir(list))
 		{
-			array[i] = ft_strdup(list->str);
+			array[i] = aft_strdup(list->str, arena);
 			if (!array[i++])
 			{
 				printf("Erreur d'allocation mémoire\n");
-				return (free_array(array, i));
+				return (NULL);
 			}
 		}
 		list = list->next;

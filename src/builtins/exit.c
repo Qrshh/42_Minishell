@@ -37,6 +37,7 @@ int	my_exit(t_cmd *cmd, t_env *env)
 {
 	int	exit_code;
 
+	(void)env;
 	if (cmd->args[1] && cmd->args[2])
 		return (ft_putstr_fd("exit: too many arguments\n", STDERR_FILENO), 1);
 	if (!cmd->args[1])
@@ -48,7 +49,5 @@ int	my_exit(t_cmd *cmd, t_env *env)
 	else
 		return (ft_putstr_fd("exit: numeric argument required\n",
 				STDERR_FILENO), 2);
-	free_cmd(cmd);
-	free_tab(env->env_cpy);
 	exit(exit_code);
 }

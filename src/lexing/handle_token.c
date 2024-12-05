@@ -28,14 +28,18 @@ void	add_to_list(t_word **head, t_word **current, t_word *new_node)
 	*current = new_node;
 }
 
-void	handle_operator(char *input, int *i, t_word **head, t_word **current)
+void	handle_operator(char *input, int *i, t_word **head, t_word **current, t_arena *arena)
 {
 	t_token	token;
 	char	*temp;
 	int		len;
 	t_word	*new_node;
+	int		flag1;
+	int		flag2;
 
 	len = 1;
+	flag1 = 0;
+	flag2 = 0;
 	token = PIPE;
 	if ((input[*i] == '>' || input[*i] == '<') && input[*i + 1] == input[*i])
 	{
@@ -49,15 +53,13 @@ void	handle_operator(char *input, int *i, t_word **head, t_word **current)
 		token = LEFT;
 	else if (input[*i] == '>')
 		token = RIGHT;
-	temp = ft_strndup(&input[*i], len);
-	new_node = init_lex(temp, token, 0, 0);
+	temp = aft_strndup(&input[*i], len, arena);
+	new_node = init_lex(temp, token, flag1, flag2, arena);
 	add_to_list(head, current, new_node);
 	*i += len - 1;
-	free(temp);
 }
 
-void	handle_single_quote(char *input, int *i, t_word **head,
-		t_word **current)
+void	handle_single_quote(char *input, int *i, t_word **head, t_word **current, t_arena *arena)
 {
 	char	*word;
 	int		j;
@@ -74,15 +76,14 @@ void	handle_single_quote(char *input, int *i, t_word **head,
 	if (input[j] == '\'')
 	{
 		flag2 = check_space_after(input, j);
-		word = ft_strndup(&input[*i + 1], j - *i - 1);
-		new_node = init_lex(word, SINGLE_QUOTE, flag1, flag2);
+		word = aft_strndup(&input[*i + 1], j - *i - 1, arena);
+		new_node = init_lex(word, SINGLE_QUOTE, flag1, flag2, arena);
 		add_to_list(head, current, new_node);
 		*i = j;
-		free(word);
 	}
 }
 
-void	handle_word(char *input, int *i, t_word **head, t_word **current)
+void	handle_word(char *input, int *i, t_word **head, t_word **current, t_arena *arena)
 {
 	int		len;
 	char	*word;
@@ -102,14 +103,13 @@ void	handle_word(char *input, int *i, t_word **head, t_word **current)
 		len++;
 	}
 	flag2 = check_space_after(input, *i + len - 1);
-	word = ft_strndup(&input[*i], len);
-	new_node = init_lex(word, WORD, flag1, flag2);
+	word = aft_strndup(&input[*i], len, arena);
+	new_node = init_lex(word, WORD, flag1, flag2, arena);
 	add_to_list(head, current, new_node);
 	*i += len - 1;
-	free(word);
 }
 
-void	handle_env(char *input, int *i, t_word **head, t_word **current)
+void	handle_env(char *input, int *i, t_word **head, t_word **current, t_arena *arena)
 {
 	char	*word;
 	int		j;
@@ -127,11 +127,10 @@ void	handle_env(char *input, int *i, t_word **head, t_word **current)
 		if (j > *i + 1)
 		{
 			flag2 = check_space_after(input, j - 1);
-			word = ft_strndup(&input[*i + 1], j - *i - 1);
-			new_node = init_lex(word, V_ENV, flag1, flag2);
+			word = aft_strndup(&input[*i + 1], j - *i - 1, arena);
+			new_node = init_lex(word, V_ENV, flag1, flag2, arena);
 			add_to_list(head, current, new_node);
 			*i = j - 1;
-			free(word);
 		}
 		*i += 1;
 	}

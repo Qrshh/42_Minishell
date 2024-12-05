@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	*read_and_trim_input(void)
+char	*read_and_trim_input(t_arena *arena)
 {
 	char	*input;
 	char	*trimmed_input;
@@ -22,8 +22,7 @@ char	*read_and_trim_input(void)
 		return (NULL);
 	else if (*input)
 		add_history(input);
-	trimmed_input = ft_strtrim(input, " \t");
-	free(input);
+	trimmed_input = aft_strtrim(input, " \t", arena);
 	return (trimmed_input);
 }
 
@@ -53,19 +52,4 @@ int	reset_cmd(t_cmd *cmd)
 	if(cmd->list)
 		cmd->list = NULL;
 	return (1);
-}
-
-void	print_list(t_cmd *cmd)
-{
-	t_word	*current;
-
-	current = cmd->list;
-	while (current != NULL)
-	{
-		printf("Index: %d\n", current->index);
-		printf("String: %s\n", current->str);
-		printf("Token: %d\n", current->token);
-		printf("----------\n");
-		current = current->next;
-	}
 }

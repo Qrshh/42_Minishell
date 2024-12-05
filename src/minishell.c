@@ -23,11 +23,11 @@ void	init_cmd_1(t_cmd *cmd)
 	init_signals();
 }
 
-t_word	*token(t_cmd *cmd)
+t_word	*token(t_cmd *cmd, t_arena *arena)
 {
+	int		i;
 	t_word	*head;
 	t_word	*current;
-	int		i;
 
 	head = NULL;
 	current = NULL;
@@ -36,16 +36,16 @@ t_word	*token(t_cmd *cmd)
 	{
 		skip_whitespaces(cmd->input, &i);
 		if (is_operator(cmd->input[i]))
-			handle_operator(cmd->input, &i, &head, &current);
+			handle_operator(cmd->input, &i, &head, &current, arena);
 		else if (cmd->input[i] == '\'')
-			handle_single_quote(cmd->input, &i, &head, &current);
+			handle_single_quote(cmd->input, &i, &head, &current, arena);
 		else if (cmd->input[i] == '"')
-			handle_double_quote(cmd->input, &i, &head, &current);
+			handle_double_quote(cmd->input, &i, &head, &current, arena);
 		else if ((cmd->input[i] == '$' && ft_isalpha(cmd->input[i + 1]))
 			|| (cmd->input[i + 1] == '?'))
-			handle_env(cmd->input, &i, &head, &current);
+			handle_env(cmd->input, &i, &head, &current, arena);
 		else
-			handle_word(cmd->input, &i, &head, &current);
+			handle_word(cmd->input, &i, &head, &current, arena);
 		i++;
 	}
 	return (head);
@@ -64,25 +64,22 @@ int	get_num_digits(int num)
 	return (count);
 }
 
-void	shell_loop(t_cmd *cmd, t_env *env)
+void	shell_loop(t_cmd *cmd, t_env *env, t_arena *arena)
 {
 	while (1)
 	{
-		cmd->input = read_and_trim_input();
+		cmd->input = read_and_trim_input(arena);
 		init_signals();
 		if (!cmd->input)
 			break ;
 		if (cmd->input[0] == '\0')
-		{
-			free(cmd->input);
 			continue ;
-		}
 		if (!check_syntax(cmd))
 		{
-			cmd->list = token(cmd);
-			cmd->list = handle_dollar(cmd, env);
-			merge_quoted_tokens(&(cmd->list));
-			pre_execute(cmd, env, cmd->input);
+			cmd->list = token(cmd, arena);
+			cmd->list = handle_dollar(cmd, env, arena);
+			merge_quoted_tokens(&(cmd->list), arena);
+			pre_execute(cmd, env, cmd->input, arena);
 		}
 		reset_cmd(cmd);
 	}
@@ -92,21 +89,21 @@ int	main(int ac, char **av, char **envp)
 {
 	t_cmd	*cmd;
 	t_env	env;
+	t_arena	arena;
 
 	(void)av;
-	env.env_cpy = copy_env(envp);
-	cmd = malloc(sizeof(t_cmd));
-	init_cmd_1(cmd);
+	arena_init(&arena, ARENA_SIZE);
+	env.env_cpy = copy_env(envp, &arena);
+	cmd = arena_alloc(&arena, sizeof(t_cmd));
 	if (!cmd)
 	{
-		printf("Error while malloc\n");
-		free_cmd(cmd);
+		printf("Error while allocating cmd\n");
 		return (1);
 	}
+	init_cmd_1(cmd);
 	if (ac == 1)
-		shell_loop(cmd, &env);
-	free_tab(env.env_cpy);
-	free(cmd);
+		shell_loop(cmd, &env, &arena);
 	clear_history();
+	free_arena(&arena);
 	return (0);
 }

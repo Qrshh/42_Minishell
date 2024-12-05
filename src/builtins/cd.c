@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	update_path(t_env *env, char *var_name, char *value)
+void	update_path(t_env *env, char *var_name, char *value, t_arena *arena)
 {
 	int	i;
 	int	len;
@@ -25,15 +25,15 @@ void	update_path(t_env *env, char *var_name, char *value)
 			&& env->env_cpy[i][len] == '=')
 		{
 			free(env->env_cpy[i]);
-			env->env_cpy[i] = ft_strjoin(var_name, "=");
-			env->env_cpy[i] = ft_strjoin(env->env_cpy[i], value);
+			env->env_cpy[i] = aft_strjoin(var_name, "=", arena);
+			env->env_cpy[i] = aft_strjoin(env->env_cpy[i], value, arena);
 			return ;
 		}
 		i++;
 	}
 }
 
-int	my_cd(t_cmd *cmd, t_env *env)
+int	my_cd(t_cmd *cmd, t_env *env, t_arena *arena)
 {
 	char	*home;
 	char	*old_pwd;
@@ -46,7 +46,7 @@ int	my_cd(t_cmd *cmd, t_env *env)
 	{
 		home = getenv("HOME");
 		if (!home)
-			return (perror("cd: HOME not set\n"), 1);
+			return (printf("cd: HOME not set\n"), 1);
 		if (chdir(home) != 0)
 			return (printf("cd: no such file or dir: %s\n", home), 1);
 	}
@@ -55,8 +55,8 @@ int	my_cd(t_cmd *cmd, t_env *env)
 	new_pwd = getcwd(NULL, 0);
 	if (new_pwd)
 	{
-		update_path(env, "OLDPWD", old_pwd);
-		update_path(env, "PWD", new_pwd);
+		update_path(env, "OLDPWD", old_pwd, arena);
+		update_path(env, "PWD", new_pwd, arena);
 		free(new_pwd);
 	}
 	return (0);

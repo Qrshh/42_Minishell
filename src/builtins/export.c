@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	*create_env_var_string(t_env *env, char *name, char *value)
+char	*create_env_var_string(t_env *env, char *name, char *value, t_arena *arena)
 {
 	char	*new_var;
 	int		name_len;
@@ -23,7 +23,7 @@ char	*create_env_var_string(t_env *env, char *name, char *value)
 		value_len = ft_strlen(value);
 	else
 		value_len = 0;
-	new_var = malloc(sizeof(int) * (name_len + value_len + 2));
+	new_var = arena_alloc(arena, sizeof(int) * (name_len + value_len + 2));
 	if (!new_var)
 		return (NULL);
 	ft_strcpy(new_var, name);
@@ -35,7 +35,7 @@ char	*create_env_var_string(t_env *env, char *name, char *value)
 	return (new_var);
 }
 
-int	update_var(t_env *env, char *name, char *value)
+int	update_var(t_env *env, char *name, char *value, t_arena *arena)
 {
 	int	i;
 	int	name_len;
@@ -50,14 +50,14 @@ int	update_var(t_env *env, char *name, char *value)
 		{
 			if (value == NULL && env->env_cpy[i][name_len] == '=')
 				return (0);
-			return (update_or_create_var(env, &env->env_cpy[i], name, value));
+			return (update_or_create_var(env, &env->env_cpy[i], name, value, arena));
 		}
 		i++;
 	}
 	return (-1);
 }
 
-int	add_new_var(t_env *env, char *name, char *value)
+int	add_new_var(t_env *env, char *name, char *value, t_arena *arena)
 {
 	int		count;
 	int		i;
@@ -67,7 +67,7 @@ int	add_new_var(t_env *env, char *name, char *value)
 	count = 0;
 	while (env->env_cpy[count])
 		count++;
-	new_env_cpy = malloc(sizeof(char *) * (count + 2));
+	new_env_cpy = arena_alloc(arena, sizeof(char *) * (count + 2));
 	if (!new_env_cpy)
 		return (1);
 	while (i < count)
@@ -75,7 +75,7 @@ int	add_new_var(t_env *env, char *name, char *value)
 		new_env_cpy[i] = env->env_cpy[i];
 		i++;
 	}
-	new_env_cpy[count] = create_env_var_string(env, name, value);
+	new_env_cpy[count] = create_env_var_string(env, name, value, arena);
 	if (!new_env_cpy[count])
 		return (free(new_env_cpy), 1);
 	new_env_cpy[count + 1] = NULL;
@@ -84,7 +84,7 @@ int	add_new_var(t_env *env, char *name, char *value)
 	return (0);
 }
 
-int	handle_export(t_cmd *cmd, t_env *env)
+int	handle_export(t_cmd *cmd, t_env *env, t_arena *arena)
 {
 	int		i;
 	char	*name;
@@ -94,15 +94,15 @@ int	handle_export(t_cmd *cmd, t_env *env)
 	i = 1;
 	while (cmd->args[i])
 	{
-		if (extract_name_value(cmd->args[i], &name, &value, env))
+		if (extract_name_value(cmd->args[i], &name, &value, env, arena))
 			return (1);
-		update_result = update_var(env, name, value);
+		update_result = update_var(env, name, value, arena);
 		if (update_result == -1)
 		{
 			if (value == NULL)
-				add_new_var(env, name, "");
+				add_new_var(env, name, "", arena);
 			else
-				add_new_var(env, name, value);
+				add_new_var(env, name, value, arena);
 		}
 		free(name);
 		if (value != NULL)
@@ -112,7 +112,7 @@ int	handle_export(t_cmd *cmd, t_env *env)
 	return (0);
 }
 
-int	my_export(t_cmd *cmd, t_env *env)
+int	my_export(t_cmd *cmd, t_env *env, t_arena *arena)
 {
 	int	i;
 	int	egal;
@@ -134,5 +134,5 @@ int	my_export(t_cmd *cmd, t_env *env)
 		return (0);
 	}
 	else
-		return (handle_export(cmd, env));
+		return (handle_export(cmd, env, arena));
 }

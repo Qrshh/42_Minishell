@@ -44,9 +44,9 @@ int	count_pipes(t_word *list)
 	return (count);
 }
 
-t_cmd	*init_cmd(t_cmd *cmd)
+t_cmd	*init_cmd(t_cmd *cmd, t_arena *arena)
 {
-	cmd->args = list_to_array(cmd->list);
+	cmd->args = list_to_array(cmd->list, arena);
 	cmd->post_pipe = NULL;
 	cmd->nb_pipes = 0;
 	cmd->previous = NULL;
@@ -55,18 +55,18 @@ t_cmd	*init_cmd(t_cmd *cmd)
 	return (cmd);
 }
 
-int	handle_single_pipe(t_cmd *cmd, t_env *env, int pipefd[2], pid_t *pid)
+int	handle_single_pipe(t_cmd *cmd, t_env *env, int pipefd[2], pid_t *pid, t_arena *arena)
 {
 	static int	fd_in = 0;
 
-	prepare_next_pipe(cmd);
+	prepare_next_pipe(cmd, arena);
 	if (pipe(pipefd) < 0)
 		return (-1);
 	*pid = fork();
 	if (*pid < 0)
 		return (-1);
 	if (*pid == 0)
-		handle_child_process(cmd, env, pipefd, fd_in);
+		handle_child_process(cmd, env, pipefd, fd_in, arena);
 	close(pipefd[1]);
 	if (fd_in != 0)
 		close(fd_in);

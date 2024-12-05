@@ -42,11 +42,15 @@ BUILTINS = handle_builtins echo exit pwd export export_utils env unset cd
 EXECUTING_DIR = executing/
 EXECUTING = execute execute_utils execute_utils2 execute_utils3
 
-SRC_FILES  += minishell utils signal free
+UTILS_DIR = utils/
+UTILS     = utils1
+
+SRC_FILES  += minishell utils signal free arena
 SRC_FILES += $(addprefix $(BUILTINS_DIR), $(BUILTINS))
 SRC_FILES += $(addprefix $(LEXING_DIR), $(LEXING))
 SRC_FILES += $(addprefix $(PARSING_DIR), $(PARSING))
 SRC_FILES += $(addprefix $(EXECUTING_DIR), $(EXECUTING))
+SRC_FILES += $(addprefix $(UTILS_DIR), $(UTILS))
 
 SRC         = $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ         = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
@@ -72,6 +76,7 @@ $(OBJ_CACHE):
 					@mkdir -p $(OBJ_DIR)$(PARSING_DIR)
 					@mkdir -p $(OBJ_DIR)$(LEXING_DIR)
 					@mkdir -p $(OBJ_DIR)$(EXECUTING_DIR)
+					@mkdir -p $(OBJ_DIR)$(UTILS_DIR)
 
 clean:
 					@make clean -C $(LIBFT_DIR)

@@ -21,11 +21,11 @@ void	heredoc_handler(int signum)
 	}
 }
 
-char	*heredoc_tmp_file(void)
+char	*heredoc_tmp_file(t_arena *arena)
 {
 	char	*tmpfile;
 
-	tmpfile = malloc(ft_strlen(".heredoc.tmp") + 1);
+	tmpfile = arena_alloc(arena, ft_strlen(".heredoc.tmp") + 1);
 	if (!tmpfile)
 		return (NULL);
 	strcpy(tmpfile, ".heredoc.tmp");
@@ -76,7 +76,7 @@ void	heredoc_loop(int fd, char *line, char *delimiter)
 	}
 }
 
-int	handle_heredoc(t_word *current)
+int	handle_heredoc(t_word *current, t_arena *arena)
 {
 	int		fd;
 	char	*delimiter;
@@ -85,7 +85,7 @@ int	handle_heredoc(t_word *current)
 	if (!current->next)
 		return (ft_putstr_fd("Heredoc error \n", STDERR_FILENO), 1);
 	delimiter = current->next->str;
-	tmpfile = heredoc_tmp_file();
+	tmpfile = heredoc_tmp_file(arena);
 	fd = open(tmpfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd < 0)
 		return (ft_putstr_fd("heredoc : error tmp\n", STDERR_FILENO), 1);
@@ -97,10 +97,8 @@ int	handle_heredoc(t_word *current)
 	if (g_exit_status == 130)
 	{
 		unlink(tmpfile);
-		free(tmpfile);
 		return (1);
 	}
-	free(current->str);
 	current->str = tmpfile;
 	return (0);
 }

@@ -15,31 +15,27 @@
 
 #include "minishell.h"
 
-void	simple_exec(t_cmd *cmd, t_env *env, char *path)
+void	simple_exec(t_cmd *cmd, t_env *env, char *path, t_arena *arena)
 {
 	pid_t	pid;
 	int		status;
 
 	if (is_a_builtin(cmd->args[0]))
 	{
-		g_exit_status = execute_builtin(cmd, env);
+		g_exit_status = execute_builtin(cmd, env, arena);
 		return ;
 	}
 	pid = fork();
 	if (pid == 0)
 	{
-		if (execve(path, cmd->args, env->env_cpy))
-			exit(127);
+		execve(path, cmd->args, env->env_cpy);
 		printf("Command not found\n");
-		free_cmd(cmd);
+		free_arena(arena);
 		exit(127);
 	}
 	else
 	{
 		waitpid(pid, &status, 0);
-		free_cmd(cmd);
-		if(path)
-			free(path);
 		if (WIFEXITED(status))
 			g_exit_status = WEXITSTATUS(status);
 		else
@@ -47,20 +43,20 @@ void	simple_exec(t_cmd *cmd, t_env *env, char *path)
 	}
 }
 
-void	prepare_next_pipe(t_cmd *cmd)
+void	prepare_next_pipe(t_cmd *cmd, t_arena *arena)
 {
 	while (cmd->list && cmd->list->token != PIPE)
 		cmd->list = cmd->list->next;
 	if (cmd->list && cmd->list->token == PIPE)
 	{
-		cmd->post_pipe = list_to_array(cmd->list->next);
+		cmd->post_pipe = list_to_array(cmd->list->next, arena);
 		cmd->list = cmd->list->next;
 	}
 	else
 		cmd->post_pipe = NULL;
 }
 
-void	handle_child_process(t_cmd *cmd, t_env *env, int pipefd[2], int fd_in)
+void	handle_child_process(t_cmd *cmd, t_env *env, int pipefd[2], int fd_in, t_arena *arena)
 {
 	static int	i;
 
@@ -70,7 +66,7 @@ void	handle_child_process(t_cmd *cmd, t_env *env, int pipefd[2], int fd_in)
 		dup2(pipefd[1], STDOUT_FILENO);
 	close(pipefd[1]);
 	close(pipefd[0]);
-	exec(cmd, env);
+	exec(cmd, env, arena);
 }
 
 void	handle_parent_process(int *fd_in, int pipefd[2])

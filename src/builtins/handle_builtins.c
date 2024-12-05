@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	execute_builtin(t_cmd *cmd, t_env *env)
+int	execute_builtin(t_cmd *cmd, t_env *env, t_arena *arena)
 {
 	int	res;
 
@@ -20,13 +20,13 @@ int	execute_builtin(t_cmd *cmd, t_env *env)
 	if (ft_strcmp(cmd->args[0], "echo") == 0)
 		res = my_echo(cmd);
 	else if (ft_strcmp(cmd->args[0], "cd") == 0)
-		res = my_cd(cmd, env);
+		res = my_cd(cmd, env, arena);
 	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
 		res = my_pwd();
 	else if (ft_strcmp(cmd->args[0], "export") == 0)
-		res = my_export(cmd, env);
+		res = my_export(cmd, env, arena);
 	else if (ft_strcmp(cmd->args[0], "unset") == 0)
-		res = my_unset(cmd, env);
+		res = my_unset(cmd, env, arena);
 	else if (ft_strcmp(cmd->args[0], "env") == 0)
 		res = my_env(cmd, env);
 	else if (ft_strcmp(cmd->args[0], "exit") == 0)

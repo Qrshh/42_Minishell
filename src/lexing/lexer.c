@@ -12,16 +12,16 @@
 
 #include "minishell.h"
 
-t_word	*init_lex(char *str, t_token token, int flag1, int flag2)
+t_word	*init_lex(char *str, t_token token, int flag1, int flag2, t_arena *arena)
 {
 	t_word	*node;
 	int		i;
 
 	i = 0;
-	node = malloc(sizeof(t_word));
+	node = arena_alloc(arena, sizeof(t_word));
 	if (!node)
 		return (NULL);
-	node->str = ft_strdup(str);
+	node->str = aft_strdup(str, arena);
 	node->token = token;
 	node->index = i++;
 	if (flag1)

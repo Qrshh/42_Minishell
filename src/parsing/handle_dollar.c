@@ -12,26 +12,26 @@
 
 #include "minishell.h"
 
-char	*get_var_name(char *str)
+char	*get_var_name(char *str, t_arena *arena)
 {
 	int		i;
 	char	*var_name;
 
 	i = 0;
 	if (ft_strcmp(str, "?") == 0)
-		return (ft_strdup("?"));
+		return (aft_strdup("?", arena));
 	while (ft_isalnum(str[i]) || str[i] == '_')
 		i++;
-	var_name = ft_substr(str, 0, i);
+	var_name = aft_substr(str, 0, i, arena);
 	return (var_name);
 }
 
-char	*replace_var(char *input, char *var_name, char *var_value)
+char	*replace_var(char *input, char *var_name, char *var_value, t_arena *arena)
 {
 	char	*new_input;
 	char	*pos;
 
-	new_input = malloc(sizeof(char) * (ft_strlen(var_value) + 1));
+	new_input = arena_alloc(arena, sizeof(char) * (ft_strlen(var_value) + 1));
 	if (!new_input)
 		return (NULL);
 	pos = ft_strstr(var_name, input);
@@ -57,28 +57,27 @@ char	*find_var_value(t_env *env, char *var_name)
 	return (NULL);
 }
 
-void	handle_dollar_var(t_word *current, t_env *env, char *var_name)
+void	handle_dollar_var(t_word *current, t_env *env, char *var_name, t_arena *arena)
 {
 	char	*var_value;
 	char	*dollar_var_name;
 
-	dollar_var_name = ft_strjoin("$", var_name);
+	dollar_var_name = aft_strjoin("$", var_name, arena);
 	if (ft_strcmp(var_name, "?") == 0)
 	{
-		current->str = replace_var(current->str, "$?", ft_itoa(g_exit_status));
+		current->str = replace_var(current->str, "$?", ft_itoa(g_exit_status), arena);
 	}
 	else
 	{
 		var_value = find_var_value(env, var_name);
 		if (var_value)
-			current->str = replace_var(current->str, dollar_var_name, var_value);
+			current->str = replace_var(current->str, dollar_var_name, var_value, arena);
 		else
-			current->str = replace_var(current->str, dollar_var_name, "");
+			current->str = replace_var(current->str, dollar_var_name, "", arena);
 	}
-	free(dollar_var_name);
 }
 
-t_word	*handle_dollar(t_cmd *cmd, t_env *env)
+t_word	*handle_dollar(t_cmd *cmd, t_env *env, t_arena *arena)
 {
 	t_word	*current;
 	char	*var_name;
@@ -88,9 +87,8 @@ t_word	*handle_dollar(t_cmd *cmd, t_env *env)
 	{
 		if (current->token == V_ENV)
 		{
-			var_name = get_var_name(current->str);
-			handle_dollar_var(current, env, var_name);
-			free(var_name);
+			var_name = get_var_name(current->str, arena);
+			handle_dollar_var(current, env, var_name, arena);
 		}
 		current = current->next;
 	}
