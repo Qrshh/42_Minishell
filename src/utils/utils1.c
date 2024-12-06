@@ -6,23 +6,11 @@
 /*   By: ozdemir <ozdemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 13:57:04 by ozdemir           #+#    #+#             */
-/*   Updated: 2024/12/05 17:05:32 by ozdemir          ###   ########.fr       */
+/*   Updated: 2024/12/06 11:43:34 by ozdemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
-static int	is_a_sep(char const *set, char c)
-{
-	while (*set)
-	{
-		if (*set == c)
-			return (1);
-		set++;
-	}
-	return (0);
-}
 
 char	*aft_strtrim(char const *s1, char const *set, t_arena *arena)
 {
@@ -59,7 +47,7 @@ char	*aft_strdup(const char *src, t_arena *arena)
 
 	if (!src)
 		return (NULL);
-	dest = arena_alloc(arena ,ft_strlen(src) + 1);
+	dest = arena_alloc(arena, ft_strlen(src) + 1);
 	if (!dest)
 		return (NULL);
 	i = 0;
@@ -78,8 +66,8 @@ char	*aft_strndup(char *str, unsigned int n, t_arena *arena)
 	unsigned int	i;
 
 	i = 0;
-        if (n == 0)
-                return ("");
+	if (n == 0)
+		return ("");
 	dest = arena_alloc(arena, sizeof(char) * (n + 1));
 	if (!dest)
 		return (NULL);
@@ -93,7 +81,8 @@ char	*aft_strndup(char *str, unsigned int n, t_arena *arena)
 	return (dest);
 }
 
-char	*aft_substr(char const *s, unsigned int start, size_t len, t_arena *arena)
+char	*aft_substr(char const *s, unsigned int start,
+			size_t len, t_arena *arena)
 {
 	char	*sub_str;
 	size_t	s_len;

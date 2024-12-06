@@ -28,7 +28,8 @@ void	add_to_list(t_word **head, t_word **current, t_word *new_node)
 	*current = new_node;
 }
 
-void	handle_operator(char *input, int *i, t_word **head, t_word **current, t_arena *arena)
+void	handle_operator(char *input, int *i, t_word **head,
+			t_word **current, t_arena *arena)
 {
 	t_token	token;
 	char	*temp;
@@ -59,7 +60,8 @@ void	handle_operator(char *input, int *i, t_word **head, t_word **current, t_are
 	*i += len - 1;
 }
 
-void	handle_single_quote(char *input, int *i, t_word **head, t_word **current, t_arena *arena)
+void	handle_single_quote(char *input, int *i, t_word **head,
+			t_word **current, t_arena *arena)
 {
 	char	*word;
 	int		j;
@@ -83,7 +85,8 @@ void	handle_single_quote(char *input, int *i, t_word **head, t_word **current, t
 	}
 }
 
-void	handle_word(char *input, int *i, t_word **head, t_word **current, t_arena *arena)
+void	handle_word(char *input, int *i, t_word **head,
+			t_word **current, t_arena *arena)
 {
 	int		len;
 	char	*word;
@@ -109,7 +112,8 @@ void	handle_word(char *input, int *i, t_word **head, t_word **current, t_arena *
 	*i += len - 1;
 }
 
-void	handle_env(char *input, int *i, t_word **head, t_word **current, t_arena *arena)
+void	handle_env(char *input, int *i, t_word **head,
+			t_word **current, t_arena *arena)
 {
 	char	*word;
 	int		j;

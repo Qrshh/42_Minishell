@@ -21,8 +21,8 @@ char	*path_join(char *path, char *bin, t_arena *arena)
 	int		i;
 	int		j;
 
-	joined = arena_alloc(arena, sizeof(char) * (ft_strchr(path, 0) + ft_strchr(bin, 0)
-				+ 2));
+	joined = arena_alloc(arena, sizeof(char) * (ft_strchr(path, 0)
+				+ ft_strchr(bin, 0) + 2));
 	i = -1;
 	j = -1;
 	while (path[++j])

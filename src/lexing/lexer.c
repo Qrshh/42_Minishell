@@ -12,7 +12,8 @@
 
 #include "minishell.h"
 
-t_word	*init_lex(char *str, t_token token, int flag1, int flag2, t_arena *arena)
+t_word	*init_lex(char *str, t_token token, int flag1,
+			int flag2, t_arena *arena)
 {
 	t_word	*node;
 	int		i;

@@ -34,10 +34,10 @@
 //1073741824
 typedef struct s_arena
 {
-	char *memory;
-	size_t used;
-	size_t size;
-} 	t_arena;
+	char	*memory;
+	size_t	used;
+	size_t	size;
+}	t_arena;
 
 typedef enum e_token
 {
@@ -71,11 +71,11 @@ typedef struct s_word
 
 typedef struct s_token_list
 {
-	t_word **head;
-	t_word **current;
+	t_word	**head;
+	t_word	**current;
 	int		flag1;
 	int		flag2;
-} 	t_token_list;
+}	t_token_list;
 
 typedef struct s_cmd
 {
@@ -122,13 +122,15 @@ int		has_logical_operator(const char *input);
 int		pipe_checker(const char *input);
 void	update_quotes_count(char c, int *s_quotes, int *d_quotes);
 int		is_space(char c);
+int		is_a_sep(char const *set, char c);
 char	**list_to_array(t_word *list, t_arena *arena);
 t_cmd	*init_cmd(t_cmd *cmd, t_arena *arena);
 int		count_list(t_word *list);
 int		handle_operator_exec(t_cmd *cmd, t_arena *arena);
 void	simple_exec(t_cmd *cmd, t_env *env, char *path, t_arena *arena);
 void	handle_parent_process(int *fd_in, int pipefd[2]);
-void	handle_child_process(t_cmd *cmd, t_env *env, int pipefd[2], int fd_in, t_arena *arena);
+void	handle_child_process(t_cmd *cmd, t_env *env, int pipefd[2],
+			int fd_in, t_arena *arena);
 void	prepare_next_pipe(t_cmd *cmd, t_arena *arena);
 void	exec(t_cmd *cmd, t_env *env, t_arena *arena);
 
@@ -142,16 +144,23 @@ int		redir_heredoc(t_word *list);
 void	restore_sigint(void);
 void	sigaction_handle(void);
 void	wait_children(pid_t *pids, int i);
-int		handle_single_pipe(t_cmd *cmd, t_env *env, int pipefd[2], pid_t *pid, t_arena *arena);
+int		handle_single_pipe(t_cmd *cmd, t_env *env, int pipefd[2],
+			pid_t *pid, t_arena *arena);
 // TOKENISATION
 
 // LEXING
-t_word	*init_lex(char *str, t_token token, int flag1, int flag2, t_arena *arena);
-void	handle_single_quote(char *input, int *i, t_word **head, t_word **current, t_arena *arena);
-void	handle_double_quote(char *input, int *i, t_word **head, t_word **current, t_arena *arena);
-void	handle_operator(char *input, int *i, t_word **head, t_word **current, t_arena *arena);
-void	handle_word(char *input, int *i, t_word **head, t_word **current, t_arena *arena);
-void	handle_env(char *input, int *i, t_word **head, t_word **current, t_arena *arena);
+t_word	*init_lex(char *str, t_token token, int flag1,
+			int flag2, t_arena *arena);
+void	handle_single_quote(char *input, int *i, t_word **head,
+			t_word **current, t_arena *arena);
+void	handle_double_quote(char *input, int *i, t_word **head,
+			t_word **current, t_arena *arena);
+void	handle_operator(char *input, int *i, t_word **head, t_word **current,
+			t_arena *arena);
+void	handle_word(char *input, int *i, t_word **head, t_word **current,
+			t_arena *arena);
+void	handle_env(char *input, int *i, t_word **head, t_word **current,
+			t_arena *arena);
 int		word_len(char *input, int i);
 void	add_to_list(t_word **head, t_word **current, t_word *new_node);
 int		is_operator(char c);
@@ -175,20 +184,22 @@ int		count_tab(char **env_cpy);
 int		is_valid_name(char *name, int name_len);
 int		update_or_create_var(t_env *env, char **env_cpy, char *name,
 			char *value, t_arena *arena);
-char	*create_env_var_string(t_env *env, char *name, char *value, t_arena *arena);
-int		extract_name_value(char *arg, char **name, char **value, t_env *env, t_arena *arena);
+char	*create_env_var_string(t_env *env, char *name, char *value,
+			t_arena *arena);
+int		extract_name_value(char *arg, char **name, char **value,
+			t_env *env, t_arena *arena);
 char	*merge_content(t_word *current, t_arena *arena);
 
-void    arena_init(t_arena *arena, size_t size);
-void    free_arena(t_arena *arena);
-void    *arena_alloc(t_arena *arena, size_t size);
+void	arena_init(t_arena *arena, size_t size);
+void	free_arena(t_arena *arena);
+void	*arena_alloc(t_arena *arena, size_t size);
 
 //UTILS
 char	*aft_strtrim(char const *s1, char const *set, t_arena *arena);
 char	*aft_strdup(const char *src, t_arena *arena);
 char	*aft_strndup(char *str, unsigned int n, t_arena *arena);
-char	*aft_substr(char const *s, unsigned int start, size_t len, t_arena *arena);
+char	*aft_substr(char const *s, unsigned int start, size_t len,
+			t_arena *arena);
 char	*aft_strjoin(char const *s1, char const *s2, t_arena *arena);
-
 
 #endif

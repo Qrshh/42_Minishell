@@ -53,7 +53,8 @@ int	is_valid_name(char *name, int name_len)
 	return (0);
 }
 
-int	update_or_create_var(t_env *env, char **env_cpy, char *name, char *value, t_arena *arena)
+int	update_or_create_var(t_env *env, char **env_cpy, char *name,
+			char *value, t_arena *arena)
 {
 	free(*env_cpy);
 	if (value == NULL)
@@ -65,7 +66,8 @@ int	update_or_create_var(t_env *env, char **env_cpy, char *name, char *value, t_
 	return (0);
 }
 
-int	extract_name_value(char *arg, char **name, char **value, t_env *env, t_arena *arena)
+int	extract_name_value(char *arg, char **name, char **value,
+			t_env *env, t_arena *arena)
 {
 	int	j;
 

@@ -55,7 +55,8 @@ t_cmd	*init_cmd(t_cmd *cmd, t_arena *arena)
 	return (cmd);
 }
 
-int	handle_single_pipe(t_cmd *cmd, t_env *env, int pipefd[2], pid_t *pid, t_arena *arena)
+int	handle_single_pipe(t_cmd *cmd, t_env *env, int pipefd[2],
+			pid_t *pid, t_arena *arena)
 {
 	static int	fd_in = 0;
 

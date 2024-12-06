@@ -51,13 +51,14 @@ void	merge_quoted_tokens(t_word **head, t_arena *arena)
 	}
 }
 
-void	handle_double_quote(char *input, int *i, t_word **head, t_word **current, t_arena *arena)
+void	handle_double_quote(char *input, int *i, t_word **head,
+			t_word **current, t_arena *arena)
 {
 	char	*word;
 	int		j;
 	t_word	*new_node;
-	int	flag1;
-	int	flag2;
+	int		flag1;
+	int		flag2;
 
 	flag1 = 0;
 	flag2 = 0;
@@ -74,7 +75,7 @@ void	handle_double_quote(char *input, int *i, t_word **head, t_word **current, t
 		flag2 = check_space_after(input, j);
 		word = aft_strndup(&input[*i + 1], j - *i - 1, arena);
 		new_node = init_lex(word, DOUBLE_QUOTE, flag1, flag2, arena);
-		add_to_list(head, current, new_node); 
+		add_to_list(head, current, new_node);
 		*i = j;
 	}
 }

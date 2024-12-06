@@ -56,7 +56,8 @@ void	prepare_next_pipe(t_cmd *cmd, t_arena *arena)
 		cmd->post_pipe = NULL;
 }
 
-void	handle_child_process(t_cmd *cmd, t_env *env, int pipefd[2], int fd_in, t_arena *arena)
+void	handle_child_process(t_cmd *cmd, t_env *env, int pipefd[2],
+			int fd_in, t_arena *arena)
 {
 	static int	i;
 
