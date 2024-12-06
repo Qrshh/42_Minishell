@@ -30,8 +30,8 @@
 # include <unistd.h>
 
 # define PATH_MAX 4096
-# define ARENA_SIZE 53687
-//1073741824
+# define ARENA_SIZE 50000
+
 typedef struct s_arena
 {
 	char	*memory;
@@ -130,7 +130,7 @@ int		handle_operator_exec(t_cmd *cmd, t_arena *arena);
 void	simple_exec(t_cmd *cmd, t_env *env, char *path, t_arena *arena);
 void	handle_parent_process(int *fd_in, int pipefd[2]);
 void	handle_child_process(t_cmd *cmd, t_env *env, int pipefd[2],
-			int fd_in, t_arena *arena);
+			t_arena *arena);
 void	prepare_next_pipe(t_cmd *cmd, t_arena *arena);
 void	exec(t_cmd *cmd, t_env *env, t_arena *arena);
 
@@ -144,7 +144,7 @@ int		redir_heredoc(t_word *list);
 void	restore_sigint(void);
 void	sigaction_handle(void);
 void	wait_children(pid_t *pids, int i);
-int		handle_single_pipe(t_cmd *cmd, t_env *env, int pipefd[2],
+int		handle_single_pipe(t_cmd *cmd, t_env *env,
 			pid_t *pid, t_arena *arena);
 // TOKENISATION
 

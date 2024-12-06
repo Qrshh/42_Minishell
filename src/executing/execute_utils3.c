@@ -57,12 +57,11 @@ void	prepare_next_pipe(t_cmd *cmd, t_arena *arena)
 }
 
 void	handle_child_process(t_cmd *cmd, t_env *env, int pipefd[2],
-			int fd_in, t_arena *arena)
+			t_arena *arena)
 {
 	static int	i;
 
 	i = cmd->nb_pipes;
-	dup2(fd_in, STDIN_FILENO);
 	if (i > 0)
 		dup2(pipefd[1], STDOUT_FILENO);
 	close(pipefd[1]);

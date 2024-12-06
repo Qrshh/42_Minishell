@@ -55,10 +55,11 @@ t_cmd	*init_cmd(t_cmd *cmd, t_arena *arena)
 	return (cmd);
 }
 
-int	handle_single_pipe(t_cmd *cmd, t_env *env, int pipefd[2],
-			pid_t *pid, t_arena *arena)
+int	handle_single_pipe(t_cmd *cmd, t_env *env, pid_t *pid,
+			t_arena *arena)
 {
 	static int	fd_in = 0;
+	int			pipefd[2];
 
 	prepare_next_pipe(cmd, arena);
 	if (pipe(pipefd) < 0)
@@ -66,8 +67,9 @@ int	handle_single_pipe(t_cmd *cmd, t_env *env, int pipefd[2],
 	*pid = fork();
 	if (*pid < 0)
 		return (-1);
+	dup2(fd_in, STDIN_FILENO);
 	if (*pid == 0)
-		handle_child_process(cmd, env, pipefd, fd_in, arena);
+		handle_child_process(cmd, env, pipefd, arena);
 	close(pipefd[1]);
 	if (fd_in != 0)
 		close(fd_in);

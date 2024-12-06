@@ -74,7 +74,6 @@ void	exec(t_cmd *cmd, t_env *env, t_arena *arena)
 void	process_pipe(t_cmd *cmd, t_env *env, t_arena *arena)
 {
 	pid_t	*pids;
-	int		pipefd[2];
 	int		i;
 
 	pids = arena_alloc(arena, (cmd->nb_pipes + 1) * sizeof(pid_t));
@@ -83,7 +82,7 @@ void	process_pipe(t_cmd *cmd, t_env *env, t_arena *arena)
 	i = 0;
 	while (cmd->nb_pipes >= 0)
 	{
-		if (handle_single_pipe(cmd, env, pipefd, &pids[i], arena) < 0)
+		if (handle_single_pipe(cmd, env, &pids[i], arena) < 0)
 			return ;
 		cmd->args = cmd->post_pipe;
 		cmd->nb_pipes--;

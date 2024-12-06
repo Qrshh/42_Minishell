@@ -26,7 +26,8 @@ char	*get_var_name(char *str, t_arena *arena)
 	return (var_name);
 }
 
-char	*replace_var(char *input, char *var_name, char *var_value, t_arena *arena)
+char	*replace_var(char *input, char *var_name, char *var_value,
+			t_arena *arena)
 {
 	char	*new_input;
 	char	*pos;
@@ -57,7 +58,8 @@ char	*find_var_value(t_env *env, char *var_name)
 	return (NULL);
 }
 
-void	handle_dollar_var(t_word *current, t_env *env, char *var_name, t_arena *arena)
+void	handle_dollar_var(t_word *current, t_env *env, char *var_name,
+			t_arena *arena)
 {
 	char	*var_value;
 	char	*dollar_var_name;
@@ -65,15 +67,18 @@ void	handle_dollar_var(t_word *current, t_env *env, char *var_name, t_arena *are
 	dollar_var_name = aft_strjoin("$", var_name, arena);
 	if (ft_strcmp(var_name, "?") == 0)
 	{
-		current->str = replace_var(current->str, "$?", ft_itoa(g_exit_status), arena);
+		current->str = replace_var(current->str, "$?",
+				ft_itoa(g_exit_status), arena);
 	}
 	else
 	{
 		var_value = find_var_value(env, var_name);
 		if (var_value)
-			current->str = replace_var(current->str, dollar_var_name, var_value, arena);
+			current->str = replace_var(current->str,
+					dollar_var_name, var_value, arena);
 		else
-			current->str = replace_var(current->str, dollar_var_name, "", arena);
+			current->str = replace_var(current->str,
+					dollar_var_name, "", arena);
 	}
 }
 
