@@ -29,8 +29,6 @@ int	copy_env_without_var(char **env_cpy, char *var, char **new_env,
 			|| (env_cpy[i][ft_strlen(var)] != '='
 			&& env_cpy[i][ft_strlen(var)] != '\0'))
 			new_env[j++] = aft_strdup(env_cpy[i], arena);
-		else
-			free(env_cpy[i]);
 	}
 	return (j);
 }

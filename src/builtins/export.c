@@ -54,8 +54,7 @@ int	update_var(t_env *env, char *name, char *value, t_arena *arena)
 		{
 			if (value == NULL && env->env_cpy[i][name_len] == '=')
 				return (0);
-			return (update_or_create_var(env, &env->env_cpy[i], name, value,
-					arena));
+			return (update_or_create_var(env, &env->env_cpy[i], arena));
 		}
 		i++;
 	}
@@ -82,9 +81,8 @@ int	add_new_var(t_env *env, char *name, char *value, t_arena *arena)
 	}
 	new_env_cpy[count] = create_env_var_string(env, name, value, arena);
 	if (!new_env_cpy[count])
-		return (free(new_env_cpy), 1);
+		return (1);
 	new_env_cpy[count + 1] = NULL;
-	free(env->env_cpy);
 	env->env_cpy = new_env_cpy;
 	return (0);
 }
@@ -92,26 +90,21 @@ int	add_new_var(t_env *env, char *name, char *value, t_arena *arena)
 int	handle_export(t_cmd *cmd, t_env *env, t_arena *arena)
 {
 	int		i;
-	char	*name;
-	char	*value;
 	int		update_result;
 
 	i = 1;
 	while (cmd->args[i])
 	{
-		if (extract_name_value(cmd->args[i], &name, &value, env, arena))
+		if (extract_name_value(cmd->args[i], env, arena))
 			return (1);
-		update_result = update_var(env, name, value, arena);
+		update_result = update_var(env, env->name, env->value, arena);
 		if (update_result == -1)
 		{
-			if (value == NULL)
-				add_new_var(env, name, "", arena);
+			if (env->value == NULL)
+				add_new_var(env, env->name, "", arena);
 			else
-				add_new_var(env, name, value, arena);
+				add_new_var(env, env->name, env->value, arena);
 		}
-		free(name);
-		if (value != NULL)
-			free(value);
 		i++;
 	}
 	return (0);

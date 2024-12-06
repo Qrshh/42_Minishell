@@ -56,6 +56,8 @@ typedef struct s_environement
 {
 	char	**env_cpy;
 	int		equal;
+	char	*name;
+	char	*value;
 }	t_env;
 
 typedef struct s_word
@@ -182,13 +184,12 @@ int		my_unset(t_cmd *cmd, t_env *env, t_arena *arena);
 void	sort_tab(char **env_cpy);
 int		count_tab(char **env_cpy);
 int		is_valid_name(char *name, int name_len);
-int		update_or_create_var(t_env *env, char **env_cpy, char *name,
-			char *value, t_arena *arena);
+int		update_or_create_var(t_env *env, char **env_cpy, t_arena *arena);
 char	*create_env_var_string(t_env *env, char *name, char *value,
 			t_arena *arena);
-int		extract_name_value(char *arg, char **name, char **value,
-			t_env *env, t_arena *arena);
+int		extract_name_value(char *arg, t_env *env, t_arena *arena);
 char	*merge_content(t_word *current, t_arena *arena);
+char	*find_var_value(t_env *env, char *var_name);
 
 void	arena_init(t_arena *arena, size_t size);
 void	free_arena(t_arena *arena);

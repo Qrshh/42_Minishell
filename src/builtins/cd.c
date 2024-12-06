@@ -24,7 +24,6 @@ void	update_path(t_env *env, char *var_name, char *value, t_arena *arena)
 		if (ft_strncmp(env->env_cpy[i], var_name, len) == 0
 			&& env->env_cpy[i][len] == '=')
 		{
-			free(env->env_cpy[i]);
 			env->env_cpy[i] = aft_strjoin(var_name, "=", arena);
 			env->env_cpy[i] = aft_strjoin(env->env_cpy[i], value, arena);
 			return ;
@@ -39,12 +38,12 @@ int	my_cd(t_cmd *cmd, t_env *env, t_arena *arena)
 	char	*old_pwd;
 	char	*new_pwd;
 
-	if (cmd->args[2])
+	if (cmd->args[1] && cmd->args[2])
 		return (printf("cd : too many arguments\n"), 1);
 	old_pwd = getcwd(NULL, 0);
 	if (!cmd->args[1])
 	{
-		home = getenv("HOME");
+		home = find_var_value(env, "HOME");
 		if (!home)
 			return (printf("cd: HOME not set\n"), 1);
 		if (chdir(home) != 0)
@@ -57,7 +56,6 @@ int	my_cd(t_cmd *cmd, t_env *env, t_arena *arena)
 	{
 		update_path(env, "OLDPWD", old_pwd, arena);
 		update_path(env, "PWD", new_pwd, arena);
-		free(new_pwd);
 	}
 	return (0);
 }

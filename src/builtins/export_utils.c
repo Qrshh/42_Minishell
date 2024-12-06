@@ -53,21 +53,18 @@ int	is_valid_name(char *name, int name_len)
 	return (0);
 }
 
-int	update_or_create_var(t_env *env, char **env_cpy, char *name,
-			char *value, t_arena *arena)
+int	update_or_create_var(t_env *env, char **env_cpy, t_arena *arena)
 {
-	free(*env_cpy);
-	if (value == NULL)
-		*env_cpy = create_env_var_string(env, name, "", arena);
+	if (env->value == NULL)
+		*env_cpy = create_env_var_string(env, env->name, "", arena);
 	else
-		*env_cpy = create_env_var_string(env, name, value, arena);
+		*env_cpy = create_env_var_string(env, env->name, env->value, arena);
 	if (!*env_cpy)
 		return (1);
 	return (0);
 }
 
-int	extract_name_value(char *arg, char **name, char **value,
-			t_env *env, t_arena *arena)
+int	extract_name_value(char *arg, t_env *env, t_arena *arena)
 {
 	int	j;
 
@@ -76,19 +73,19 @@ int	extract_name_value(char *arg, char **name, char **value,
 		return (printf("Syntax error\n"), 1);
 	while (arg[j] && arg[j] != '=')
 		j++;
-	*name = aft_strndup(arg, j, arena);
-	if (!*name)
+	env->name = aft_strndup(arg, j, arena);
+	if (!env->name)
 		return (1);
-	if (is_valid_name(*name, j))
-		return (free(*name), 1);
+	if (is_valid_name(env->name, j))
+		return (1);
 	if (arg[j] == '\0')
 	{
-		*value = NULL;
+		env->value = NULL;
 		env->equal = 1;
 	}
 	else
 	{
-		*value = aft_strdup(arg + j + 1, arena);
+		env->value = aft_strdup(arg + j + 1, arena);
 		env->equal = 0;
 	}
 	return (0);
