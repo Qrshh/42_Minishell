@@ -57,13 +57,12 @@ void	handle_double_quote(char *input, int *i, t_word **head,
 	char	*word;
 	int		j;
 	t_word	*new_node;
-	int		flag1;
-	int		flag2;
+	int		flag[2];
 
-	flag1 = 0;
-	flag2 = 0;
+	flag[0] = 0;
+	flag[1] = 0;
 	j = *i + 1;
-	flag1 = check_space_before(input, i);
+	flag[0] = check_space_before(input, i);
 	while (input[j] && input[j] != '"')
 	{
 		if (input[j] == '$')
@@ -72,9 +71,9 @@ void	handle_double_quote(char *input, int *i, t_word **head,
 	}
 	if (input[j] == '"')
 	{
-		flag2 = check_space_after(input, j);
+		flag[1] = check_space_after(input, j);
 		word = aft_strndup(&input[*i + 1], j - *i - 1, arena);
-		new_node = init_lex(word, DOUBLE_QUOTE, flag1, flag2, arena);
+		new_node = init_lex(word, DOUBLE_QUOTE, flag, arena);
 		add_to_list(head, current, new_node);
 		*i = j;
 	}

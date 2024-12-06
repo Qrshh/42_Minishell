@@ -75,8 +75,6 @@ typedef struct s_token_list
 {
 	t_word	**head;
 	t_word	**current;
-	int		flag1;
-	int		flag2;
 }	t_token_list;
 
 typedef struct s_cmd
@@ -151,18 +149,17 @@ int		handle_single_pipe(t_cmd *cmd, t_env *env,
 // TOKENISATION
 
 // LEXING
-t_word	*init_lex(char *str, t_token token, int flag1,
-			int flag2, t_arena *arena);
+t_word	*init_lex(char *str, t_token token, int flag[2], t_arena *arena);
 void	handle_single_quote(char *input, int *i, t_word **head,
 			t_word **current, t_arena *arena);
 void	handle_double_quote(char *input, int *i, t_word **head,
 			t_word **current, t_arena *arena);
-void	handle_operator(char *input, int *i, t_word **head, t_word **current,
-			t_arena *arena);
-void	handle_word(char *input, int *i, t_word **head, t_word **current,
-			t_arena *arena);
-void	handle_env(char *input, int *i, t_word **head, t_word **current,
-			t_arena *arena);
+void	handle_operator(char *input, int *i, t_word **head,
+			t_word **current, t_arena *arena);
+void	handle_word(char *input, int *i, t_word **head,
+			t_word **current, t_arena *arena);
+void	handle_env(char *input, int *i, t_word **head,
+			t_word **current, t_arena *arena);
 int		word_len(char *input, int i);
 void	add_to_list(t_word **head, t_word **current, t_word *new_node);
 int		is_operator(char c);

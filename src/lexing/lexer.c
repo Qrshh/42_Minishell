@@ -12,8 +12,7 @@
 
 #include "minishell.h"
 
-t_word	*init_lex(char *str, t_token token, int flag1,
-			int flag2, t_arena *arena)
+t_word	*init_lex(char *str, t_token token, int flag[2], t_arena *arena)
 {
 	t_word	*node;
 	int		i;
@@ -25,11 +24,11 @@ t_word	*init_lex(char *str, t_token token, int flag1,
 	node->str = aft_strdup(str, arena);
 	node->token = token;
 	node->index = i++;
-	if (flag1)
+	if (flag[0])
 		node->has_space_before = true;
 	else
 		node->has_space_before = false;
-	if (flag2)
+	if (flag[1])
 		node->has_space_after = true;
 	else
 		node->has_space_after = false;

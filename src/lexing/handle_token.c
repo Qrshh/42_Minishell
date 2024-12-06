@@ -35,12 +35,10 @@ void	handle_operator(char *input, int *i, t_word **head,
 	char	*temp;
 	int		len;
 	t_word	*new_node;
-	int		flag1;
-	int		flag2;
+	int		flag[2];
 
 	len = 1;
-	flag1 = 0;
-	flag2 = 0;
+	ft_memset(flag, 0, sizeof(int) * 2);
 	token = PIPE;
 	if ((input[*i] == '>' || input[*i] == '<') && input[*i + 1] == input[*i])
 	{
@@ -55,7 +53,7 @@ void	handle_operator(char *input, int *i, t_word **head,
 	else if (input[*i] == '>')
 		token = RIGHT;
 	temp = aft_strndup(&input[*i], len, arena);
-	new_node = init_lex(temp, token, flag1, flag2, arena);
+	new_node = init_lex(temp, token, flag, arena);
 	add_to_list(head, current, new_node);
 	*i += len - 1;
 }
@@ -66,20 +64,19 @@ void	handle_single_quote(char *input, int *i, t_word **head,
 	char	*word;
 	int		j;
 	t_word	*new_node;
-	int		flag1;
-	int		flag2;
+	int		flag[2];
 
-	flag1 = 0;
-	flag2 = 0;
+	flag[0] = 0;
+	flag[1] = 0;
 	j = *i + 1;
-	flag1 = check_space_before(input, i);
+	flag[0] = check_space_before(input, i);
 	while (input[j] && input[j] != '\'')
 		j++;
 	if (input[j] == '\'')
 	{
-		flag2 = check_space_after(input, j);
+		flag[1] = check_space_after(input, j);
 		word = aft_strndup(&input[*i + 1], j - *i - 1, arena);
-		new_node = init_lex(word, SINGLE_QUOTE, flag1, flag2, arena);
+		new_node = init_lex(word, SINGLE_QUOTE, flag, arena);
 		add_to_list(head, current, new_node);
 		*i = j;
 	}
@@ -91,13 +88,12 @@ void	handle_word(char *input, int *i, t_word **head,
 	int		len;
 	char	*word;
 	t_word	*new_node;
-	int		flag1;
-	int		flag2;
+	int		flag[2];
 
-	flag1 = 0;
-	flag2 = 0;
+	flag[0] = 0;
+	flag[1] = 0;
 	len = 0;
-	flag1 = check_space_before(input, i);
+	flag[0] = check_space_before(input, i);
 	while (input[*i + len] && !is_space(input[*i + len])
 		&& !is_operator(input[*i + len]))
 	{
@@ -105,9 +101,9 @@ void	handle_word(char *input, int *i, t_word **head,
 			break ;
 		len++;
 	}
-	flag2 = check_space_after(input, *i + len - 1);
+	flag[1] = check_space_after(input, *i + len - 1);
 	word = aft_strndup(&input[*i], len, arena);
-	new_node = init_lex(word, WORD, flag1, flag2, arena);
+	new_node = init_lex(word, WORD, flag, arena);
 	add_to_list(head, current, new_node);
 	*i += len - 1;
 }
@@ -118,21 +114,20 @@ void	handle_env(char *input, int *i, t_word **head,
 	char	*word;
 	int		j;
 	t_word	*new_node;
-	int		flag1;
-	int		flag2;
+	int		flag[2];
 
 	while (input[*i] && input[*i] == '$')
 	{
-		flag1 = check_space_before(input, i);
+		flag[0] = check_space_before(input, i);
 		j = *i + 1;
 		while (input[j] && !is_space(input[j]) && input[j] != '"'
 			&& input[j] != '\'' && input[j] != ';' && input[j] != '$')
 			j++;
 		if (j > *i + 1)
 		{
-			flag2 = check_space_after(input, j - 1);
+			flag[1] = check_space_after(input, j - 1);
 			word = aft_strndup(&input[*i + 1], j - *i - 1, arena);
-			new_node = init_lex(word, V_ENV, flag1, flag2, arena);
+			new_node = init_lex(word, V_ENV, flag, arena);
 			add_to_list(head, current, new_node);
 			*i = j - 1;
 		}
