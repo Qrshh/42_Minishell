@@ -63,6 +63,11 @@ void	exec(t_cmd *cmd, t_env *env, t_arena *arena)
 {
 	char	*path;
 
+	if (is_a_builtin(cmd->args[0]))
+	{
+		g_exit_status = execute_builtin(cmd, env, arena);
+		return ;
+	}
 	path = getpath(cmd->args[0], env->env_cpy, arena);
 	if (!path || execve(path, cmd->args, env->env_cpy) == -1)
 	{
@@ -94,6 +99,7 @@ void	process_pipe(t_cmd *cmd, t_env *env, t_arena *arena)
 			handle_child_process(cmd, env, pipefd, arena);
 		manage_fds(&fd_in, pipefd);
 		cmd->args = cmd->post_pipe;
+		cmd->previous = fd_in;
 		cmd->nb_pipes--;
 		i++;
 	}

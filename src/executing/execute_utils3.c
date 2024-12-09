@@ -64,6 +64,8 @@ void	handle_child_process(t_cmd *cmd, t_env *env, int pipefd[2],
 	i = cmd->nb_pipes;
 	if (i > 0)
 		dup2(pipefd[1], STDOUT_FILENO);
+	if (cmd->previous)
+		dup2(cmd->previous, STDIN_FILENO);
 	close(pipefd[1]);
 	close(pipefd[0]);
 	exec(cmd, env, arena);

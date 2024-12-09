@@ -20,6 +20,8 @@ int	is_str_digit(char *str)
 	int	i;
 
 	i = 0;
+	while (is_space(str[i]))
+		i++;
 	if (str[i] == '+')
 		i++;
 	else if (str[i] == '-')
@@ -47,8 +49,11 @@ int	my_exit(t_cmd *cmd, t_env *env, t_arena *arena)
 	else if (cmd->args[1][0] == '-' && is_str_digit(&cmd->args[1][1]))
 		exit_code = 256 + ft_atoi(cmd->args[1]);
 	else
-		return (ft_putstr_fd("exit: numeric argument required\n",
-				STDERR_FILENO), 2);
+	{
+		ft_putstr_fd("exit: numeric argument required\n",
+			STDERR_FILENO);
+		exit_code = 2;
+	}
 	free_arena(arena);
 	exit(exit_code);
 }

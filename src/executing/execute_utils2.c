@@ -44,28 +44,6 @@ int	count_pipes(t_word *list)
 	return (count);
 }
 
-int	handle_single_pipe(t_cmd *cmd, t_env *env, pid_t *pid,
-			t_arena *arena)
-{
-	static int	fd_in = 0;
-	int			pipefd[2];
-
-	prepare_next_pipe(cmd, arena);
-	if (pipe(pipefd) < 0)
-		return (-1);
-	*pid = fork();
-	if (*pid < 0)
-		return (-1);
-	dup2(fd_in, STDIN_FILENO);
-	if (*pid == 0)
-		handle_child_process(cmd, env, pipefd, arena);
-	close(pipefd[1]);
-	if (fd_in != 0)
-		close(fd_in);
-	fd_in = pipefd[0];
-	return (0);
-}
-
 void	manage_fds(int *fd_in, int pipefd[2])
 {
 	close(pipefd[1]);

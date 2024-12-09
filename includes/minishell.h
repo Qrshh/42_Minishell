@@ -87,7 +87,7 @@ typedef struct s_cmd
 	int				old_inf;
 	int				nb_pipes;
 	struct s_cmd	*next;	
-	struct s_cmd	*previous;	
+	int				previous;
 }	t_cmd;
 
 extern int	g_exit_status;
