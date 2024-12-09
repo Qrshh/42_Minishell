@@ -44,10 +44,9 @@ void	printing(t_word *current)
 				printf(" ");
 		}
 		if (current && current->next && is_operator(current->next->str[0]))
-			break ;
+			return ;
 		current = current->next;
 	}
-	return ;
 }
 
 int	my_echo(t_cmd *cmd)
