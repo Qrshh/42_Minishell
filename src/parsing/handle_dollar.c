@@ -68,7 +68,7 @@ void	handle_dollar_var(t_word *current, t_env *env, char *var_name,
 	if (ft_strcmp(var_name, "?") == 0)
 	{
 		current->str = replace_var(current->str, "$?",
-				ft_itoa(g_exit_status), arena);
+				aft_itoa(g_exit_status, arena), arena);
 	}
 	else
 	{

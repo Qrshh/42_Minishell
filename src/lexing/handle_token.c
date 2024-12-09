@@ -28,8 +28,8 @@ void	add_to_list(t_word **head, t_word **current, t_word *new_node)
 	*current = new_node;
 }
 
-void	handle_operator(char *input, int *i, t_word **head,
-			t_word **current, t_arena *arena)
+void	handle_operator(char *input, int *i, t_token_list *tokens,
+			t_arena *arena)
 {
 	t_token	token;
 	char	*temp;
@@ -54,12 +54,12 @@ void	handle_operator(char *input, int *i, t_word **head,
 		token = RIGHT;
 	temp = aft_strndup(&input[*i], len, arena);
 	new_node = init_lex(temp, token, flag, arena);
-	add_to_list(head, current, new_node);
+	add_to_list(&tokens->head, &tokens->current, new_node);
 	*i += len - 1;
 }
 
-void	handle_single_quote(char *input, int *i, t_word **head,
-			t_word **current, t_arena *arena)
+void	handle_single_quote(char *input, int *i, t_token_list *tokens,
+			t_arena *arena)
 {
 	char	*word;
 	int		j;
@@ -77,13 +77,13 @@ void	handle_single_quote(char *input, int *i, t_word **head,
 		flag[1] = check_space_after(input, j);
 		word = aft_strndup(&input[*i + 1], j - *i - 1, arena);
 		new_node = init_lex(word, SINGLE_QUOTE, flag, arena);
-		add_to_list(head, current, new_node);
+		add_to_list(&tokens->head, &tokens->current, new_node);
 		*i = j;
 	}
 }
 
-void	handle_word(char *input, int *i, t_word **head,
-			t_word **current, t_arena *arena)
+void	handle_word(char *input, int *i, t_token_list *tokens,
+			t_arena *arena)
 {
 	int		len;
 	char	*word;
@@ -104,12 +104,11 @@ void	handle_word(char *input, int *i, t_word **head,
 	flag[1] = check_space_after(input, *i + len - 1);
 	word = aft_strndup(&input[*i], len, arena);
 	new_node = init_lex(word, WORD, flag, arena);
-	add_to_list(head, current, new_node);
+	add_to_list(&tokens->head, &tokens->current, new_node);
 	*i += len - 1;
 }
 
-void	handle_env(char *input, int *i, t_word **head,
-			t_word **current, t_arena *arena)
+void	handle_env(char *input, int *i, t_token_list *tokens, t_arena *arena)
 {
 	char	*word;
 	int		j;
@@ -128,7 +127,7 @@ void	handle_env(char *input, int *i, t_word **head,
 			flag[1] = check_space_after(input, j - 1);
 			word = aft_strndup(&input[*i + 1], j - *i - 1, arena);
 			new_node = init_lex(word, V_ENV, flag, arena);
-			add_to_list(head, current, new_node);
+			add_to_list(&tokens->head, &tokens->current, new_node);
 			*i = j - 1;
 		}
 		*i += 1;

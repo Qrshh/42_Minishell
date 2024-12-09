@@ -25,30 +25,29 @@ void	init_cmd_1(t_cmd *cmd)
 
 t_word	*token(t_cmd *cmd, t_arena *arena)
 {
-	int		i;
-	t_word	*head;
-	t_word	*current;
+	t_token_list	tokens;
+	int				i;
 
-	head = NULL;
-	current = NULL;
+	tokens.head = NULL;
+	tokens.current = NULL;
 	i = 0;
 	while (i < (int)ft_strlen(cmd->input))
 	{
 		skip_whitespaces(cmd->input, &i);
 		if (is_operator(cmd->input[i]))
-			handle_operator(cmd->input, &i, &head, &current, arena);
+			handle_operator(cmd->input, &i, &tokens, arena);
 		else if (cmd->input[i] == '\'')
-			handle_single_quote(cmd->input, &i, &head, &current, arena);
+			handle_single_quote(cmd->input, &i, &tokens, arena);
 		else if (cmd->input[i] == '"')
-			handle_double_quote(cmd->input, &i, &head, &current, arena);
+			handle_double_quote(cmd->input, &i, &tokens, arena);
 		else if ((cmd->input[i] == '$' && ft_isalpha(cmd->input[i + 1]))
 			|| (cmd->input[i + 1] == '?'))
-			handle_env(cmd->input, &i, &head, &current, arena);
+			handle_env(cmd->input, &i, &tokens, arena);
 		else
-			handle_word(cmd->input, &i, &head, &current, arena);
+			handle_word(cmd->input, &i, &tokens, arena);
 		i++;
 	}
-	return (head);
+	return (tokens.head);
 }
 
 int	get_num_digits(int num)

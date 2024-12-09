@@ -15,7 +15,6 @@
 char	*merge_content(t_word *current, t_arena *arena)
 {
 	char	*merged_content;
-	char	*temp;
 	t_word	*next;
 
 	merged_content = aft_strdup(current->str, arena);
@@ -25,7 +24,6 @@ char	*merge_content(t_word *current, t_arena *arena)
 		&& !current->has_space_after && !current->next->has_space_before)
 	{
 		next = current->next;
-		temp = merged_content;
 		merged_content = aft_strjoin(merged_content, next->str, arena);
 		current->next = next->next;
 		if (next->next)
@@ -51,8 +49,8 @@ void	merge_quoted_tokens(t_word **head, t_arena *arena)
 	}
 }
 
-void	handle_double_quote(char *input, int *i, t_word **head,
-			t_word **current, t_arena *arena)
+void	handle_double_quote(char *input, int *i, t_token_list *tokens,
+			t_arena *arena)
 {
 	char	*word;
 	int		j;
@@ -74,7 +72,7 @@ void	handle_double_quote(char *input, int *i, t_word **head,
 		flag[1] = check_space_after(input, j);
 		word = aft_strndup(&input[*i + 1], j - *i - 1, arena);
 		new_node = init_lex(word, DOUBLE_QUOTE, flag, arena);
-		add_to_list(head, current, new_node);
+		add_to_list(&tokens->head, &tokens->current, new_node);
 		*i = j;
 	}
 }

@@ -43,7 +43,7 @@ EXECUTING_DIR = executing/
 EXECUTING = execute execute_utils execute_utils2 execute_utils3
 
 UTILS_DIR = utils/
-UTILS     = utils1
+UTILS     = utils1 utils2
 
 SRC_FILES  += minishell utils signal free arena
 SRC_FILES += $(addprefix $(BUILTINS_DIR), $(BUILTINS))

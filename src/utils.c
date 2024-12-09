@@ -56,3 +56,14 @@ int	reset_cmd(t_cmd *cmd)
 		cmd->list = NULL;
 	return (1);
 }
+
+t_cmd	*init_cmd(t_cmd *cmd, t_arena *arena)
+{
+	cmd->args = list_to_array(cmd->list, arena);
+	cmd->post_pipe = NULL;
+	cmd->nb_pipes = 0;
+	cmd->previous = NULL;
+	cmd->old_out = dup(STDOUT_FILENO);
+	cmd->old_inf = dup(STDIN_FILENO);
+	return (cmd);
+}

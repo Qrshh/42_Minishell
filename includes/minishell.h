@@ -62,30 +62,30 @@ typedef struct s_environement
 
 typedef struct s_word
 {
-	char	*str;
-	t_token	token;
-	int		index;
-	bool	has_space_before;
-	bool	has_space_after;
+	char			*str;
+	t_token			token;
+	int				index;
+	bool			has_space_before;
+	bool			has_space_after;
 	struct s_word	*next;
 	struct s_word	*previous;
 }	t_word;
 
 typedef struct s_token_list
 {
-	t_word	**head;
-	t_word	**current;
+	t_word	*head;
+	t_word	*current;
 }	t_token_list;
 
 typedef struct s_cmd
 {
-	char	*input;
-	t_word	*list;
-	char	**args;
-	char	**post_pipe;
-	int		old_out;
-	int		old_inf;
-	int		nb_pipes;
+	char			*input;
+	t_word			*list;
+	char			**args;
+	char			**post_pipe;
+	int				old_out;
+	int				old_inf;
+	int				nb_pipes;
 	struct s_cmd	*next;	
 	struct s_cmd	*previous;	
 }	t_cmd;
@@ -146,20 +146,21 @@ void	sigaction_handle(void);
 void	wait_children(pid_t *pids, int i);
 int		handle_single_pipe(t_cmd *cmd, t_env *env,
 			pid_t *pid, t_arena *arena);
+void	manage_fds(int *fd_in, int pipefd[2]);
+void	setup_pipe(int pipefd[2]);
+
 // TOKENISATION
 
 // LEXING
 t_word	*init_lex(char *str, t_token token, int flag[2], t_arena *arena);
-void	handle_single_quote(char *input, int *i, t_word **head,
-			t_word **current, t_arena *arena);
-void	handle_double_quote(char *input, int *i, t_word **head,
-			t_word **current, t_arena *arena);
-void	handle_operator(char *input, int *i, t_word **head,
-			t_word **current, t_arena *arena);
-void	handle_word(char *input, int *i, t_word **head,
-			t_word **current, t_arena *arena);
-void	handle_env(char *input, int *i, t_word **head,
-			t_word **current, t_arena *arena);
+void	handle_single_quote(char *input, int *i, t_token_list *tokens,
+			t_arena *arena);
+void	handle_double_quote(char *input, int *i, t_token_list *tokens,
+			t_arena *arena);
+void	handle_operator(char *input, int *i, t_token_list *tokens,
+			t_arena *arena);
+void	handle_word(char *input, int *i, t_token_list *tokens, t_arena *arena);
+void	handle_env(char *input, int *i, t_token_list *tokens, t_arena *arena);
 int		word_len(char *input, int i);
 void	add_to_list(t_word **head, t_word **current, t_word *new_node);
 int		is_operator(char c);
@@ -199,5 +200,6 @@ char	*aft_strndup(char *str, unsigned int n, t_arena *arena);
 char	*aft_substr(char const *s, unsigned int start, size_t len,
 			t_arena *arena);
 char	*aft_strjoin(char const *s1, char const *s2, t_arena *arena);
+char	*aft_itoa(int n, t_arena *arena);
 
 #endif

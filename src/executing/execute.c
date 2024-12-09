@@ -75,15 +75,24 @@ void	process_pipe(t_cmd *cmd, t_env *env, t_arena *arena)
 {
 	pid_t	*pids;
 	int		i;
+	int		pipefd[2];
+	int		fd_in;
 
 	pids = arena_alloc(arena, (cmd->nb_pipes + 1) * sizeof(pid_t));
 	if (!pids)
 		return ;
 	i = 0;
+	fd_in = 0;
 	while (cmd->nb_pipes >= 0)
 	{
-		if (handle_single_pipe(cmd, env, &pids[i], arena) < 0)
+		prepare_next_pipe(cmd, arena);
+		setup_pipe(pipefd);
+		pids[i] = fork();
+		if (pids[i] < 0)
 			return ;
+		if (pids[i] == 0)
+			handle_child_process(cmd, env, pipefd, arena);
+		manage_fds(&fd_in, pipefd);
 		cmd->args = cmd->post_pipe;
 		cmd->nb_pipes--;
 		i++;

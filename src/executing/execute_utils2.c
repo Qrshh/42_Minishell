@@ -44,17 +44,6 @@ int	count_pipes(t_word *list)
 	return (count);
 }
 
-t_cmd	*init_cmd(t_cmd *cmd, t_arena *arena)
-{
-	cmd->args = list_to_array(cmd->list, arena);
-	cmd->post_pipe = NULL;
-	cmd->nb_pipes = 0;
-	cmd->previous = NULL;
-	cmd->old_out = dup(STDOUT_FILENO);
-	cmd->old_inf = dup(STDIN_FILENO);
-	return (cmd);
-}
-
 int	handle_single_pipe(t_cmd *cmd, t_env *env, pid_t *pid,
 			t_arena *arena)
 {
@@ -75,4 +64,18 @@ int	handle_single_pipe(t_cmd *cmd, t_env *env, pid_t *pid,
 		close(fd_in);
 	fd_in = pipefd[0];
 	return (0);
+}
+
+void	manage_fds(int *fd_in, int pipefd[2])
+{
+	close(pipefd[1]);
+	if (*fd_in != 0)
+		close(*fd_in);
+	*fd_in = pipefd[0];
+}
+
+void	setup_pipe(int pipefd[2])
+{
+	if (pipe(pipefd) < 0)
+		exit(EXIT_FAILURE);
 }
