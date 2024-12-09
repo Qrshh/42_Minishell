@@ -87,7 +87,7 @@ void	handle_parent_process(int *fd_in, int pipefd[2])
 void	wait_children(pid_t *pids, int i)
 {
 	int	j;
-	int	status;
+	int	status = 0;
 
 	j = 0;
 	while (j < i)

@@ -72,6 +72,7 @@ void	exec(t_cmd *cmd, t_env *env, t_arena *arena)
 	if (!path || execve(path, cmd->args, env->env_cpy) == -1)
 	{
 		printf("Command not found\n");
+		free_arena(arena);
 		exit(127);
 	}
 }
@@ -90,18 +91,27 @@ void	process_pipe(t_cmd *cmd, t_env *env, t_arena *arena)
 	fd_in = 0;
 	while (cmd->nb_pipes >= 0)
 	{
-		prepare_next_pipe(cmd, arena);
-		setup_pipe(pipefd);
-		pids[i] = fork();
-		if (pids[i] < 0)
-			return ;
-		if (pids[i] == 0)
-			handle_child_process(cmd, env, pipefd, arena);
-		manage_fds(&fd_in, pipefd);
-		cmd->args = cmd->post_pipe;
-		cmd->previous = fd_in;
-		cmd->nb_pipes--;
-		i++;
+		if(cmd->nb_pipes == 0 && is_a_builtin(cmd->args[0]))
+		{
+			g_exit_status = execute_builtin(cmd, env, arena);
+			manage_fds(&fd_in, pipefd);
+			break ;
+		}
+		else
+		{
+			prepare_next_pipe(cmd, arena);
+			setup_pipe(pipefd);
+			pids[i] = fork();
+			if (pids[i] < 0)
+				return ;
+			if (pids[i] == 0)
+				handle_child_process(cmd, env, pipefd, arena);
+			manage_fds(&fd_in, pipefd);
+			cmd->args = cmd->post_pipe;
+			cmd->previous = fd_in;
+			cmd->nb_pipes--;
+			i++;
+		}
 	}
 	wait_children(pids, i);
 }
