@@ -90,6 +90,8 @@ char	**list_to_array(t_word *list, t_arena *arena)
 				return (NULL);
 			}
 		}
+		else if (is_token_redir(list) && list->next)
+			list = list->next;
 		list = list->next;
 	}
 	array[i] = NULL;

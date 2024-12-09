@@ -33,6 +33,22 @@ int	flag_check(t_cmd *cmd)
 	return (i - 1);
 }
 
+void	printing(t_word *current)
+{
+	while (current)
+	{
+		if (current->token == WORD || current->token == V_ENV)
+		{
+			printf("%s", current->str);
+			if (current->next)
+				printf(" ");
+		}
+		if (current && current->next && is_operator(current->next->str[0]))
+			return ;
+		current = current->next;
+	}
+}
+
 int	my_echo(t_cmd *cmd)
 {
 	t_word	*current;
@@ -47,16 +63,7 @@ int	my_echo(t_cmd *cmd)
 		current = current->next;
 		i++;
 	}
-	while (current)
-	{
-		if (current->token == WORD || current->token == V_ENV)
-		{
-			printf("%s", current->str);
-			if (current->next)
-				printf(" ");
-		}
-		current = current->next;
-	}
+	printing(current);
 	if (!flag)
 		printf("\n");
 	return (0);
