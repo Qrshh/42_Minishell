@@ -145,7 +145,7 @@ void	sigaction_handle(void);
 void	wait_children(pid_t *pids, int i);
 int		handle_single_pipe(t_cmd *cmd, t_env *env,
 			pid_t *pid, t_arena *arena);
-void	manage_fds(int *fd_in, int pipefd[2]);
+void	manage_fds(t_cmd *cmd, int *fd_in, int pipefd[2]);
 void	setup_pipe(int pipefd[2]);
 
 // TOKENISATION

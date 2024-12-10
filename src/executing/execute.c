@@ -98,7 +98,7 @@ void	process_pipe(t_cmd *cmd, t_env *env, t_arena *arena)
 			return ;
 		if (pids[i] == 0)
 			handle_child_process(cmd, env, pipefd, arena);
-		manage_fds(&fd_in, pipefd);
+		manage_fds (cmd, &fd_in, pipefd);
 		prepare_next_pipe(cmd, arena);
 		cmd->previous = fd_in;
 		cmd->nb_pipes--;
