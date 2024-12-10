@@ -67,8 +67,8 @@ void	shell_loop(t_cmd *cmd, t_env *env, t_arena *arena)
 {
 	while (1)
 	{
-		cmd->input = read_and_trim_input(arena);
 		init_signals();
+		cmd->input = read_and_trim_input(arena);
 		if (!cmd->input)
 			break ;
 		if (cmd->input[0] == '\0')

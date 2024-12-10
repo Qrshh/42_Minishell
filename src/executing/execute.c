@@ -95,6 +95,7 @@ void	process_pipe(t_cmd *cmd, t_env *env, t_arena *arena)
 		{
 			g_exit_status = execute_builtin(cmd, env, arena);
 			manage_fds(&fd_in, pipefd);
+			close(pipefd[0]);
 			break ;
 		}
 		else
