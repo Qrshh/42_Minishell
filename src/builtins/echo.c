@@ -40,7 +40,7 @@ void	printing(t_word *current)
 		if (current->token == WORD || current->token == V_ENV)
 		{
 			printf("%s", current->str);
-			if (current->next)
+			if (current->next && current->next->token == WORD)
 				printf(" ");
 		}
 		if (current && current->next && is_operator(current->next->str[0]))

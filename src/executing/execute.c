@@ -99,7 +99,6 @@ void	process_pipe(t_cmd *cmd, t_env *env, t_arena *arena)
 		}
 		else
 		{
-			prepare_next_pipe(cmd, arena);
 			setup_pipe(pipefd);
 			pids[i] = fork();
 			if (pids[i] < 0)
@@ -107,6 +106,7 @@ void	process_pipe(t_cmd *cmd, t_env *env, t_arena *arena)
 			if (pids[i] == 0)
 				handle_child_process(cmd, env, pipefd, arena);
 			manage_fds(&fd_in, pipefd);
+			prepare_next_pipe(cmd, arena);
 			cmd->args = cmd->post_pipe;
 			cmd->previous = fd_in;
 			cmd->nb_pipes--;
