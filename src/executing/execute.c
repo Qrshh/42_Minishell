@@ -92,20 +92,17 @@ void	process_pipe(t_cmd *cmd, t_env *env, t_arena *arena)
 	fd_in = 0;
 	while (cmd->nb_pipes >= 0)
 	{
-		{
-			setup_pipe(pipefd);
-			pids[i] = fork();
-			if (pids[i] < 0)
-				return ;
-			if (pids[i] == 0)
-				handle_child_process(cmd, env, pipefd, arena);
-			manage_fds(&fd_in, pipefd);
-			prepare_next_pipe(cmd, arena);
-			cmd->args = cmd->post_pipe;
-			cmd->previous = fd_in;
-			cmd->nb_pipes--;
-			i++;
-		}
+		setup_pipe(pipefd);
+		pids[i] = fork();
+		if (pids[i] < 0)
+			return ;
+		if (pids[i] == 0)
+			handle_child_process(cmd, env, pipefd, arena);
+		manage_fds(&fd_in, pipefd);
+		prepare_next_pipe(cmd, arena);
+		cmd->previous = fd_in;
+		cmd->nb_pipes--;
+		i++;
 	}
 	wait_children(pids, i);
 }

@@ -54,6 +54,8 @@ void	prepare_next_pipe(t_cmd *cmd, t_arena *arena)
 	}
 	else
 		cmd->post_pipe = NULL;
+	if (cmd->post_pipe)
+		cmd->args = cmd->post_pipe;
 }
 
 void	handle_child_process(t_cmd *cmd, t_env *env, int pipefd[2],
@@ -71,12 +73,12 @@ void	handle_child_process(t_cmd *cmd, t_env *env, int pipefd[2],
 	exec(cmd, env, arena);
 }
 
-
 void	wait_children(pid_t *pids, int i)
 {
 	int	j;
-	int	status = 0;
+	int	status;
 
+	status = 0;
 	j = 0;
 	while (j < i)
 	{
