@@ -66,23 +66,11 @@ void	handle_child_process(t_cmd *cmd, t_env *env, int pipefd[2],
 		dup2(pipefd[1], STDOUT_FILENO);
 	if (cmd->previous)
 		dup2(cmd->previous, STDIN_FILENO);
-	close(pipefd[1]);
 	close(pipefd[0]);
+	close(pipefd[1]);
 	exec(cmd, env, arena);
 }
 
-void	handle_parent_process(int *fd_in, int pipefd[2])
-{
-	int	status;
-
-	waitpid(-1, &status, 0);
-	if (WIFEXITED(status))
-		g_exit_status = WEXITSTATUS(status);
-	else if (WIFSIGNALED(status))
-		g_exit_status = 128 + WTERMSIG(status);
-	close(pipefd[1]);
-	*fd_in = pipefd[0];
-}
 
 void	wait_children(pid_t *pids, int i)
 {

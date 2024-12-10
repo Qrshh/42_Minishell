@@ -66,7 +66,8 @@ void	exec(t_cmd *cmd, t_env *env, t_arena *arena)
 	if (is_a_builtin(cmd->args[0]))
 	{
 		g_exit_status = execute_builtin(cmd, env, arena);
-		return ;
+		free_arena(arena);
+		exit(g_exit_status);
 	}
 	path = getpath(cmd->args[0], env->env_cpy, arena);
 	if (!path || execve(path, cmd->args, env->env_cpy) == -1)
@@ -91,14 +92,6 @@ void	process_pipe(t_cmd *cmd, t_env *env, t_arena *arena)
 	fd_in = 0;
 	while (cmd->nb_pipes >= 0)
 	{
-		if(cmd->nb_pipes == 0 && is_a_builtin(cmd->args[0]))
-		{
-			g_exit_status = execute_builtin(cmd, env, arena);
-			manage_fds(&fd_in, pipefd);
-			close(pipefd[0]);
-			break ;
-		}
-		else
 		{
 			setup_pipe(pipefd);
 			pids[i] = fork();
