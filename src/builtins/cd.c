@@ -26,10 +26,19 @@ void	update_path(t_env *env, char *var_name, char *value, t_arena *arena)
 		{
 			env->env_cpy[i] = aft_strjoin(var_name, "=", arena);
 			env->env_cpy[i] = aft_strjoin(env->env_cpy[i], value, arena);
+			free(value);
 			return ;
 		}
 		i++;
 	}
+}
+
+int	handle_error(char *to_free, char *arg)
+{
+	if (to_free)
+		free (to_free);
+	printf ("cd: no such file or dir: %s\n", arg);
+	return (1);
 }
 
 int	my_cd(t_cmd *cmd, t_env *env, t_arena *arena)
@@ -41,16 +50,16 @@ int	my_cd(t_cmd *cmd, t_env *env, t_arena *arena)
 	if (cmd->args[1] && cmd->args[2])
 		return (printf("cd : too many arguments\n"), 1);
 	old_pwd = getcwd(NULL, 0);
-	if (!cmd->args[1])
+	if (!cmd->args[1] || !ft_strcmp(cmd->args[1], "~"))
 	{
 		home = find_var_value(env, "HOME");
 		if (!home)
-			return (printf("cd: HOME not set\n"), 1);
+			return (free(old_pwd), printf("cd: HOME not set\n"), 1);
 		if (chdir(home) != 0)
-			return (printf("cd: no such file or dir: %s\n", home), 1);
+			return (handle_error(old_pwd, home));
 	}
 	else if (chdir(cmd->args[1]) != 0)
-		return (printf("cd: no such file or dir: %s\n", cmd->args[1]), 1);
+		return (handle_error(old_pwd, cmd->args[1]));
 	new_pwd = getcwd(NULL, 0);
 	if (new_pwd)
 	{
