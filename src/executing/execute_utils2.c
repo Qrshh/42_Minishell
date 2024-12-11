@@ -46,7 +46,7 @@ int	count_pipes(t_word *list)
 
 void	manage_fds(t_cmd *cmd, int *fd_in, int pipefd[2])
 {
-	if(cmd->nb_pipes == 0)
+	if (cmd->nb_pipes == 0)
 		close(pipefd[0]);
 	close(pipefd[1]);
 	if (*fd_in != 0)
