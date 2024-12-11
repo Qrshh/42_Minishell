@@ -44,13 +44,15 @@ int	has_unclosed_quotes(const char *input)
 	{
 		if (input[i] == '\'' || input[i] == '\"')
 		{
-			if (input[i - 1] != '\\')
+			if (i > 0 && input[i - 1] != '\\')
 			{
 				if (quote_type == input[i])
 					quote_type = 0;
 				else if (!quote_type)
 					quote_type = input[i];
 			}
+			else if (i == 0)
+				set_first_quote(input, &i, &quote_type);
 		}
 		i++;
 	}

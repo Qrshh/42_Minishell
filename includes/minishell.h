@@ -108,6 +108,7 @@ void	free_list(t_word *list);
 
 // UTILS INPUT
 char	*read_and_trim_input(t_arena *arena);
+void	set_first_quote(const char *input, int *i, int *quote_type);
 
 // EXECUTION
 void	execute_command(t_cmd *cmd, t_env *env, t_arena *arena);

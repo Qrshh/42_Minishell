@@ -36,3 +36,11 @@ int	is_a_sep(char const *set, char c)
 	}
 	return (0);
 }
+
+void	set_first_quote(const char *input, int *i, int *quote_type)
+{
+	if (!*quote_type)
+		*quote_type = input[*i];
+	else if (*quote_type == input[*i])
+		*quote_type = 0;
+}
