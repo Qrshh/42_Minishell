@@ -54,6 +54,7 @@ int	my_exit(t_cmd *cmd, t_env *env, t_arena *arena)
 			STDERR_FILENO);
 		exit_code = 2;
 	}
+	close_fd(cmd);
 	free_arena(arena);
 	exit(exit_code);
 }

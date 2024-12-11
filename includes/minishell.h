@@ -132,6 +132,7 @@ void	handle_child_process(t_cmd *cmd, t_env *env, int pipefd[2],
 			t_arena *arena);
 void	prepare_next_pipe(t_cmd *cmd, t_arena *arena);
 void	exec(t_cmd *cmd, t_env *env, t_arena *arena);
+void	close_fd(t_cmd *cmd);
 
 t_word	*handle_dollar(t_cmd *cmd, t_env *env, t_arena *arena);
 void	heredoc_handler(int signum);

@@ -15,6 +15,12 @@
 
 #include "minishell.h"
 
+void	close_fd(t_cmd *cmd)
+{
+	close(cmd->old_out);
+	close(cmd->old_inf);
+}
+
 void	simple_exec(t_cmd *cmd, t_env *env, char *path, t_arena *arena)
 {
 	pid_t	pid;
@@ -30,6 +36,7 @@ void	simple_exec(t_cmd *cmd, t_env *env, char *path, t_arena *arena)
 	{
 		execve(path, cmd->args, env->env_cpy);
 		printf("Command not found\n");
+		close_fd(cmd);
 		free_arena(arena);
 		exit(127);
 	}

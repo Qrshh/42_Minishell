@@ -66,6 +66,7 @@ void	exec(t_cmd *cmd, t_env *env, t_arena *arena)
 	if (is_a_builtin(cmd->args[0]))
 	{
 		g_exit_status = execute_builtin(cmd, env, arena);
+		close_fd(cmd);
 		free_arena(arena);
 		exit(g_exit_status);
 	}
@@ -73,6 +74,7 @@ void	exec(t_cmd *cmd, t_env *env, t_arena *arena)
 	if (!path || execve(path, cmd->args, env->env_cpy) == -1)
 	{
 		printf("Command not found\n");
+		close_fd(cmd);
 		free_arena(arena);
 		exit(127);
 	}
